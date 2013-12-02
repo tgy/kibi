@@ -7,3 +7,11 @@
 *.cmx
 *.cmxs
 *.cmxa
+*.out
+out
+fonts
+_build
+*.swp
+*.swo
+*.native
+*.byte
