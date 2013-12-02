@@ -1,0 +1,3 @@
+<test.{{d.,}byte,native,ml}> : package( ocsfml.graphics )
+<houghPreprocess.{{d.,}byte,native,ml}> : package( ocsfml.graphics )
+<houghTransform.{{d.,}byte,native,ml}> : package( ocsfml.graphics )

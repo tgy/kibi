@@ -1,0 +1,7 @@
+<anna> : include
+<lenna> : include
+<setgen> : include
+<robert> : include
+<freddy> : include
+
+<*.{{d.,}byte,native,ml}> : package( ocsfml.graphics )

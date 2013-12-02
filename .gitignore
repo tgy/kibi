@@ -16,3 +16,4 @@ _build/
 *.native
 *.byte
 build/
+output/

@@ -1,0 +1,1 @@
+<*.{{d.n,}byte,native,ml}> : package( ocsfml.system ), package( ocsfml.graphics ), package( unix )

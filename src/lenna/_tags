@@ -1,0 +1,5 @@
+<binarizator> : include
+<hough> : include
+<rotation> : include
+<test.{{d.,}byte,native,ml}> : package( ocsfml.graphics )
+<*.{{d.,}byte,native,ml{,i}}> : package( ocsfml.graphics )
