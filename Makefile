@@ -6,4 +6,5 @@ run:
 	./kibi.native
 
 clean:
+	rm -rf *.{native,byte}
 	cd src; make clean
