@@ -6,6 +6,7 @@ To get assets required by the program, please download
 [http://too.gy/kibi-assets.tar.bz2](http://too.gy/kibi-assets.tar.bz2)
 
 You could put it in ~/kibi-assets/
+
 This archive contains:
 * fonts to train the ANN
 * images to test all the OCR's parts
