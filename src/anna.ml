@@ -1,1 +1,1 @@
-let identify pixvector = assert false (* TODO{zehir} return character *)
+let identify_char weights = CharIdentification.recognize
