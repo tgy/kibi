@@ -6,6 +6,7 @@ all:
 
 clean:
 	        $(OCAMLBUILD) -clean
+					rm -rf out/*
 
 run:
 	./test.native
