@@ -1,5 +1,5 @@
 let preprocess path = assert false
 
-let binarize img = Binarizator.binarize img
+let binarize = Binarizator.binarize
+let invert = Inverter.invert
 
-let invert img = Inverter.invert img

@@ -1,4 +1,3 @@
 let main () =
-  Generator.generate "fonts" "out"
-
-let _ = main ()
+    Generator.generate "fonts" "out"
+let _ = main

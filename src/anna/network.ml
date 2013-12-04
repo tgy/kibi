@@ -32,9 +32,9 @@ class network (* paramaters *) (c, a, t, m) (* neuron number *) (incount, hidcou
 
     object (self)
 
-        val mutable hid_weights = random_weights hidcount (incount + 1)
+        val mutable hid_weights = Array.make_matrix hidcount (incount + 1) 0.
 
-        val mutable out_weights = random_weights outcount (hidcount + 1)
+        val mutable out_weights = Array.make_matrix outcount (hidcount + 1) 0.
 
         val mutable hid_a = Array.make (hidcount + 1) 0.
 
@@ -45,6 +45,10 @@ class network (* paramaters *) (c, a, t, m) (* neuron number *) (incount, hidcou
 
         val mutable last_delta_out =
             Array.make_matrix outcount (hidcount + 1) 0.
+
+        method randomize_weights =
+            hid_weights <- random_weights hidcount (incount + 1);
+            out_weights <- random_weights outcount (hidcount + 1)
 
         method show_result =
             for i = 0 to (Array.length out_a - 1) do
@@ -122,11 +126,11 @@ class network (* paramaters *) (c, a, t, m) (* neuron number *) (incount, hidcou
                 done
             done; !acc
 
-        method learn examples n print_error =
+        method learn examples n print_error error_print_period =
             for iter = 0 to n - 1 do
                 let ex = examples.(Random.int (Array.length examples)) in
                 self#backpropagate iter ex;
-                if (iter mod 1000 = 0) && print_error then
+                if (iter mod error_print_period = 0) && print_error then
                     Printf.printf "Error: %f\n%!" (self#error (examples));
             done
 
@@ -169,3 +173,10 @@ class network (* paramaters *) (c, a, t, m) (* neuron number *) (incount, hidcou
             close_in ic
     end
 
+let read_size weights =
+    let ic = open_in weights in
+    let h1 = (Scanf.fscanf ic "%dx" (fun d -> d)) in
+    let h2 = (Scanf.fscanf ic "%d\n" (fun d -> d)) in
+    let o1 = (Scanf.fscanf ic "%dx" (fun d -> d)) in
+    close_in ic;
+    (h2 - 1, h1, o1)
