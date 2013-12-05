@@ -10,6 +10,7 @@
     <div id="result">
     <?php include 'tmp2'; ?>
     </div>
+    <button id="export-button" type="button">Save</button>
     <script src="js/jq.js"></script>
     <script src="js/editor.js"></script>
 </body>

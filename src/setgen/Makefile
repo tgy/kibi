@@ -12,4 +12,5 @@ debug:
 
 clean:
 	$(OCAMLBUILD) -clean
+	rm -rf out/*
 
