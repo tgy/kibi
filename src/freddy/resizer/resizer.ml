@@ -65,6 +65,8 @@ let resize img new_size =
 
 let get_pixvector img (b1x, b1y) (b2x, b2y) new_size =
   let (b1x, b1y), (b2x, b2y) = crop_bounds img (b1x, b1y) (b2x, b2y) in
+  print_endline (Printf.sprintf "b1x %d ; b1y %d ; b2x %d ; b2y %d" b1x b1y b2x
+  b2y);
   let w, h = (b2x - b1x), (b2y - b1y)
   and pixvector = Array.make (new_size * new_size) 0. in
   let nw, nh = get_new_size w h new_size in
