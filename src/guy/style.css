@@ -24,13 +24,13 @@ body {
     font-size: 12px;
     border: none;
     /*border: 1px solid gray;*/
-    margin: 1px -3px;
+    margin: 1px -2px;
     /*margin: 0 -2px;*/
 }
 
 #result > span >input:focus {
     border: 1px solid gray;
-    margin: 0 -4px;
+    margin: 0 -3px;
 }
 
 #result > span {
@@ -43,7 +43,7 @@ body {
 
 #result > span.error > input:focus {
     border-color: #3679d2;
-    margin: 0 -4px;
+    margin: 0 -3px;
 }
 
 #result > span.corrected > input {
