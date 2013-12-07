@@ -10,7 +10,8 @@ let image_to_input file =
     let a = Array.make (w * h) 0. in
     for j = 0 to h - 1 do
         for i = 0 to w - 1 do
-            a.(j * w + i) <- float (abs (1 - (img#get_pixel i j).OcsfmlGraphics.Color.r / 255))
+            a.(j * w + i) <- float (abs
+                (1 - (img#get_pixel i j).OcsfmlGraphics.Color.r / 255))
         done
     done; a
 
@@ -25,7 +26,8 @@ let interpret_network_output a =
             maxi := i;
     done; num_to_char !maxi
 
-let char_to_file c = "../setgen/out/" ^ string_of_int (int_of_char c) ^ "/8.png"
+let char_to_file c =
+    "../setgen/out/" ^ string_of_int (int_of_char c) ^ "/8.png"
 
 let get_examples directory_path charcodelist fonts_nb =
     let examples = ref []
@@ -47,15 +49,22 @@ let get_examples directory_path charcodelist fonts_nb =
             done; aux (n + 1) l
     in aux 0 charcodelist; Array.of_list !examples
 
-let train_network net directory_path iteration_nb error_print_period ?(weights = "") charcodelist font_nb = (* directory's content: <ascii-code>/<font>.png *)
-    let examples = get_examples directory_path charcodelist font_nb in
-    if weights <> "" then
-        net#load_weights weights
-    else
-        net#randomize_weights;
-    net#learn examples iteration_nb true error_print_period;
-    net#save_weights "weights.txt";
-    Printf.printf "weights saved in weights.txt\n"
+let train_network
+    net
+    directory_path (* directory's content: <ascii-code>/<font>.png *)
+    iteration_nb
+    error_print_period
+    ?(weights = "")
+    charcodelist
+    font_nb = 
+        let examples = get_examples directory_path charcodelist font_nb in
+        if weights <> "" then
+            net#load_weights weights
+        else
+            net#randomize_weights;
+        net#learn examples iteration_nb true error_print_period;
+        net#save_weights "weights.txt";
+        Printf.printf "weights saved in weights.txt\n"
 
 let identify weights pixvector =
     let incount, hidcount, outcount = Network.read_size weights in
@@ -69,3 +78,4 @@ let identify weights pixvector =
     let a = net#propagate pixvector in
     print_array a; print_newline ();
     interpret_network_output a
+
