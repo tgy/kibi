@@ -17,7 +17,7 @@ let image_to_input file =
 
 let num_to_char = function
     | n when n >= 0 && n < 123 -> String.make 1 (char_of_int (n + 33))
-    | _ -> failwith "unknown char"
+    | n -> failwith ("unknown char: " ^ string_of_int n)
 
 let interpret_network_output a =
     let maxi = ref 0 in
@@ -25,9 +25,6 @@ let interpret_network_output a =
         if a.(i) > a.(!maxi) then
             maxi := i;
     done; num_to_char !maxi
-
-let char_to_file c =
-    "../setgen/out/" ^ string_of_int (int_of_char c) ^ "/8.png"
 
 let get_examples directory_path charcodelist fonts_nb =
     let examples = ref []
@@ -74,4 +71,3 @@ let identify weights pixvector =
     net#load_weights weights;
     let a = net#propagate pixvector in
     interpret_network_output a
-

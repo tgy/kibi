@@ -24,19 +24,20 @@ let main () =
         ignore (denoised#save_to_file (!output_dir ^ "2denoised.png"));*)
         let preprocessed = HoughPreprocess.get_dotted denoised in
         printf "HoughPreprocess.get_dotted" (Sys.time ());
-        let _ = preprocessed#save_to_file (!output_dir ^ "5dotted.png") in
-        let teta, r = HoughTransform.hough_transform binarized in
+        ignore (preprocessed#save_to_file (!output_dir ^ "5dotted.png"));
+        let teta, r = HoughTransform.hough_transform preprocessed in
         HoughTransform.draw_line binarized teta r (!output_dir ^ "6hough.png");
         printf "HoughTransform.hough_transform" (Sys.time ());
         let angle = (teta +.
             if (r >= 0.) then 3.14 /. 2.
-            else 3. *. 3.14 /. 2.) in
+            else 0.) in
+        Printf.printf "angle: %f\n" angle;
         let rotated = Binarizator.binarize (Rotation.rotate denoised angle) in
         printf "Rotation.rotate" (Sys.time ());
         ignore (rotated#save_to_file (!output_dir ^ "7rotated.png"));
         let boxes = BoundingBoxes.get_boxes rotated in
         let (mwidth, mheight) = BoundingBoxes.average_box boxes in
-        let boxes = BoundingBoxes.remove_small_and_large boxes (mwidth, mheight) in
+        (*let boxes = BoundingBoxes.remove_small_and_large boxes (mwidth, mheight) in*)
         Printf.printf "average box : %dx%d\n" mwidth mheight;
         ignore ((BoundingBoxes.display_boxes rotated boxes)#save_to_file (!output_dir ^ "bbox.png"));
         img#save_to_file (!output_dir ^ "1img.png")
