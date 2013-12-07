@@ -1,0 +1,23 @@
+Guy:
+  - finnish displaying
+  - finnish linking with Robert
+  - use it with nginx
+  - save result file
+  - resolve the bugs, make it work once and for all.
+
+Anna:
+  - enhance the training (overfitting...)
+  - interface with Freddy in input (Anna gets the BoundingBs list)
+  - interface with Robert in output (Anna returns the char list)
+  - make it work, recognize
+  - test it on a couple of images
+
+Robert:
+  - interface with Anna in input (Anna gives char list list list)
+
+Freddy:
+  - test it on some other images
+  - interface with Anna (BoundingBs list list list)
+
+Lenna:
+  - Over? Probably
