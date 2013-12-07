@@ -9,7 +9,7 @@ let print_array a =
 let main () =
   let img = new O.image (`File "../../setgen/out/97/14.png") in
   img#save_to_file "out/test_before.png";
-  let pixvector = Resizer.get_pixvector img (0, 0) (31, 31) 42 in
+  let pixvector = Resizer.get_pixvector img (0, 0) (32, 32) 42 in
   let nimg = Resizer.pixvector_to_img pixvector 42 in
   nimg#save_to_file "out/test.png"
   
