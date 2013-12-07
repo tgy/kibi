@@ -7,8 +7,10 @@
 </head>
 <body>
     <header id="logo"></header>
-    <div id="result">
-    <?php include 'tmp2'; ?>
+    <div id="result-container">
+        <div id="result">
+        <?php include 'tmp2'; ?>
+        </div>
     </div>
     <button id="export-button" type="button">Save</button>
     <script src="js/jq.js"></script>
