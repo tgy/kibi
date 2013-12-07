@@ -11,7 +11,7 @@ let main () =
         ] (fun _ -> ()) "test.native [-i input_img] [-o output_dir]";
         if (!output_dir).[String.length !output_dir - 1] <> '/' then
             output_dir := !output_dir ^ "/";
-        let img = new OcsfmlGraphics.image (`File !input_img) in
+				let img = new OcsfmlGraphics.image (`File !input_img) in
         printf "reading base image from file" (Sys.time ());
 				(*let grayscaled = Grayscale.grayscale denoised in
 				printf "Grayscale.grayscale" (Sys.time());
