@@ -13,5 +13,6 @@
     <button id="export-button" type="button">Save</button>
     <script src="js/jq.js"></script>
     <script src="js/editor.js"></script>
+    <script src="js/export.js"></script>
 </body>
 </html>

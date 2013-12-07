@@ -28,7 +28,9 @@ let random_weights neurons transitions =
         Array.init transitions (fun _ -> Random.float 1. -. 0.5)
     )
 
-class network (* paramaters *) (c, a, t, m) (* neuron number *) (incount, hidcount, outcount) =
+class network 
+    (c, a, t, m)
+    (incount, hidcount, outcount) =
 
     object (self)
 
@@ -96,7 +98,8 @@ class network (* paramaters *) (c, a, t, m) (* neuron number *) (incount, hidcou
             in
 
             let i = float iter in
-            let alpha = a *. (1. +. (c /. a) *. (i /. t)) /.  (1. +. (c /. a) *. (i /. t) +. t *. (t *. t) /. (t *. t)) in
+            let alpha = a *. (1. +. (c /. a) *. (i /. t)) /.
+                (1. +. (c /. a) *. (i /. t) +. t *. (t *. t) /. (t *. t)) in
             for i = 0 to Array.length hid_weights - 1 do
                 for j = 0 to Array.length hid_weights.(i) - 1 do
                     let delta = alpha *. input.(j) *. delta_hid.(i) +. m
@@ -161,12 +164,14 @@ class network (* paramaters *) (c, a, t, m) (* neuron number *) (incount, hidcou
             begin
                 for i = 0 to h1 - 1 do
                     for j = 0 to h2 - 1 do
-                        hid_weights.(i).(j) <- Scanf.fscanf ic "%f\n" (fun d -> d)
+                        hid_weights.(i).(j) <-
+                            Scanf.fscanf ic "%f\n" (fun d -> d)
                     done
                 done;
                 for i = 0 to o1 - 1 do
                     for j = 0 to o2 - 1 do
-                        out_weights.(i).(j) <- Scanf.fscanf ic "%f\n" (fun d -> d)
+                        out_weights.(i).(j) <-
+                            Scanf.fscanf ic "%f\n" (fun d -> d)
                     done
                 done;
             end;
