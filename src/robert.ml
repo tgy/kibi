@@ -3,6 +3,17 @@
  * un fichier les mots avec ou sans erreur pour être interprété dans le
  * browser (interface web) *)
 
+(*
+	string list list list 									as text
+	(string * string list) list list list		as correction
+  string as url
+	
+	detect: text -> unit
+  correct: text -> correction 
+	currentlang: unit -> Lang.language
+  tojson: correction -> string
+  savejson:  url -> correction -> unit
+*)
 let (detect, correct, currentlang, tojson) = 
 	let dico = ref None and
 			dicophon = ref None in
