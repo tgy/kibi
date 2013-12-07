@@ -46,8 +46,8 @@ let get_examples directory_path charcodelist fonts_nb =
                     examples := (image_to_input path, t.(n)) :: !examples
                 with
                     _ -> ()
-            done; aux (n + 1) l
-    in aux 0 charcodelist; Array.of_list !examples
+            done; aux (n - 1) l
+    in aux (char_nb - 1) charcodelist; Array.of_list !examples
 
 let train_network
     net
@@ -68,14 +68,10 @@ let train_network
 
 let identify weights pixvector =
     let incount, hidcount, outcount = Network.read_size weights in
-    print_int incount; print_newline ();
-    print_int hidcount; print_newline ();
-    print_int outcount; print_newline ();
     let net = new Network.network
-        (5., 0.5, 100., 0.2)
+        (0., 0., 0., 0.)
         (incount, hidcount, outcount) in
     net#load_weights weights;
     let a = net#propagate pixvector in
-    print_array a; print_newline ();
     interpret_network_output a
 

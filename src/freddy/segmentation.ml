@@ -1,6 +1,6 @@
 module O = OcsfmlGraphics
-let input = "images/-1"
-let output = "output/output.png"
+(*let input = "images/-1"
+let output = "output/output.png"*)
 let treshold_size_line = 3
 let treshold_nb_pix = 2
 let treshold_bounding_box = 0.2	
@@ -149,7 +149,7 @@ let findLines histo =
   !l
 
 
-let main () = 
+(*let main () = 
   printf "Starting";
   let input = new O.image (`File input) in
   let (w,h) = input#get_size in
@@ -200,25 +200,25 @@ let main () =
 
   input#save_to_file(output)
 
-  let _ = main ()
+  let _ = main ()*)
 
 
   (*##########   RLSA    ##########*)
 
 
-let makeinputarray img =
+let makeinputarray ocsfmlimg =
   let (w,h) = ocsfmlimg#get_size in
   let inputarray = Array.make_matrix w h false in
   for x = 0 to (w - 1) do
     for y = 0 to (h - 1) do
-      if (img#get_pixel x y).O.Color.r <> 255 then (*if not white*)
+      if (ocsfmlimg#get_pixel x y).O.Color.r <> 255 then (*if not white*)
         inputarray.(x).(y) <- true;
   done;
     done;
     inputarray
 
-let makevertarray imgarray =
-  let (w,h) = ocsfmlimg#get_size in
+let makevertarray imgarray hc =
+  let (w,h) = Array.length imgarray, Array.length imgarray.(0) in
   let cw = ref 0 in
   let vertarray = Array.make_matrix w h false in
   for x = 0 to (w - 1) do
@@ -227,7 +227,7 @@ let makevertarray imgarray =
       if imgarray.(x).(y) then (*if not white*)
         begin
           vertarray.(x).(y) <- true;
-          if (!cw < c) then
+          if (!cw < hc) then
             for yp =  (y - !cw) to (y - 1) do
               vertarray.(x).(yp) <- true
   done;
@@ -239,8 +239,8 @@ let makevertarray imgarray =
     done;
     vertarray
 
-let makehoriarray imgarray =
-  let (w,h) = ocsfmlimg#get_size in
+let makehoriarray imgarray wc =
+  let (w,h) = Array.length imgarray, Array.length imgarray.(0) in
   let cw = ref 0 in
   let horiarray = Array.make_matrix w h false in
   for y = 0 to (h - 1) do
@@ -249,7 +249,7 @@ let makehoriarray imgarray =
       if imgarray.(x).(y) then (*if not white*)
         begin
           horiarray.(x).(y) <- true;
-          if (!cw < c) then
+          if (!cw < wc) then
             for xp =  (x - !cw) to (x - 1) do
               horiarray.(xp).(y) <- true
   done;
@@ -262,8 +262,8 @@ let makehoriarray imgarray =
     horiarray
 
 let fctarray vert hori fct = 
-  let (w,h) = ocsfmlimg#get_size in
-  let andarray = Array.make_matrix w h false in
+  let (w,h) = Array.length vert, Array.length hori.(0) in
+  let newarray = Array.make_matrix w h false in
   for x = 0 to (w - 1) do
     for y = 0 to (h - 1) do
       newarray.(x).(y) <- fct vert.(x).(y) hori.(x).(y)
@@ -272,7 +272,7 @@ let fctarray vert hori fct =
     newarray
 
 let getocsfmlimgfromarray imgarray = 
-  let (w,h) = ocsfmlimg#get_size in
+  let (w,h) = Array.length imgarray, Array.length imgarray.(0) in
   let output = new O.image (`Color (O.Color.white, w, h)) in
   for x = 0 to (w - 1) do
     for y = 0 to (h - 1) do
@@ -283,10 +283,9 @@ let getocsfmlimgfromarray imgarray =
     output
 
 
-let startRLSA ocsfmlimg wc hc =
-  let (w,h) = ocsfmlimg#get_size in
+let startRLSA ocsfmlimg fct wc hc =
   let imgarray = makeinputarray ocsfmlimg in 
-  let vertarray = makevertarray imgarray in
-  let horiarray = makehoriarray imgarray in
-  let newarray = fctarray vertarray horiarray (&&) in
-  getocsfmlimgfromarray finalarray
+  let vertarray = makevertarray imgarray hc in
+  let horiarray = makehoriarray imgarray wc in
+  let newarray = fctarray vertarray horiarray fct in
+  getocsfmlimgfromarray newarray

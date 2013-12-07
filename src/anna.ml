@@ -1,1 +1,1 @@
-let identify_char weights = CharIdentification.recognize
+let identify_char = CharIdentification.identify
