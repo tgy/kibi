@@ -4,7 +4,10 @@ let grayscale img =
     for i = 0 to w - 1 do
         for j = 0 to h - 1 do
             let color = img#get_pixel i j in
-            let gray = (color.OcsfmlGraphics.Color.r + color.OcsfmlGraphics.Color.g + color.OcsfmlGraphics.Color.b) / 3 in
+            let gray = (
+                color.OcsfmlGraphics.Color.r +
+                color.OcsfmlGraphics.Color.g +
+                color.OcsfmlGraphics.Color.b) / 3 in
             m := max !m gray;
             new_img#set_pixel i j {OcsfmlGraphics.Color.r = gray;
                  OcsfmlGraphics.Color.g = gray;

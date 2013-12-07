@@ -93,7 +93,7 @@ let average_box boxes =
     in let (n, avgw, avgh) = aux boxes
     in (avgw / n, avgh / n)
 
-let remove_small_and_large boxes (avgw, avgh) =
+(*let remove_small_and_large boxes (avgw, avgh) =
     let espwinf, espwsup, esphinf, esphsup, nwinf, nwsup, nhinf, nhsup =
         let rec aux = function
             | [] -> (0, 0, 0, 0, 0, 0, 0, 0)
@@ -135,4 +135,4 @@ let remove_small_and_large boxes (avgw, avgh) =
                     aux l
                 else
                     box :: aux l
-    in aux boxes
+    in aux boxes*)
