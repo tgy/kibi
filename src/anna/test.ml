@@ -37,17 +37,14 @@ begin
     CharIdentification.train_network
       net
       "../setgen/out/"
+      0
       10000
-      10000
-      (*~weights:"weights/weights1024x90x90.txt"*)
+      ~weights:"weights/weights1024x90x90.txt"
       charcodelist
       22;
     while true do
-        print_string "character: ";
-        let c = int_of_char (read_line ()).[0] in
-        print_string "font number: ";
-        let num = read_line () in
-        let file = "../setgen/out/" ^ string_of_int c ^ "/" ^ num ^ ".png" in
+        print_string "image: \n";
+        let file = read_line () in
         Printf.printf "reading file %S\n" file;
         let a = net#propagate (image_to_input file) in
         print_array a; print_newline ();

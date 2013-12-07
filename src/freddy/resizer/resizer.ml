@@ -65,18 +65,18 @@ let resize img new_size =
 
 let get_pixvector img (b1x, b1y) (b2x, b2y) new_size =
   let (b1x, b1y), (b2x, b2y) = crop_bounds img (b1x, b1y) (b2x, b2y) in
-  print_endline (Printf.sprintf "b1x %d ; b1y %d ; b2x %d ; b2y %d" b1x b1y b2x
-  b2y);
+  (*print_endline (Printf.sprintf "b1x %d ; b1y %d ; b2x %d ; b2y %d" b1x b1y b2x
+  b2y);*)
   let w, h = (b2x - b1x + 1), (b2y - b1y + 1)
   and pixvector = Array.make (new_size * new_size) 0. in
-  print_endline (Printf.sprintf "w: %d ; h: %d" w h);
+  (*print_endline (Printf.sprintf "w: %d ; h: %d" w h);*)
   let nw, nh = get_new_size w h new_size in
-  print_endline (Printf.sprintf "nw: %d ; nh: %d" nw nh);
+  (*print_endline (Printf.sprintf "nw: %d ; nh: %d" nw nh);*)
   let xr = (w lsl 16) / nw + 1
   and yr = (h lsl 16) / nh + 1 in
   let offx = (new_size - nw) / 2
   and offy = (new_size - nh) / 2 in
-  print_endline (Printf.sprintf "offx: %d ; offy: %d" offx offy);
+  (*print_endline (Printf.sprintf "offx: %d ; offy: %d" offx offy);*)
   for i = offy to offy + nh - 1 do
     for j = offx to offx + nw - 1 do
       (*print_endline (Printf.sprintf "(%d;%d)" i j);*)

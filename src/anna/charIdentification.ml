@@ -68,14 +68,10 @@ let train_network
 
 let identify weights pixvector =
     let incount, hidcount, outcount = Network.read_size weights in
-    print_int incount; print_newline ();
-    print_int hidcount; print_newline ();
-    print_int outcount; print_newline ();
     let net = new Network.network
-        (5., 0.5, 100., 0.2)
+        (0., 0., 0., 0.)
         (incount, hidcount, outcount) in
     net#load_weights weights;
     let a = net#propagate pixvector in
-    print_array a; print_newline ();
     interpret_network_output a
 
