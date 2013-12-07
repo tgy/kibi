@@ -13,10 +13,17 @@ let main () =
             output_dir := !output_dir ^ "/";
 				let img = new OcsfmlGraphics.image (`File !input_img) in
         printf "reading base image from file" (Sys.time ());
+				let (bi,pr,ro) = Preprocess.preprocess img in
+				printf "preprocessed" (Sys.time());
+				img#save_to_file(!output_dir ^ "1img.png");
+				bi#save_to_file(!output_dir ^ "2binarized.png");
+				pr#save_to_file(!output_dir ^ "3preproc.png");
+				ro#save_to_file(!output_dir ^ "4rotated.png");
+				(*bo#save_to_file(!output_dir ^ "5boxes.png");*)
 				(*let grayscaled = Grayscale.grayscale denoised in
 				printf "Grayscale.grayscale" (Sys.time());
 				ignore (grayscaled#save_to_file (!output_dir ^ "3grayscaled.png"));*)
-        let binarized = Binarizator.binarize img in
+        (*let binarized = Binarizator.binarize img in
         printf "Binarizator.binarize" (Sys.time ());
         ignore (binarized#save_to_file (!output_dir ^ "4binarized.png"));
         let denoised = binarized in (*NoiseReduction.noise_reduction binarized in
@@ -38,7 +45,7 @@ let main () =
         let (mwidth, mheight) = BoundingBoxes.average_box boxes in
         let boxes = BoundingBoxes.remove_small_and_large boxes (mwidth, mheight) in
         Printf.printf "average box : %dx%d\n" mwidth mheight;
-        ignore ((BoundingBoxes.display_boxes rotated boxes)#save_to_file (!output_dir ^ "bbox.png"));
+        ignore ((BoundingBoxes.display_boxes rotated boxes)#save_to_file (!output_dir ^ "bbox.png"));*)
         img#save_to_file (!output_dir ^ "1img.png")
     end
 
