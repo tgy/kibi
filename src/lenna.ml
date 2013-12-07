@@ -1,4 +1,4 @@
-let preprocess path = assert false
+let preprocess = Preprocess.preprocess
 
 let binarize = Binarizator.binarize
 let invert = Inverter.invert
