@@ -134,8 +134,12 @@ class network
                 let ex = examples.(Random.int (Array.length examples)) in
                 self#backpropagate iter ex;
                 if (iter mod error_print_period = 0) && print_error then
-                    Printf.printf "Error: %f\n%!" (self#error (examples));
-            done
+                begin
+                  Printf.printf "%d: " iter;
+                  Printf.printf "%f\n%!" (self#error (examples));
+                end
+            done;
+            Printf.printf "Error: %f\n%!" (self#error (examples));
 
         method save_weights file =
             let oc = open_out file in

@@ -46,8 +46,8 @@ let get_examples directory_path charcodelist fonts_nb =
                     examples := (image_to_input path, t.(n)) :: !examples
                 with
                     _ -> ()
-            done; aux (n + 1) l
-    in aux 0 charcodelist; Array.of_list !examples
+            done; aux (n - 1) l
+    in aux (char_nb - 1) charcodelist; Array.of_list !examples
 
 let train_network
     net

@@ -1,4 +1,2 @@
-let main () =
-  Setgen.generate "setgen/fonts" "setgen/out"
-
+let main () = assert false
 let _ = main ()
