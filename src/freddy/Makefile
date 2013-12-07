@@ -15,3 +15,9 @@ resize:
 
 rr: resize
 					./resize.native
+
+boxmaker:
+					$(OCAMLBUILD) boxmaker.native
+
+br: boxmaker
+					./boxmaker.native
