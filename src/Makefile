@@ -16,7 +16,7 @@ run-test:
 	./test.native
 
 debug:
-	$(OCAMLBUILD) kibi.d.byte
+	$(OCAMLBUILD) test.d.byte
 
 debug-test:
 	$(OCAMLBUILD) test.d.byte
