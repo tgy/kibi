@@ -5,7 +5,21 @@ let isainb a b =
   axl >= bxl && axh <= bxh && ayl >= byl && ayh <= byh
 
 let formatit charlst wordlst linelist paraglist =
-
+	let rec getinternalboxes b = function
+		|	[] -> []
+		| c::l when isainb c b -> c::(getinternalboxes b l)
+		| _::l -> getinternalboxes b l
+	and getnew_words = function
+		| [] -> []
+		| e::l -> (getinternalboxes e charlst)::(getnew_words l)
+	and getnew_lines = function
+		| [] -> []
+		| e::l -> (getnew_words (getinternalboxes e wordlst))::(getnew_lines l)
+	and getnew_paras = function
+		| [] -> []
+		| e::l -> (getnew_lines (getinternalboxes e linelist))::(getnew_paras l)
+	in
+	getnew_paras paraglist
 
 let main () =
   let a = (0,10,0,10) and b = (0,10,0,10) in
