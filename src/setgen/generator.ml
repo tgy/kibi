@@ -60,8 +60,12 @@ let generate indir outdir =
             mkdir dir_path;
           let binarized = Lenna.binarize img in
           let inverted = Lenna.invert binarized in
+          let final = Resizer.pixvector_to_img (
+            Resizer.get_pixvector inverted (0, 0) (img_size - 1, img_size - 1)
+              img_size
+          ) img_size in
           ignore (
-            inverted#save_to_file
+            final#save_to_file
             (dir_path ^ "/" ^ string_of_int i ^ ".png")
           )
         done
