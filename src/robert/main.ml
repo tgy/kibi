@@ -1,5 +1,5 @@
 let main () =
-    print_string "<Robert> Initialization...";
+    print_string "<Wordchecker> Initialization...";
 
     let output_web = "dictionnaries/output.html" in
 
@@ -11,21 +11,21 @@ let main () =
                 l := (input_line file)::!l;
             done;
             close_in file;
-            String.concat "\n" (Robert.reverse !l)
+            String.concat "\n" (Wordchecker.reverse !l)
         with End_of_file ->
-            close_in file; String.concat "\n" (Robert.reverse !l)
+            close_in file; String.concat "\n" (Wordchecker.reverse !l)
     in
 
     let foo_html = read_file "dictionnaries/foo"
     and bar_html = read_file "dictionnaries/bar"
     and str = read_file "dictionnaries/input.txt" in
     
-    let l = Robert.cut_text str in
-    let dico = Robert.detect_language l in
+    let l = Wordchecker.cut_text str in
+    let dico = Wordchecker.detect_language l in
     
     print_string "\n<Rort> I got the text :). It's in ";
     
-    if (dico.Robert.lang = Lang.Fr) then
+    if (dico.Wordchecker.lang = Lang.Fr) then
         print_string "english !"
     else
         print_string "frensh !";
@@ -34,17 +34,17 @@ let main () =
         let rec aux l1 l2 = match (l1,l2) with
         | (_,[]) | ([],_) ->
                 raise (Failure "Error in module lang.ml")
-        | (e::l, f::m) when (e = dico.Robert.lang) ->
-                Robert.get_dictionnary f
+        | (e::l, f::m) when (e = dico.Wordchecker.lang) ->
+                Wordchecker.get_dictionnary f
         | (_::l, _::m) ->
                 aux l m
         in
         aux Lang.languages Lang.urls_phone
     in
 
-    let errors = ref (Robert.send_errors dico dicophon l) in
+    let errors = ref (Wordchecker.send_errors dico dicophon l) in
 
-    print_string "\n<Robert> Dans la phrase, il y a ";
+    print_string "\n<Wordchecker> Dans la phrase, il y a ";
     print_int (List.length !errors);
     print_string " erreurs.";
     
@@ -67,7 +67,7 @@ let main () =
         and start = ref 0 
         and newS = ref s in
         while (!i < String.length s) do
-            if (Robert.lowercase_char s.[!i]) = s1.[!check] then
+            if (Wordchecker.lowercase_char s.[!i]) = s1.[!check] then
             (
                 (if !check = 0 then start := !i);
                 check := !check + 1;
@@ -117,9 +117,9 @@ let main () =
 
     save_html output_web;
 
-    (*let my_dico = Robertdev.create_dictionnary "dictionnaries/fr-FR.dic" Lang.Fr Robertdev.phonetic in
-    Robertdev.save_dictionnary my_dico "dictionnaries/fr-FR.phone";;*)
-    (*let my_dico = Robert.get_dictionnary "dictionnaries/fr-FR.phone";;*)
+    (*let my_dico = Wordcheckerdev.create_dictionnary "dictionnaries/fr-FR.dic" Lang.Fr Wordcheckerdev.phonetic in
+    Wordcheckerdev.save_dictionnary my_dico "dictionnaries/fr-FR.phone";;*)
+    (*let my_dico = Wordchecker.get_dictionnary "dictionnaries/fr-FR.phone";;*)
 
     print_string "\n"
 
