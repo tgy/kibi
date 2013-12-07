@@ -69,3 +69,4 @@ let identify weights pixvector =
     let a = net#propagate pixvector in
     print_array a; print_newline ();
     interpret_network_output a
+
