@@ -19,9 +19,32 @@
   ignore (paragimg#save_to_file ("parags.bmp"));
   (charboxes, wordboxes, lineboxes, paragboxes)*)
 
+
+let fusionchars l =
+	let inside (xm,xM,_,_) (xm1,xM1,_,_) = xm1 < xm && xM < xM 
+	and fusion (xm,xM,ym,yM) (xm1,xM1,ym1,yM1) = (min xm xm1, max xM xM1,
+																								min ym ym1, max yM yM1)
+	in
+	let aux b l = 
+		let b = ref b in
+		let rec aux2 = function
+			| [] ->	[]
+			| e::l when inside e !b ->
+				b  := fusion !b e;
+				aux2 l
+			| e::l -> e::(aux2 l)
+		in !b::(aux2 l)
+	in let rec aux2 = function
+			| [] -> []
+			| e::l -> match aux e l with
+				| [] -> []
+				| e::l -> e::(aux2 l)
+	in aux2 l
+
+
 let sort l =
 	let sortchars l = 
-		let nl = List.sort (fun (xm,_,_,_) (xm1,_,_,_) -> compare xm xm1) l in
+		let nl = List.sort (fun (xm,_,_,_) (xm1,_,_,_) -> compare xm xm1) (fusionchars l) in
 		match nl with
 			| [] -> max_int, []
 			| (x,_,_,_)::l -> x,nl
