@@ -36,3 +36,24 @@ let median_filter img =
         done
     done;
     new_img
+
+let median_filter img =
+  let w, h = img#get_size in
+  let new_img = new OcsfmlGraphics.image (`Create(w, h)) in
+  for i = 1 to w - 2 do
+    for j = 1 to h - 2 do
+      let ctr = ref 0 in
+      if (img#get_pixel i j).OcsfmlGraphics.Color.r = 255 then
+        ctr := !ctr + 1;
+      if (img#get_pixel (i + 1) j).OcsfmlGraphics.Color.r = 255 then
+        ctr := !ctr + 1;
+      if (img#get_pixel (i - 1) j).OcsfmlGraphics.Color.r = 255 then
+        ctr := !ctr + 1;
+      if (img#get_pixel i (j + 1)).OcsfmlGraphics.Color.r = 255 then
+        ctr := !ctr + 1;
+      if (img#get_pixel i (j - 1)).OcsfmlGraphics.Color.r = 255 then
+        ctr := !ctr + 1;
+      if !ctr >= 3 then
+        new_img#set_pixel i j OcsfmlGraphics.Color.black
+    done
+  done

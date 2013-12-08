@@ -26,6 +26,15 @@ let main () =
 			in aux2 line; aux lines
 		in aux par; displays_boxes pars
 	in displays_boxes boxes;
+  let (i, h, o) = Network.read_size "anna/weights/weights0.txt" in
+  let net0 = new Network.network (0., 0., 0., 0.) (i, h, o)
+  and net1 = new Network.network (0., 0., 0., 0.) (i, h, o)
+  and net2 = new Network.network (0., 0., 0., 0.) (i, h, o)
+  and net3 = new Network.network (0., 0., 0., 0.) (i, h, o) in
+  net0#load_weights "anna/weights/weights0.txt";
+  net1#load_weights "anna/weights/weights1.txt";
+  net2#load_weights "anna/weights/weights2.txt";
+  net3#load_weights "anna/weights/weights3.txt";
   let rec aux0 n0 = function
     | [] -> ()
     | paragraph :: paragraphs ->
@@ -45,7 +54,7 @@ let main () =
                       string_of_int n2 ^ "-" ^
                       string_of_int n3 in
                     (Resizer.pixvector_to_img input 32)#save_to_file ("bla" ^ id ^ ".png");
-                    print_string (Anna.identify_char "anna/weights/weights1024x90x90.txt" input);
+                    print_string (Anna.identify_char [net0; net1; net2; net3] input);
                     (*print_string ("[" ^ id ^ "]");*)
                     flush stdout;
                     aux3 (n3 + 1) chars

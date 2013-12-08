@@ -50,8 +50,8 @@ begin
           net
           "../setgen/out/"
           40000
-          10000
-          ~weights:"weights/weights1024x90x90.txt"
+          40000
+          (*~weights:"weights/weights3.txt"*)
           charcodelist
           33;
         while true do
