@@ -19,9 +19,41 @@
   ignore (paragimg#save_to_file ("parags.bmp"));
   (charboxes, wordboxes, lineboxes, paragboxes)*)
 
-(*let sort =
-	let sortchars = List.sort (fun (xm,_,_,_) (xm1,_,_,_) -> compare xm xm1) in*)
-	
+let sort =
+	let sortchars l = 
+		let nl = List.sort (fun (xm,_,_,_) (xm1,_,_,_) -> compare xm xm1) l in
+		match nl with
+			| [] -> max_int, []
+			| (x,_,_,_)::l -> x,nl
+	in
+	let sortwords line =
+		let n = ref max_int in
+		let rec aux = function
+			| [] -> []
+			| e::l -> let (newn,newe) = sortchars e in
+			n := min newn !n;
+			newe::aux l
+		in (!n,aux line)
+	in
+	let sortlines parag =
+		let n = ref max_int in
+		let rec aux = function
+			| [] -> []
+			| e::l -> let (newn,newe) = sortwords e in
+			n := min newn !n;
+			newe::aux l
+		in (!n,aux parag)
+	in
+	let sortparags text =
+		let n = ref max_int in
+		let rec aux = function
+			| [] -> []
+			| e::l -> let (newn,newe) = sortlines e in
+			n := min newn !n;
+			newe::aux l
+		in (!n,aux text)
+	in sortparags
+
 
 let getlists img =
   let w, h = img#get_size in

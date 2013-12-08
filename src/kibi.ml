@@ -38,7 +38,7 @@ begin
 	and update_status_time () = update_status_time !statusfile
 	and update_status_total_time () = update_status_total_time !statusfile
 	in
-	clean_status "Program started";
+	clean_status "";
 	let img = new OcsfmlGraphics.image(`File !input_file) in
 	update_status "Preprocessing";
 	let (binarized,preproc,rotated) = Lenna.preprocess img in 
