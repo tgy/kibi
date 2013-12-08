@@ -25,7 +25,7 @@ let interpret_network_output a =
         if a.(i) > a.(!maxi) then
             maxi := i;
     done;
-    if a.(!maxi) > 0.3 then
+    if a.(!maxi) > 0.05 then
       num_to_char !maxi
     else
       ""
