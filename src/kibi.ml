@@ -36,13 +36,12 @@ let loopanna img l =
 		| [] -> []
 		| paragraph :: paragraphs ->
 		let rec looplines = function
-      | [] -> print_endline (); []
+      | [] -> print_newline (); []
 			| line :: lines ->
 			let rec loopwords = function
-				| [] -> print_endline (); []
+				| [] -> print_newline (); []
 				| word :: words ->
 				let rec loopchars = function 
-<<<<<<< HEAD
           | [] -> print_string " "; []
 					| (x0,xmax,y0,ymax) :: chars -> 
             let input = Resizer.get_pixvector img (x0,y0) (xmax, ymax) 32 in
@@ -50,14 +49,6 @@ let loopanna img l =
             print_string s;
             s::loopchars chars
         in loopchars word::loopwords words
-=======
-					| [] -> []
-					| (x0,xmax,y0,ymax) :: chars ->
-					let input = Resizer.get_pixvector img (x0,y0) (xmax, ymax) 32 in
-					let s = Anna.identify_char "anna/weights/weights0.txt" input in	
-					s::loopchars chars
-				in loopchars word::loopwords words
->>>>>>> 2c0e2c7da0c6dd277217a12a083edd34b5c29230
 			in loopwords line::looplines lines
 		in looplines paragraph::loopparags paragraphs
 	in loopparags l
