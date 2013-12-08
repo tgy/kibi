@@ -53,36 +53,42 @@ let sort l =
 	let sortchars l = 
 		let nl = List.sort (fun (xm,_,_,_) (xm1,_,_,_) -> compare xm xm1) (fusionchars l) in
 		match nl with
-			| [] -> max_int, []
-			| (x,_,_,_)::l -> x,nl
+			| [] ->[]
+			| (x,_,_,_)::l -> nl
 	in
 	let sortwords line =
-		let n = ref max_int in
 		let rec aux = function
 			| [] -> []
-			| e::l -> let (newn,newe) = sortchars e in
-			n := min newn !n;
-			newe::aux l
-		in (!n,aux line)
+			| e::l -> sortchars e::aux l
+		in 
+		List.sort 
+			(fun l l2 -> match (l,l2) with
+				| (x,_,_,_)::_,(x2,_,_,_)::__ -> compare x x2
+				| _ -> 1
+			) (aux line) 
 	in
 	let sortlines parag =
-		let n = ref max_int in
 		let rec aux = function
 			| [] -> []
-			| e::l -> let (newn,newe) = sortwords e in
-			n := min newn !n;
-			newe::aux l
-		in (!n,aux parag)
+			| e::l -> sortwords e::aux l
+		in 
+		List.sort 
+			(fun l l2 -> match (l,l2) with
+				| ((_,_,y,_)::_)::_,((_,_,y2,_)::_)::_ -> compare y y2
+				| _ -> 1
+			) (aux parag)
 	in
 	let sortparags text =
-		let n = ref max_int in
 		let rec aux = function
 			| [] -> []
-			| e::l -> let (newn,newe) = sortlines e in
-			n := min newn !n;
-			newe::aux l
-		in (!n,aux text)
-	in let (_,l) = sortparags l in l
+			| e::l -> sortlines e::aux l
+		in 
+		List.sort
+			(fun l l2 -> match (l,l2) with
+				| (((_,_,y,_)::_)::_)::_,(((_,_,y2,_)::_)::_)::_ -> compare y y2
+				| _ -> 1
+			) (aux text)
+	in sortparags l
 
 
 let getlists img =
