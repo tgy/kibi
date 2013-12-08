@@ -24,44 +24,7 @@ let crop_bounds img (b1x, b1y) (b2x, b2y) =
           if j > !nb2y then nb2y := j
         end
     done
-  done; (!nb1x, !nb1y), (!nb2x, !nb2y)
-
-
-(* Resize an image and return a square image *)
-let resize img new_size =
-  let new_img = new O.image (`Color (O.Color.white, new_size, new_size)) in
-  let (w:int), (h:int) = img#get_size in
-  let nw, nh = get_new_size w h new_size in
-  let xr = (w lsl 16) / nw + 1
-  and yr = (h lsl 16) / nh + 1 in
-  let offx = (new_size - nw) / 2
-  and offy = (new_size - nh) / 2 in
-  for i = offx to offx + nw - 1 do
-    for j = offy to offy + nh - 1 do
-      let x2, y2 = (((j - offy) * xr) lsr 16), (((i - offx) * yr) lsr 16) in
-      if is_in_bounds y2 x2 w h then
-        new_img#set_pixel i j (img#get_pixel y2 x2)
-    done
-  done;
-  new_img
-
-(* Resize an image and return a vector of {0., 1.} *)
-let resize img new_size =
-  let (w:int), (h:int) = img#get_size in
-  let new_img = new O.image (`Color (O.Color.white, new_size, new_size)) in
-  let nw, nh = get_new_size w h new_size in
-  let xr = (w lsl 16) / nw + 1
-  and yr = (h lsl 16) / nh + 1 in
-  let offx = (new_size - nw) / 2
-  and offy = (new_size - nh) / 2 in
-  for i = offx to offx + nw - 1 do
-    for j = offy to offy + nh - 1 do
-      let x2, y2 = (((j - offy) * xr) lsr 16), (((i - offx) * yr) lsr 16) in
-      if is_in_bounds y2 x2 w h then
-        new_img#set_pixel i j (img#get_pixel y2 x2)
-    done
-  done;
-  new_img
+  done; (min !nb1x !nb2x, min !nb2y !nb1y), (max !nb1x !nb2x, max !nb1y !nb2y)
 
 let get_pixvector img (b1x, b1y) (b2x, b2y) new_size =
 	let (b1x, b1y), (b2x, b2y) = crop_bounds img (b1x, b1y) (b2x, b2y) in
