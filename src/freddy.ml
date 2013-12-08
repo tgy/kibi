@@ -19,6 +19,9 @@
   ignore (paragimg#save_to_file ("parags.bmp"));
   (charboxes, wordboxes, lineboxes, paragboxes)*)
 
+(*let sort =
+	let sortchars = List.sort (fun (xm,_,_,_) (xm1,_,_,_) -> compare xm xm1) in*)
+	
 
 let getlists img =
   let w, h = img#get_size in
