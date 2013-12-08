@@ -1,0 +1,162 @@
+\chapter{Lenna -- \emph{Preprocessing}}
+
+Before trying to detect paragraphs, lines and characters in the image, and then recognizing the characters, we have to "clean" the image. In this chapter we will describe the different algorithm we implemented in this purpose.
+
+\section{Binarization}
+This is the first algorithm we wrote, because it was easy, essential and a good
+start to learn the library's basic functions. We first implemented the most
+naive algorithm you could think of: computing each pixel's luminosity by
+averaging its RGB components, and applying a thresholding. Every pixel below 127
+was considered white and every pixel above 128 was considered black.
+Of course this was not the definitive algorithm.\\
+
+We could have enhanced it by setting the threshold to the average luminosity,
+but it wouldn't have been much better. We instead looked for a better algorithm
+and found the Otsu's method to be fitting exactly our purposes. Moreover it is
+pretty straightforward to implement. Basically Otsu's method is just a way of
+finding the ideal threshold. The ideal threshold is defined as being the one
+which minimize the variance between the two classes formed by that threshold.
+Therefore it has to try every possible threshold and compute every time the
+variance of each class. Thanksfully a little mathematical trick allows us to
+significantly reduce the time complexity by maximizing the between-class
+variance instead of minimizing the within-class variance.\\
+
+\section{Noise reduction}
+
+We tried two method to reduce the noise in the image: gaussian blur and median
+filter. We were unsatisfied with both because letters were less readable after
+the filter, and they hardly reduced the noise. We will have to search better
+method for noise reduction, but for now we will simply use an algorithm that
+removes every black pixel surounded by four white pixels. Even if this is a much
+simpler algorithm, letter shapes are saved and some noise is removed.
+
+\section{Rotation}
+
+It is very difficult to detect text zones in the image if they are not straight.
+Therefore we will try to detect the angle of the image, and then
+rotate it.\\
+
+The first step before rotating the image is to compute the size of the new
+image. As for the rest of the algorithm we use rotation matrix, but only on the
+corners. From the minimum and maximum horizontally and vertically, we can deduce
+the width and height of the rotated image.\\
+
+A naive implementation starts by going through the original image, and
+transposing every pixel $(x, y)$ into the corresponding one in the rotated
+image. We do that by computing the dot product between the pixel's coordinates
+and the rotation matrix of the given angle. We want to turn the image with the
+center of the image as the origin, so we have to add half of the width
+(respectively height) of the image to $x$ (respectively $y$) before actually
+computing the rotated point. It turns out to be a pretty bad algorithm, because
+not every pixel of the rotated image will have an antecedent in the original
+image. This is due to the fact that some pixels in the original image have the
+same corresponding rotated pixel, because of the rounding made to get integer
+coordinates. This creates an aliasing effect.\\
+
+Instead, we need to make the reverse operation: take every pixel from the new
+empty image, and find its corresponding pixel in the original image. Therefore,
+the only thing to do is to apply a rotation matrix with the opposite angle.\\
+
+Because of the imprecision of the integer coordinates, the rotated image is
+still not perfect. A potential improvement will be to use an algorithm that
+takes this imprecision into account, like the bilinear interpolation.
+
+\subsection{Angle detection}
+\subsubsection{Hough transform}
+
+The Hough transform is a general method for finding lines and ellipses in an
+image. It is often used because once the mathematical principle is understood,
+it is not that hard to implement, and it has a much lower time complexity and
+better results than some other methods like Fourier transform. For our purposes,
+we only need to handle the most simple case: line detection in a binary image.\\
+
+The Hough transform relies on a very particular representation of lines of the
+plane: instead of being as the two parameters $a$ and $b$ in the classical
+equation $y = ax + b$, it is described as the couple $(r, \theta)$ where $r$ is
+the distance of the line from the origin and $\theta$ is the angle of this
+distance from the absciss.\\
+
+\begin{center}
+\end{center}
+
+How is this representation useful ? It comes from the fact that, given a point
+of coordinates $(x, y)$ and the angle $\theta$ of a line going through this
+point, we can express very simply the distance $r$ of the line from the origin.
+The equation is as follows:\\
+
+$r = x\cos\theta + y\sin\theta$\\
+
+So for a point of coordinates $(x, y)$ we can plot the graph of $r$ in function
+of $\theta$. It is easy to guess from the equation that it will be a sinusoid.
+This sinusoid represents the set of lines going through this particular point.
+Now if we store this graph on an accumulator, and add to this accumulator the
+sinusoid of every other points, here is what happens:\\
+
+\begin{center}
+\end{center}
+
+Clearly there is a point where all sinusoids cross. The coordinates of this
+point represents the values $r$ and $\theta$ of the line going through every
+point at once.
+
+\subsubsection{More preprocessing}
+
+There is still one thing to fix before applying the Hough transform to our
+scanned image: A text doesn't appears as a straight line. We tried to apply the
+Hough transform directly to a binarized document, but most of the time it would
+find either the diagonal of the document (since the diagonal goes through more
+black points than an horizontal or a vertical line), or the angle of a prominent
+bookbinding or document border. After a few researches, we came with our own
+solution: we first find "blocks" of pixels, defined as being a set of conjoint
+pixels. We remove every pixel of this block and replace them by a single pixel
+at the center of the block. There are two purposes to this algorithm: replacing
+every character by its center to make text lines apparent, and reducing the
+importance of large blocks of pixels as bookbindings and images in the Hough
+transform. Here is a sample output:\\
+
+\begin{figure}[h!]\
+    \centering
+    \caption{input image}
+\end{figure}
+\begin{figure}[h!]\
+    \centering
+    \caption{center of each block}
+\end{figure}
+\begin{figure}[h!]\
+    \centering
+    \caption{line found by the Hough transform}
+\end{figure}
+
+This method has a major flaw that we wish to correct before the end of the
+project: when the noise isn't reduced enough, every separate pixel in the
+"noisy zone" is considered a block and gets a huge role in the Hough transform,
+potentially leading the angle detection to fail completely. Every further step
+of the OCR relies on a perfectly straight image, and it is therefore very
+important that we correct this. \\
+
+\section{TODO}
+
+If Lenna is almost finished, some improvements still remain:
+
+\begin{itemize}
+
+    \item{Rotation}: it is divided in two parts: angle detection, which is done
+        and the real rotation. The current algorithm gives very poor results. We
+        are going to implement bicubic interpolation which is a standard in many
+        image editing programs (including Adobe Photoshop).
+    
+    \item{Noise reduction improvement}: our noise reduction algorithm is not
+        strong enough on some images. Sometimes it fails and Freddy cannot work
+        with Lenna's output.
+
+    \item{Hough transform preprocess} The method we use has a major flaw that we wish to correct before the end of
+        the project: when the noise isn't reduced enough, every separate pixel
+        in the "noisy zone" is considered a block and gets a huge role in the
+        Hough transform, potentially leading the angle detection to fail
+        completely. Every further step of the OCR relies on a perfectly straight
+        image, and it is therefore very important that we correct this.
+
+    \item{Image scaling}: Guy may need an image scaling algorithm to display
+        thumbnails of user's image.
+
+\end{itemize}

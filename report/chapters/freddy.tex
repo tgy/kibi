@@ -1,0 +1,20 @@
+\chapter{Freddy -- \emph{Segmentation}}
+
+Freddy is our segmentation module. It uses OCSFML.
+To detect lines as today, we first assume that all the previous preprocessing steps were done perfectly, which means no artefacts, good rotation, binarization... For now, we can only get text, in one column, and no images. We will work on those situations, and Freddy will be working as expected on time.
+
+\begin{center}
+\end{center}
+
+\begin{center}
+\end{center}
+
+\section{Line and character detection}
+
+\subsection{Making horizontal/vertical histogram}
+
+To detect lines, we need to make histograms, containing the number of black pixels in every line/column of line of pixel of the provided image.We put everything in lists.
+
+\subsection{Delimit lines/characters}
+
+When the number of black pixel changes a lot, we decide to create or to end a line/to create or end a character. We put it in lists
