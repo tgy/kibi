@@ -14,6 +14,28 @@
   tojson: correction -> string
   savejson:  url -> correction -> unit
 *)
+let transformAnnaOutput char_list_list_list_list =
+  let currentw = ref "" in
+  let rec iterchars = function
+    | [] -> !currentw
+    | e::l ->
+        currentw := !currentw ^ (Printf.sprintf "%c" e);
+        iterchars l in
+  let rec iterwords = function
+    | [] -> []
+    | e::l ->
+      currentw := "";
+      (iterchars e)::iterwords l in
+  let rec iterlines = function
+    | [] -> []
+    | e::l ->
+      (iterwords e)::(iterlines l) in
+  let rec iterparags = function
+    | [] -> []
+    | e::l -> (iterlines e)::(iterparags l) in
+  iterparags char_list_list_list_list
+
+
 let (detect, correct, currentlang, tojson) = 
 	let dico = ref None and
 			dicophon = ref None in
