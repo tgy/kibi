@@ -78,7 +78,6 @@ begin
 	let boxes = Freddy.getlists img in
 	update_status_time ();
 	update_status "Identification (ANN)";
-	Printf.printf "%d\n%!" (List.length boxes);
 	let resultAnna = loopanna img boxes in
 	Printf.printf "finished%!";
 	update_status_time ();
