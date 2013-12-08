@@ -1,8 +1,3 @@
-(* TODO{Grimpow} Interface entre Robert et le reste du projet
- * Prend en paramètre un tableau contenant des mots et enregistre dans
- * un fichier les mots avec ou sans erreur pour être interprété dans le
- * browser (interface web) *)
-
 (*
 	string list list list 									as text
 	(string * string list) list list list		as correction
@@ -15,16 +10,12 @@
   savejson:  url -> correction -> unit
 *)
 let transformAnnaOutput char_list_list_list_list =
-  let currentw = ref "" in
   let rec iterchars = function
-    | [] -> !currentw
-    | e::l ->
-        currentw := !currentw ^ (Printf.sprintf "%c" e);
-        iterchars l in
+    | [] -> ""
+    | e::l -> e ^ (iterchars l) in
   let rec iterwords = function
     | [] -> []
     | e::l ->
-      currentw := "";
       (iterchars e)::iterwords l in
   let rec iterlines = function
     | [] -> []
@@ -65,11 +56,11 @@ let (detect, correct, currentlang, tojson) =
 			| _				-> "fr"
 		in
 		let fusion_word (w,c) =
-			let s = String.concat "\",\"" c in
-			if c = "" then
-				Printf.sprintf "{\"%s\":[]}" w
+			let s = String.concat "," (List.map (fun s -> Printf.sprintf "%S" s) c) in
+			if s = "" then
+				Printf.sprintf "{%S:[]}" w
 			else
-				Printf.sprintf "{\"%s\":[\"%s\"]}" w s	
+				Printf.sprintf "{%S:[%s]}" w s	
 		in let fusion_line l =
 			Printf.sprintf "[%s]" (String.concat "," (List.map fusion_word l))
 	  in let fusion_paragraphes l	=
@@ -77,7 +68,7 @@ let (detect, correct, currentlang, tojson) =
 		in let fusion_whole l =
 			Printf.sprintf "[%s]" (String.concat "," (List.map fusion_paragraphes l))
 		in function l -> 
-			Printf.sprintf "{\"lang\":\"%s\",\"content\":%s}" (lang2str()) (fusion_whole l)
+			Printf.sprintf "{\"lang\":%S,\"content\":%s}" (lang2str()) (fusion_whole l)
 	)
 
 let savejson url l =

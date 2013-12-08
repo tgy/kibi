@@ -36,22 +36,37 @@ let loopanna img l =
 		| [] -> []
 		| paragraph :: paragraphs ->
 		let rec looplines = function
-      | [] -> print_newline (); []
+      | [] -> []
 			| line :: lines ->
 			let rec loopwords = function
-				| [] -> print_newline (); []
+				| [] -> []
 				| word :: words ->
 				let rec loopchars = function 
-          | [] -> print_string " "; []
+          | [] -> []
 					| (x0,xmax,y0,ymax) :: chars -> 
             let input = Resizer.get_pixvector img (x0,y0) (xmax, ymax) 32 in
             let s = Anna.identify_char nets input in	
-            print_string s;
             s::loopchars chars
         in loopchars word::loopwords words
 			in loopwords line::looplines lines
 		in looplines paragraph::loopparags paragraphs
 	in loopparags l
+
+let printlang () = match Robert.currentlang() with
+	| Lang.Fr -> Printf.printf "[Fr]\n%!"
+	| _       -> Printf.printf "[Eng]\n%!"
+
+let printtext parags =
+	let rec printl = function
+		| [] -> ()
+		| w::l -> Printf.printf "%s%! " w; printl l
+	in let rec printp = function
+		| [] -> ()
+		| l::p -> printl l; Printf.printf "\n%!"; printp p
+	in let rec printt = function
+		| [] -> ()
+		| p::t -> printp p; Printf.printf "\n%!"; printt t
+	in printt parags
 
 let main () =
 begin
@@ -79,10 +94,15 @@ begin
 	update_status_time ();
 	update_status "Identification (ANN)";
 	let resultAnna = loopanna rotated boxes in
-	Printf.printf "finished%!";
 	update_status_time ();
 	update_status "Spell Checking";
+	let convertRobert = Robert.transformAnnaOutput resultAnna in
+	Robert.detect convertRobert;
+	let correctRobert = Robert.correct convertRobert in
 	update_status_time ();
+	(*printtext convertRobert;*)
+	(*printlang ();*)
+	Robert.savejson ".result.json" correctRobert;
 	update_status "...End of Process";
 	update_status_total_time ();
 	update_status "END";
