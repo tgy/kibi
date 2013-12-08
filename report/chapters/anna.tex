@@ -1,0 +1,114 @@
+\chapter{Anna -- \emph{Identification}}
+
+After we have preprocessed the image and found the paragraphs, lines and characters in the document, we need to recognize these characters. To do this, we use a machine learning technique called a feed-forward neural network. In this chapter, we will describe in detail the result of our researches on the subject.
+
+\section{Machine learning}
+
+Machine learning is a field of research in which we try to design "agents" able
+to improve their performance on a given task with experience. In the case of an
+OCR software, the agent's task will be to classify images of characters, and the
+experience will consist of feeding the agent with many examples. The examples
+will be pairs of the form (image of the character, corresponding character).
+
+\section{Univariate linear regression}
+
+Lets look at a simpler problem: we have examples of the form $(x, y)$ where $x$
+and $y$ are numbers, and our goal is to find a straight line to fit the
+examples.\\
+
+\begin{center}
+\end{center}
+
+The line will be of the form $h_w(x) = w_1x + w_0$. In order to determine the
+most fitting line, we first need to define an error function. The sum of the
+squared error appears to have nice properties (as being positive and
+differentiable). This error function is expressed as follows:
+$Loss(h_w) = \sum\limits_{j=1}^{N}(y_j - h_w(x_j))^{2}$. Now we need to minimize
+this. To understand how we do this, it helps to visualize the graph ofthe Loss
+in function of $w$.\\
+
+Now imagine we start at a random point on this graph (i.e., we start with a
+random line). To get to the minimum of the function, we only need to follow the
+slope downward. Mathematically, this translates as substracting the gradient of
+the Loss function from the current point, since the gradient points toward the
+steepest slope upward. We usually multiply the gradient by a constant called the
+learning rate, noted $\alpha$, to regulate the size of the steps. A slow
+learning rate means converging slowly but a large learning rate might lead to
+stepping over the minimum. The update rule is then:\\
+
+$w_i \leftarrow w_i - \alpha \frac{\partial}{\partial w_i} Loss(w)$\\
+
+We won't compute the derivative right now as we don't need it.
+
+\section{Multivariate linear regression}
+
+The extension to a multivariate problem is pretty straight forward. Lets denote
+by $\textbf{x} = (x_0, x_1, ..., x_n)$ the input vector. The estimation function
+then becomes $h_w(\textbf{x}) = w_nx_n + ... + w_1x_1 + w_0x_0$.
+
+\section{Logistic regression}
+
+What we want is a classification algorithm. We only need to slightly modify the
+previous algorithm to make it a binary classifier: we keep the estimation
+function $h_w(x)$, but we then feed the result to another function whose output
+is in $[0;1]$. One such function is the step function, which worth 0 if $h_w(x)$
+is negative and 1 otherwise. But this function is not differentiable, and we
+will see later that it is a problem. So we usually prefer the logistic function,
+or sigmoid function:\\
+
+\begin{center}
+\end{center}
+
+Its equation is $g(x) = \frac{1}{1 + e^{-x}}$, and its derivative is
+$g(x)(1 - g(x))$. Applying the same algorithm as for the multivariate linear
+regression, the update rule becomes:\\
+
+$w_i \leftarrow w_i + \alpha (y - h_w(\textbf{x}))
+h_w(\textbf{x})(1 - h_w(\textbf{x}))x_i$\\
+
+There is no need here to explain the derivation of the Loss function.
+
+\section{Perceptron}
+
+The logistic regression function will be the elementary brick for our neural
+network. It is what we will call a neuron, since it is very close to the real
+principle of biological neuron. Now lets complexify the problem a little bit: we
+need to classify the input data between more than two possible outcomes. Let's
+say for example that we need three possible outcomes. We only need to connect
+the input to three different logistic regression units. This will produce an
+output vector instead of a single value, and ideally this vector will converge
+toward something like (1, 0, 0), (0, 1, 0) or (0, 0, 1), each time representing
+one of the three possible cassifications. This is called a single-layer
+feed-forward neural network, or perceptron.\\
+
+\begin{center}
+\end{center}
+
+\section{multi-layer feed-forward neural network}
+
+A feed-forward neural network is a perceptron, whose output will be the input of
+another perceptron, etc. until it reaches the output layer. Every layer that is
+not the input layer or the output layer is called a hidden layer. The big
+advantage of a multi-layer feed-forward neural network over a perceptron is that
+it can potentially compute any continuous function with only one hidden layer
+and with the right number of neurons in each layer, according to the universal
+approximation theorem.\\
+
+\begin{center}
+\end{center}
+
+What changes between the perceptron and the multi-layer feed-forward neural
+network is the derivative of the loss function. Once again, there is no need to
+enter into the details of the maths behind the derivation, but the only thing we
+need to know when implementing the neural network is that the derivative of the
+parameters in one layer depends on the derivative of the parameters of the next
+layer. Therefore we need to compute the derivative in the output layer, then the
+hidden layer, hence the term "backpropagation".
+
+\section{Optimizations}
+
+The only optimization we implemented at this point is the momentum. In the
+gradient descent process, we can consider that the current point has some
+inertia by adding a certain percentage of the gradient of the last iteration in
+the update rule. There are two purposes to this: converging faster, and avoiding
+local minimum.

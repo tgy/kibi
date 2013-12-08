@@ -16,7 +16,7 @@ let image_to_input file =
     done; a
 
 let num_to_char = function
-    | n when n >= 0 && n < 123 -> String.make 1 (char_of_int (n + 65))
+    | n when n >= 0 && n < 123 -> String.make 1 (char_of_int (n + 33))
     | n -> failwith ("unknown char: " ^ string_of_int n)
 
 let interpret_network_output a =
@@ -25,7 +25,7 @@ let interpret_network_output a =
         if a.(i) > a.(!maxi) then
             maxi := i;
     done;
-    if a.(!maxi) > 0.8 then
+    if a.(!maxi) > 0.3 then
       num_to_char !maxi
     else
       ""

@@ -1,8 +1,9 @@
 all:
 	xelatex --shell-escape report.tex
 
-run:
+run: all
 	evince report.pdf
 
 clean:
 	rm -rf *.{aux,nav,toc,log,out,snm,vrb,pyg}
+	rm -rf chapters/*.{aux,nav,toc,log,out,snm,vrb,pyg}
