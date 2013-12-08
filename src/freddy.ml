@@ -1,4 +1,4 @@
-let getlists preprocessedimg =
+(*let getlists preprocessedimg =
   let boxes = BoundingBoxes.get_boxes preprocessedimg in
   let (avgw,avgh) = BoundingBoxes.average_box boxes in
   let chars = Segmentation.startRLSA preprocessedimg (&&) avgw avgh in
@@ -17,4 +17,53 @@ let getlists preprocessedimg =
   ignore (wordimg#save_to_file ("words.bmp"));
   ignore (lineimg#save_to_file ("lines.bmp"));
   ignore (paragimg#save_to_file ("parags.bmp"));
-  (charboxes, wordboxes, lineboxes, paragboxes)
+  (charboxes, wordboxes, lineboxes, paragboxes)*)
+
+let getlists img =
+  let w, h = img#get_size in
+  let boxes = BoundingBoxes.get_boxes img () in
+  let (avgw,avgh) = BoundingBoxes.average_box boxes in
+  (* paragraphs *)
+  let paragraphs = Segmentation.startRLSA img (||) (5 * avgw) (5 * avgh) 0 0 w h in
+  let boxlist = BoundingBoxes.get_boxes paragraphs () in
+  (* lines *)
+  let boxlistlist = List.mapi
+    (fun i (x0, xmax, y0, ymax) ->
+      let w, h = xmax - x0 + 1, ymax - y0 + 1 in
+      let lines = Segmentation.startRLSA
+        img (||) (2 * avgw) (avgh / 2) x0 y0 w h in
+      let id = string_of_int i in
+      BoundingBoxes.get_boxes lines ~offsetx:x0 ~offsety:y0 ()
+    )
+    boxlist in
+  (* words *)
+  let boxlistlistlist = List.mapi
+    (fun i boxlist ->
+      List.mapi
+        (fun j (x0, xmax, y0, ymax) ->
+          let w, h = xmax - x0 + 1, ymax - y0 + 1 in
+          let words = Segmentation.startRLSA
+            img (||) (avgw) (avgh / 2) x0 y0 w h in
+          let id = string_of_int i ^ "-" ^ string_of_int j in
+          BoundingBoxes.get_boxes words ~offsetx:x0 ~offsety:y0 ()
+        )
+        boxlist
+    )
+    boxlistlist in
+  (* chars *)
+  List.mapi
+    (fun i boxlistlist ->
+      List.mapi
+        (fun j boxlist ->
+          List.mapi
+            (fun k (x0, xmax, y0, ymax) ->
+              let w, h = xmax - x0 + 1, ymax - y0 + 1 in
+              let chars = Segmentation.startRLSA
+                img (&&) avgw avgh x0 y0 w h in
+              BoundingBoxes.get_boxes chars ~offsetx:x0 ~offsety:y0 ()
+            )
+            boxlist
+        )
+        boxlistlist
+    )
+    boxlistlistlist
