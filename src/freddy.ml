@@ -19,6 +19,7 @@
   ignore (paragimg#save_to_file ("parags.bmp"));
   (charboxes, wordboxes, lineboxes, paragboxes)*)
 
+
 let getlists img =
   let w, h = img#get_size in
   let boxes = BoundingBoxes.get_boxes img () in
