@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
-    var json = 
+    $.getJSON("../data/robert.json", function (data) {
+
+        
+
+    }, "json");
 
 });

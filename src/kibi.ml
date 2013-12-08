@@ -25,7 +25,7 @@ begin
 	let img = new OcsfmlGraphics.image(`File !input_file) in
 	update_status !statusfile "KibiOCR: Image Loaded";
 	let (binarized,preproc,rotated) = Lenna.preprocess img in 
-	update_status !statusfile "Lenna  : preprocess finished" 	
+	update_status !statusfile "Lenna  : preprocess finished"; 	
 end
 
 let _ = main ()

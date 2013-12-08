@@ -51,7 +51,7 @@ begin
           "../setgen/out/"
           30000
           10000
-          ~weights:"weights/weights1024x90x90.txt"
+          (*~weights:"weights/weights1024x90x90.txt"*)
           charcodelist
           33;
         while true do

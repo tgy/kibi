@@ -3,19 +3,143 @@
 }
 
 body {
-    background: white;
-    padding: 42px;
+    background: url(img/pixel_weave.png);
+    padding: 0;
     font-family: Menlo, Inconsolata, monospace;
-    width: 800px;
     margin: 0 auto;
 }
 
-#logo {
-    background: url(img/logo.png);
-    width: 252px;
-    height: 57px;
+header {
+    background: url(img/header_bg.png) repeat-x;
+    width: 100%;
+    height: 64px;
+}
+
+#header {
+    width: 900px;
     margin: 0 auto;
-    margin-bottom: 22px;
+}
+
+#menu {
+    display: block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#menu > li {
+    float: left;
+}
+
+#menu > li > a {
+    display: block;
+    height: 43px;
+    padding: 0px 25px;
+    padding-top: 22px;
+    text-transform: uppercase;
+    font-family: "Open Sans", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+}
+
+#menu > li > a:hover, #menu > li > a.active {
+    background: rgba(255,255,255,0.07);
+}
+
+#menu > li#download > a {
+    color: #d4ffad;
+}
+
+#logo {
+    display: block;
+    float: left;
+    width: 149px;
+    height: 34px;
+    padding-top: 13px;
+    background: url(img/header_logo.png) no-repeat center bottom;
+    margin-right: 40px;
+    margin-left: 20px;
+}
+
+#wrapper {
+    width: 900px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+#content {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+    border: 1px solid #aaaaaa;
+    background: white;
+
+    min-height: 100px;
+}
+
+#step-number {
+    background: #ebebeb;
+    padding: 20px 25px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+#step-number #img {
+    width: 334px;
+    height: 53px;
+    margin: 0 auto;
+    background: url(img/steps.png) no-repeat;
+}
+
+#step-number #img.step2 {
+    background-position: 0px -53px;
+}
+
+#step-number #img.step3 {
+    background-position: 0px -106px;
+}
+
+#loader {
+    width: 550px;
+    margin: 0 auto;
+}
+
+#choose-file {
+    display: block;
+    width: 320px;
+    padding: 15px 30px;
+    margin: 30px auto;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+    border: 1px solid #aaaaaa;
+    background: #ebebeb;
+
+    font-size: 18px;
+    font-family: "Open Sans", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    color: #595959;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+}
+
+#choose-file:hover {
+    border-color: #eea98d;
+    background: #ffe6dc;
+    color: #ff6a2f;
+    transition: all 0.2s ease-in;
+}
+
+#image-browser {
+    display: none;
 }
 
 #result {
@@ -40,6 +164,9 @@ body {
 #result > span >input:focus {
     border: 1px solid gray;
     margin: 0 -3px;
+    -webkit-box-shadow: 0px 0px 130px 23px rgba(0,0,0,0.08);
+    -moz-box-shadow: 0px 0px 130px 23px rgba(0,0,0,0.08);
+    box-shadow: 0px 0px 130px 23px rgba(0,0,0,0.08);
 }
 
 #result > span {
@@ -95,4 +222,9 @@ body {
 
 #result > span > .correctionlist > ul > li:last-child {
     border-bottom: none;
+}
+
+footer {
+    text-align: right;
+    padding: 20px 30px;
 }
