@@ -206,16 +206,15 @@ let findLines histo =
   (*##########   RLSA    ##########*)
 
 
-let makeinputarray ocsfmlimg =
-  let (w,h) = ocsfmlimg#get_size in
+let makeinputarray ocsfmlimg x0 y0 w h =
   let inputarray = Array.make_matrix w h false in
   for x = 0 to (w - 1) do
     for y = 0 to (h - 1) do
-      if (ocsfmlimg#get_pixel x y).O.Color.r <> 255 then (*if not white*)
+      if (ocsfmlimg#get_pixel (x + x0) (y + y0)).O.Color.r <> 255 then (*if not white*)
         inputarray.(x).(y) <- true;
-  done;
+      done
     done;
-    inputarray
+  inputarray
 
 let makevertarray imgarray hc =
   let (w,h) = Array.length imgarray, Array.length imgarray.(0) in
@@ -230,14 +229,14 @@ let makevertarray imgarray hc =
           if (!cw < hc) then
             for yp =  (y - !cw) to (y - 1) do
               vertarray.(x).(yp) <- true
-  done;
-  cw := 0
+            done;
+            cw := 0
         end
       else
         cw := !cw + 1;
-            done;
     done;
-    vertarray
+  done;
+  vertarray
 
 let makehoriarray imgarray wc =
   let (w,h) = Array.length imgarray, Array.length imgarray.(0) in
@@ -267,9 +266,9 @@ let fctarray vert hori fct =
   for x = 0 to (w - 1) do
     for y = 0 to (h - 1) do
       newarray.(x).(y) <- fct vert.(x).(y) hori.(x).(y)
-  done;
     done;
-    newarray
+  done;
+  newarray
 
 let getocsfmlimgfromarray imgarray = 
   let (w,h) = Array.length imgarray, Array.length imgarray.(0) in
@@ -282,9 +281,8 @@ let getocsfmlimgfromarray imgarray =
     done;
     output
 
-
-let startRLSA ocsfmlimg fct wc hc =
-  let imgarray = makeinputarray ocsfmlimg in 
+let startRLSA ocsfmlimg fct wc hc x0 y0 w h =
+  let imgarray = makeinputarray ocsfmlimg x0 y0 w h in
   let vertarray = makevertarray imgarray hc in
   let horiarray = makehoriarray imgarray wc in
   let newarray = fctarray vertarray horiarray fct in
