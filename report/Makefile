@@ -1,7 +1,7 @@
 all:
 	xelatex --shell-escape report.tex
 
-run:
+run: all
 	evince report.pdf
 
 clean:

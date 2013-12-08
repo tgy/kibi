@@ -1,0 +1,40 @@
+\chapter{Robert -- \emph{Spell checking}}
+
+Robert is a module, which can detect the language used in a given text, and eventually indicate
+to the user which word is wrong, and give a selection of possible corrections.
+
+\section{Generation of Dictionnaries}
+A dictionnary is a file which contains a lot of words of a specific language we can find in
+a text.\\
+We didn't create them ; it's too long and we can easily find some complete dictionnaries on
+Internet (~150 000 words in English, ~700 000 words in French, for example).\\
+But actually, searching a word in a file is'nt a really good idea and may take a long time.
+That's why before doing anything else, we have to generate a data structure which will store
+the whole words of the dictionnary file. This one is a hashtable, because the
+time taken to search a common word is constant.\\
+So, when loading Robert, OCaml will generate the whole dictionnaries needed by creating hashtables
+and put them in a list.\\
+\\
+But there is still a problem : the time taked to create a hashtable from a dictionnary is around 1
+second. If we want to accept many differents languages, the loading of the module would be too long.
+The solution is the Marshall module : it let us serialize an object into a bytes array, and save it
+into files. The opposite procedure is also possible.
+So OCaml has juste to read the byte array and deserialize it to load a hashtable. This technic need
+more memory but is really faster (around 1000\% faster)
+\section{Detecting language in a given Text}
+The algorithm used is pretty simple: it will analyse the first X words (X is an empirical number, set
+as 200). 
+For each language, it will count the number of words recognised ; The final language is the one which has the mosts of right matches.
+\section{Detection of wrong words}
+It's quite the same thing. The algorithm make a list, and starts to read the whole text. Each time a word is wrong, it is added to the list.
+\section{Selection of possible corrections for a wrong word}
+Generally, when a word is wrong, it's because the user writted it thinking about a right word, with the same pronunciation.\\
+That's why the Soundex algorithm has been used in our project. It transforms a given string into its phonetic equivalent.
+So, we created a new type of dictionnary : a "phonetic hashtable" : we can find the word by searching the phonetic string.
+So, if we're searching a phonetic string we can find the whole words which have the same phonetic string.
+We have a first list with a lot of possible corrections.\\
+But we won't give for examples 42 possibilies of correction to a wrong word: the user would be lost ; that's why we'll give
+to the user only 5 possibilities.\\
+The possibilities will be sorted using another algorithm, called Levenshtein.
+Levenshtein calculates the number of modifications we have to make in order to change a word A into a word B.
+So, we'll only have the 5 words which are the closest to the wrong word. 
