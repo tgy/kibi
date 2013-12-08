@@ -90,7 +90,8 @@ let cut_text txt =
         reverse !l
 
 let cut_word txt =
-	String.concat "" (cut_text txt)
+	let s = String.concat "" (cut_text txt)	in
+	Printf.printf "<{[%s]}>" s; s
 
 let detect_language l =
 		let n = ref Lang.numb_words_language_identification in
@@ -159,8 +160,12 @@ let rec send_errors dico phone =
 			Lang.numb_words_corrections
 	and aux2 = function
 		| []		-> []
-		| s::l	when (exists dico (cut_word s)) -> aux2 l 
-		| s::l	-> (s, f s)::(aux2 l)
+		| s::l	when (exists dico (cut_word s)) -> (s, [])::(aux2 l)
+		| s::l	->  let tmp = f s in
+			if (List.length tmp > 0) then
+				(s, tmp)::(aux2 l)
+			else
+				(s, [s])::(aux2 l)
 	and aux3 = function
 		| [] -> []
 		| e::l -> (aux aux2 e)::(aux3 l)
