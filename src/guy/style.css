@@ -128,27 +128,100 @@ header {
     font-family: "Open Sans", "Helvetica Neue", "Helvetica", Arial, sans-serif;
     color: #595959;
     cursor: pointer;
-    transition: all 0.2s ease-in;
 }
 
 #choose-file:hover {
+    /*
     border-color: #eea98d;
     background: #ffe6dc;
     color: #ff6a2f;
-    transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;*/
+    -webkit-box-shadow: inset 0px 2px 8px -3px rgba(0,0,0,0.3);
+    -moz-box-shadow:    inset 0px 2px 8px -3px rgba(0,0,0,0.3);
+    box-shadow:         inset 0px 2px 8px -3px rgba(0,0,0,0.3);
+}
+
+#start-process, #export-button {
+    display: block;
+    width: 200px;
+    padding: 15px 30px;
+    margin: 30px auto;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+    border: 1px solid #aaaaaa;
+    background: #ebebeb;
+
+    font-size: 18px;
+    font-family: "Open Sans", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    color: #595959;
+    cursor: pointer;
+    border-color: #eea98d;
+    background: #ffe6dc;
+    color: #ff6a2f;
+}
+
+#start-process:hover, #export-button:hover, #render:hover {
+    -webkit-box-shadow: inset 0px -2px 18px -3px rgba(255,106,47,0.6);
+    -moz-box-shadow:    inset 0px -2px 18px -3px rgba(255,106,47,0.6);
+    box-shadow:         inset 0px -2px 18px -3px rgba(255,106,47,0.6);
 }
 
 #image-browser {
     display: none;
 }
 
-#result {
-    border: 1px solid #bdbdbd;
-    padding: 15px 20px;
+#processed {
+    padding: 30px;
+}
+
+.process {
+    display: block;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #f5f9fa;
+    border: 1px solid #b9c2c7;
+    padding: 7px 21px;
+    color: #435c66;
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+
+.process.loading {
+    background: #f5f9fa url(img/load.gif) no-repeat 16px center;
+    padding-left: 42px;
+    border-color: #d2d9dd;
+}
+
+#render {
+    display: block;
+    width: 130px;
+    padding: 5px 10px;
+    margin: 11px auto;
+    margin-bottom: 0;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-decoration: none;
+
+    border: 1px solid #aaaaaa;
+    background: #ebebeb;
+
+    font-size: 18px;
+    font-family: "Open Sans", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    color: #595959;
+    cursor: pointer;
+    border-color: #eea98d;
+    background: #ffe6dc;
+    color: #ff6a2f;
 }
 
 #result-container {
-    border: 4px solid #e6e6e6;
+    padding: 30px;
 }
 
 #result > span > input {
@@ -222,6 +295,27 @@ header {
 
 #result > span > .correctionlist > ul > li:last-child {
     border-bottom: none;
+}
+
+#export-button {
+    margin: 0 auto;
+    margin-bottom: 15px;
+    padding: 7px 15px;
+    width: 150px;
+}
+
+.errorinfo {
+    font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    font-weight: bold;
+    font-size: 32px;
+    text-align: center;
+    color: #606060;
+    padding: 30px;
+}
+
+.errorinfo a {
+    font-weight: normal;
+    color: #ff6a2f;
 }
 
 footer {

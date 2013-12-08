@@ -1,0 +1,26 @@
+\chapter{Guy -- \emph{Graphical User Interface}}
+
+\section{A quick overview of Guy}
+
+Guy is our GUI. It uses LablGTK and OCSFML, and will probably be using html to render the text output. It has several roles that we will describe right now. It is today composed of one window, to choose the file. It will be, for the second soutenance, composed of two or three more windows, to show the flow of the processing and the time taken by every main algorithm that we are using. 
+
+\begin{center}
+\end{center}
+
+\section{A user-friendly interface}
+
+\subsection{Helping the user to choose the image to process}
+
+Guy has a built-in file browser, which is very intuitive, and easy to use, to select the file you want to use. Once the file has been selected, it's path will be displayed in an editable text box. However, the user can directly type in the provided text box the path of his desired file. Of course, it is still possible to use our program via the command-lines.
+
+\subsection{Displaying the usefull informations}
+
+We will display a miniature image of the image (assuming that it really is an image) that the user choosed.
+
+\subsection{Showing the final result to the user}
+
+Guy will be charged to show to the user the final work of our OCR. Indeed, we will present the image the user gave us, and the text we could detect, with the eventual orthograph corrections using Robert. It needs to be well organised, so that in case of a long document, the user could find where everything in the output text is located in his image, and vice-versa.
+
+\section{Guy is the foreman}
+
+One of the role of our GUI is to make every module work one after the other, calling them one after the other, with the right parameters. It will be possible to include one or several progress bars to inform the user of the flow of the processing.
