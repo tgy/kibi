@@ -52,12 +52,12 @@ let display_boxes img boxes =
             done; aux l
     in aux boxes
     
-let get_boxes img =
+let get_boxes img ?(offsetx = 0) ?(offsety = 0) () =
     let (w,h) = img#get_size in
     let tmp_img = new OcsfmlGraphics.image(`Copy(img)) in
     let boxes = ref [] in
-    for x = 0 to w - 1 do
-        for y = 0 to h - 1 do
+    for y = 0 to h - 1 do
+        for x = 0 to w - 1 do
             if tmp_img#get_pixel x y = OcsfmlGraphics.Color.black then
             begin
                 let l = ref [(x,y)]
@@ -80,7 +80,7 @@ let get_boxes img =
                         in aux neighbors;
                 done;
                 let (minx,maxx,miny,maxy) = get_bounds !l2 in
-                boxes := (minx, maxx, miny, maxy) :: !boxes
+                boxes := (minx + offsetx, maxx + offsetx, miny + offsety, maxy + offsety) :: !boxes
             end
         done
     done; !boxes
@@ -93,7 +93,7 @@ let average_box boxes =
     in let (n, avgw, avgh) = aux boxes
     in (avgw / n, avgh / n)
 
-(*let remove_small_and_large boxes (avgw, avgh) =
+let remove_small_and_large boxes (avgw, avgh) =
     let espwinf, espwsup, esphinf, esphsup, nwinf, nwsup, nhinf, nhsup =
         let rec aux = function
             | [] -> (0, 0, 0, 0, 0, 0, 0, 0)
@@ -135,4 +135,4 @@ let average_box boxes =
                     aux l
                 else
                     box :: aux l
-    in aux boxes*)
+    in aux boxes

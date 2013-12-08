@@ -1,3 +1,5 @@
+let file = ref ""
+
 let print_array a =
     for i = 0 to Array.length a - 1 do
         Printf.printf "%f\n" a.(i)
@@ -15,41 +17,54 @@ let image_to_input file =
     done; a
 
 let num_to_char = function
-    | n when n >= 0 && n < 91 -> String.make 1 (char_of_int (n + 33))
-    | _ -> failwith "unknown char"
+    | n when n >= 0 && n < 123 -> String.make 1 (char_of_int (n + 65))
+    | n -> failwith ("unknown char: " ^ string_of_int n)
 
 let array_to_char a =
     let maxi = ref 0 in
     for i = 1 to Array.length a - 1 do
         if a.(i) > a.(!maxi) then
             maxi := i;
-    done; num_to_char !maxi
+    done; print_int !maxi; num_to_char !maxi
 
 let main () =
 begin
     let charcodelist =
       let rec aux = function
-        | 33 -> [33]
+        | 65 -> [65]
         | n -> n :: aux (n - 1) in
       aux 122 in
     let nb_chars = List.length charcodelist in
     let net = new Network.network (150., 1., 100., 0.) (32 * 32, nb_chars, nb_chars) in
-    CharIdentification.train_network
-      net
-      "../setgen/out/"
-      0
-      10000
-      ~weights:"weights/weights1024x90x90.txt"
-      charcodelist
-      22;
-    while true do
-        print_string "image: \n";
-        let file = read_line () in
-        Printf.printf "reading file %S\n" file;
-        let a = net#propagate (image_to_input file) in
+    if !file <> "" then
+      begin
+        net#load_weights "weights/weights1024x90x90.txt";
+        Printf.printf "reading file %S\n" !file;
+        let a = net#propagate (image_to_input !file) in
         print_array a; print_newline ();
         Printf.printf "char: %S\n" (array_to_char a)
-    done
-end
+      end
+    else
+      begin
+        CharIdentification.train_network
+          net
+          "../setgen/out/"
+          30000
+          10000
+          (*~weights:"weights/weights1024x90x90.txt"*)
+          charcodelist
+          33;
+        while true do
+            print_string "image: ";
+            let file = read_line () in
+            Printf.printf "reading file %S\n" file;
+            let a = net#propagate (image_to_input file) in
+            print_array a; print_newline ();
+            Printf.printf "char: %S\n" (array_to_char a)
+        done
+      end
+end;;
+
+Arg.parse [] (fun str -> file := str) ""
 
 let _ = main ()
