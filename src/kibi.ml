@@ -22,23 +22,33 @@ let update_status_total_time url =
 	close_out oo
 
 let loopanna img l =
+  let (i, h, o) = Network.read_size "anna/weights/weights0.txt" in
+  let net0 = new Network.network (0., 0., 0., 0.) (i, h, o)
+  and net1 = new Network.network (0., 0., 0., 0.) (i, h, o)
+  and net2 = new Network.network (0., 0., 0., 0.) (i, h, o)
+  and net3 = new Network.network (0., 0., 0., 0.) (i, h, o) in
+  net0#load_weights "anna/weights/weights0.txt";
+  net1#load_weights "anna/weights/weights1.txt";
+  net2#load_weights "anna/weights/weights2.txt";
+  net3#load_weights "anna/weights/weights3.txt";
+  let nets = [net0; net1; net2; net3] in
 	let rec loopparags = function
 		| [] -> []
 		| paragraph :: paragraphs ->
 		let rec looplines = function
-			| [] -> []
+      | [] -> print_endline (); []
 			| line :: lines ->
 			let rec loopwords = function
-				| [] -> []
+				| [] -> print_endline (); []
 				| word :: words ->
 				let rec loopchars = function 
-					| [] -> []
+          | [] -> print_string " "; []
 					| (x0,xmax,y0,ymax) :: chars -> 
-					let input = Resizer.get_pixvector img (x0,y0) (xmax, ymax) 32 in
-					let s = Anna.identify_char "anna/weights/weights0.txt" input in	
-					print_string s;
-					s::loopchars chars
-				in loopchars word::loopwords words
+            let input = Resizer.get_pixvector img (x0,y0) (xmax, ymax) 32 in
+            let s = Anna.identify_char nets input in	
+            print_string s;
+            s::loopchars chars
+        in loopchars word::loopwords words
 			in loopwords line::looplines lines
 		in looplines paragraph::loopparags paragraphs
 	in loopparags l
