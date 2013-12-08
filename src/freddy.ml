@@ -19,40 +19,76 @@
   ignore (paragimg#save_to_file ("parags.bmp"));
   (charboxes, wordboxes, lineboxes, paragboxes)*)
 
+
+let fusionchars l =
+	let disty (_,_,ym,yM) (_,_,ym1,yM1) = 
+		if (ym > yM1) then  ym - yM1
+		else if (ym1 > yM) then ym1 - yM
+		else 0
+	in
+	let inside (xm,xM,ym,yM) (xm1,xM1,ym1,yM1) =
+		(xm <= xm1 && xM1 <= xM) || (xm1 <= xm && xM <= xM1) &&
+		(disty (xm,xM,ym,yM) (xm1,xM1,ym1,yM1)) < 2 * (max (yM - ym) (yM1 - ym1))
+	and fusion (xm,xM,ym,yM) (xm1,xM1,ym1,yM1) = (min xm xm1, max xM xM1,
+																								min ym ym1, max yM yM1)
+	in
+	let aux b l = 
+		let b = ref b in
+		let rec aux2 = function
+			| [] ->	[]
+			| e::l when inside e !b ->
+				b  := fusion !b e;
+				aux2 l
+			| e::l -> e::(aux2 l)
+		in !b::(aux2 l)
+	in let rec aux2 = function
+			| [] -> []
+			| e::l -> match aux e l with
+				| [] -> []
+				| e::l -> e::(aux2 l)
+	in aux2 l
+
+
 let sort l =
 	let sortchars l = 
-		let nl = List.sort (fun (xm,_,_,_) (xm1,_,_,_) -> compare xm xm1) l in
+		let nl = List.sort (fun (xm,_,_,_) (xm1,_,_,_) -> compare xm xm1) (fusionchars l) in
 		match nl with
-			| [] -> max_int, []
-			| (x,_,_,_)::l -> x,nl
+			| [] ->[]
+			| (x,_,_,_)::l -> nl
 	in
 	let sortwords line =
-		let n = ref max_int in
 		let rec aux = function
 			| [] -> []
-			| e::l -> let (newn,newe) = sortchars e in
-			n := min newn !n;
-			newe::aux l
-		in (!n,aux line)
+			| e::l -> sortchars e::aux l
+		in 
+		List.sort 
+			(fun l l2 -> match (l,l2) with
+				| (x,_,_,_)::_,(x2,_,_,_)::__ -> compare x x2
+				| _ -> 1
+			) (aux line) 
 	in
 	let sortlines parag =
-		let n = ref max_int in
 		let rec aux = function
 			| [] -> []
-			| e::l -> let (newn,newe) = sortwords e in
-			n := min newn !n;
-			newe::aux l
-		in (!n,aux parag)
+			| e::l -> sortwords e::aux l
+		in 
+		List.sort 
+			(fun l l2 -> match (l,l2) with
+				| ((_,_,y,_)::_)::_,((_,_,y2,_)::_)::_ -> compare y y2
+				| _ -> 1
+			) (aux parag)
 	in
 	let sortparags text =
-		let n = ref max_int in
 		let rec aux = function
 			| [] -> []
-			| e::l -> let (newn,newe) = sortlines e in
-			n := min newn !n;
-			newe::aux l
-		in (!n,aux text)
-	in let (_,l) = sortparags l in l
+			| e::l -> sortlines e::aux l
+		in 
+		List.sort
+			(fun l l2 -> match (l,l2) with
+				| (((_,_,y,_)::_)::_)::_,(((_,_,y2,_)::_)::_)::_ -> compare y y2
+				| _ -> 1
+			) (aux text)
+	in sortparags l
 
 
 let getlists img =
