@@ -21,7 +21,7 @@
 
 
 let fusionchars l =
-	let inside (xm,xM,_,_) (xm1,xM1,_,_) = not (xM1 <= xm || xM <= xm1)
+	let inside (xm,xM,_,_) (xm1,xM1,_,_) = (xm <= xm1 && xM1 <= xM) || (xm1 <= xm && xM <= xM1)
 	and fusion (xm,xM,ym,yM) (xm1,xM1,ym1,yM1) = (min xm xm1, max xM xM1,
 																								min ym ym1, max yM yM1)
 	in
