@@ -9,6 +9,9 @@ kibi:
 test:
 	$(OCAMLBUILD) test.native
 
+robert::
+	$(OCAMLBUILD) robert.native
+
 run:
 	./kibi.native
 
