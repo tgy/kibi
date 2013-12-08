@@ -33,13 +33,11 @@ let loopanna img l =
 				| word :: words ->
 				let rec loopchars = function 
 					| [] -> []
-					| (x0,xmax,y0,ymax) :: chars ->
-					try
-						let input = Resizer.get_pixvector img (x0,y0) (xmax, ymax) 32 in
-						let s = Anna.identify_char "anna/weights/weights0.txt" input in
-						print_string s;
-						s::loopchars chars
-					with _ -> loopchars chars
+					| (x0,xmax,y0,ymax) :: chars -> 
+					let input = Resizer.get_pixvector img (x0,y0) (xmax, ymax) 32 in
+					let s = Anna.identify_char "anna/weights/weights0.txt" input in	
+					print_string s;
+					s::loopchars chars
 				in loopchars word::loopwords words
 			in loopwords line::looplines lines
 		in looplines paragraph::loopparags paragraphs
