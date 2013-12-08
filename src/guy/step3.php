@@ -1,20 +1,15 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>KiBiOCR</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header id="logo"></header>
-    <div id="result-container">
-        <div id="result">
+<?php include 'head.php'; ?>
+
+<div id="step-number"><div id="img" class="step3"></div></div>
+
+<script src="js/editor.js"></script>
+<script src="js/export.js"></script>
+
+<div id="result-container">
+    <button id="export-button" type="button">Export</button>
+    <div id="result">
         <?php include 'tmp2'; ?>
-        </div>
     </div>
-    <button id="export-button" type="button">Save</button>
-    <script src="js/jq.js"></script>
-    <script src="js/editor.js"></script>
-    <script src="js/export.js"></script>
-</body>
-</html>
+</div>
+
+<?php include 'foot.php'; ?>
