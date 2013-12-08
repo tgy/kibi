@@ -73,12 +73,14 @@ begin
 	let input_file = ref "images/default.jpg"
 	and output_dir = ref "out/"
 	and statusfile = ref ".status"
+	and jsonfile = ref ".result.json"
 	in
 	Arg.parse [
 		("-i", Arg.String(fun s -> input_file := s), "input image");
 		("-o", Arg.String(fun s -> output_dir := s), "output dir");
-		("-c", Arg.String(fun s -> statusfile := s), "status file")
-	] (fun _ -> ()) "kibi.native [-i input_file] [-o output_dir] [-c status file]";
+		("-c", Arg.String(fun s -> statusfile := s), "status file");
+		("-j", Arg.String(fun s -> jsonfile   := s), "json output")
+	] (fun _ -> ()) "kibi.native [-i input_file] [-o output_dir] [-c status file] [-j json output]";
 	let clean_status = clean_status !statusfile
 	and update_status = update_status !statusfile
 	and update_status_time () = update_status_time !statusfile
@@ -102,7 +104,7 @@ begin
 	update_status_time ();
 	(*printtext convertRobert;*)
 	(*printlang ();*)
-	Robert.savejson ".result.json" correctRobert;
+	Robert.savejson !jsonfile correctRobert;
 	update_status "...End of Process";
 	update_status_total_time ();
 	update_status "END";
