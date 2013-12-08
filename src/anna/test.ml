@@ -17,7 +17,7 @@ let image_to_input file =
     done; a
 
 let num_to_char = function
-    | n when n >= 0 && n < 123 -> String.make 1 (char_of_int (n + 65))
+    | n when n >= 0 && n < 123 -> String.make 1 (char_of_int (n + 33))
     | n -> failwith ("unknown char: " ^ string_of_int n)
 
 let array_to_char a =
@@ -31,7 +31,7 @@ let main () =
 begin
     let charcodelist =
       let rec aux = function
-        | 65 -> [65]
+        | 33 -> [33]
         | n -> n :: aux (n - 1) in
       aux 122 in
     let nb_chars = List.length charcodelist in
@@ -49,9 +49,9 @@ begin
         CharIdentification.train_network
           net
           "../setgen/out/"
-          30000
+          40000
           10000
-          (*~weights:"weights/weights1024x90x90.txt"*)
+          ~weights:"weights/weights1024x90x90.txt"
           charcodelist
           33;
         while true do

@@ -19,6 +19,41 @@
   ignore (paragimg#save_to_file ("parags.bmp"));
   (charboxes, wordboxes, lineboxes, paragboxes)*)
 
+let sort l =
+	let sortchars l = 
+		let nl = List.sort (fun (xm,_,_,_) (xm1,_,_,_) -> compare xm xm1) l in
+		match nl with
+			| [] -> max_int, []
+			| (x,_,_,_)::l -> x,nl
+	in
+	let sortwords line =
+		let n = ref max_int in
+		let rec aux = function
+			| [] -> []
+			| e::l -> let (newn,newe) = sortchars e in
+			n := min newn !n;
+			newe::aux l
+		in (!n,aux line)
+	in
+	let sortlines parag =
+		let n = ref max_int in
+		let rec aux = function
+			| [] -> []
+			| e::l -> let (newn,newe) = sortwords e in
+			n := min newn !n;
+			newe::aux l
+		in (!n,aux parag)
+	in
+	let sortparags text =
+		let n = ref max_int in
+		let rec aux = function
+			| [] -> []
+			| e::l -> let (newn,newe) = sortlines e in
+			n := min newn !n;
+			newe::aux l
+		in (!n,aux text)
+	in let (_,l) = sortparags l in l
+
 
 let getlists img =
   let w, h = img#get_size in
@@ -36,6 +71,7 @@ let getlists img =
       BoundingBoxes.get_boxes lines ~offsetx:x0 ~offsety:y0 ()
     )
     boxlist in
+  (BoundingBoxes.display_boxes img boxlist)#save_to_file "paragraphs.png";
   (* words *)
   let boxlistlistlist = List.map
     (fun boxlist ->
@@ -50,7 +86,7 @@ let getlists img =
     )
     boxlistlist in
   (* chars *)
-  List.map
+  sort (List.map
     (fun boxlistlist ->
       List.map
         (fun boxlist ->
@@ -65,4 +101,4 @@ let getlists img =
         )
         boxlistlist
     )
-    boxlistlistlist
+    boxlistlistlist)

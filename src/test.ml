@@ -37,7 +37,7 @@ let main () =
             | word :: words ->
               let rec aux3 n3 = function
                 | [] -> ()
-                | (x0, xmax, y0, ymax) :: chars -> aux3 (n3 + 1) chars;
+                | (x0, xmax, y0, ymax) :: chars ->
                 try
                     let input = Resizer.get_pixvector img (x0, y0) (xmax, ymax) 32 in
                     let id = string_of_int n0 ^ "-" ^ 
@@ -46,11 +46,13 @@ let main () =
                       string_of_int n3 in
                     (Resizer.pixvector_to_img input 32)#save_to_file ("bla" ^ id ^ ".png");
                     print_string (Anna.identify_char "anna/weights/weights1024x90x90.txt" input);
+                    (*print_string ("[" ^ id ^ "]");*)
                     flush stdout;
+                    aux3 (n3 + 1) chars
                   with
                     _ -> ()
-              in print_string " "; aux2 (n2 + 1) words; aux3 0 word
-          in print_newline (); aux1 (n1 + 1) lines; aux2 0 line 
-      in print_newline (); aux0 (n0 + 1) paragraphs; aux1 0 paragraph
+              in print_string " "; aux3 0 word; aux2 (n2 + 1) words
+          in print_newline (); aux2 0 line; aux1 (n1 + 1) lines
+      in print_newline (); aux1 0 paragraph; aux0 (n0 + 1) paragraphs
   in aux0 0 boxes
 let _ = main ()
