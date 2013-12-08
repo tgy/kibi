@@ -1,0 +1,20 @@
+Introduction
+
+Lenna: Pretraitement
+    Binarisation
+    Reduction du bruit
+    Rotation
+        Detection de l'angle
+            Transformee de Hough
+            Plus de preprocessing
+
+Freddy: segmentation
+    Detection des lignes et des caracteres
+        Histogrammes (obsolete)
+            La delimitation des lignes et des caracteres
+        RLSA
+
+Anna: Reconnaissance des caracteres
+    Machine learning
+    Regression lineaire multivariante
+    Regression lineaire univariante
