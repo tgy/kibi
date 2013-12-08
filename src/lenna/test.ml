@@ -15,10 +15,10 @@ let main () =
         printf "reading base image from file" (Sys.time ());
 				let (bi,pr,ro) = Preprocess.preprocess img in
 				printf "preprocessed" (Sys.time());
-				img#save_to_file(!output_dir ^ "1img.png");
-				bi#save_to_file(!output_dir ^ "2binarized.png");
-				pr#save_to_file(!output_dir ^ "3preproc.png");
-				ro#save_to_file(!output_dir ^ "4rotated.png");
+				ignore (img#save_to_file(!output_dir ^ "1img.png"));
+				ignore (bi#save_to_file(!output_dir ^ "2binarized.png"));
+				ignore (pr#save_to_file(!output_dir ^ "3preproc.png"));
+				ignore (ro#save_to_file(!output_dir ^ "4rotated.png"));
 				(*bo#save_to_file(!output_dir ^ "5boxes.png");*)
 				(*let grayscaled = Grayscale.grayscale denoised in
 				printf "Grayscale.grayscale" (Sys.time());

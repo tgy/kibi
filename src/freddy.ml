@@ -16,4 +16,5 @@ let getlists preprocessedimg =
   ignore (charimg#save_to_file ("chars.bmp"));
   ignore (wordimg#save_to_file ("words.bmp"));
   ignore (lineimg#save_to_file ("lines.bmp"));
-  paragimg#save_to_file ("parags.bmp");
+  ignore (paragimg#save_to_file ("parags.bmp"));
+  (charboxes, wordboxes, lineboxes, paragboxes)

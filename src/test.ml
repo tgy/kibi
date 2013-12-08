@@ -1,6 +1,6 @@
 let main () =
-  let img = new OcsfmlGraphics.image (`File "7rotated.png") in
-  let boxes = BoundingBoxes.get_boxes img in
+  let img = new OcsfmlGraphics.image (`File "lenna/test/out/4rotated.png") in
+  let (boxes, _, _, _) = Freddy.getlists img in
   let rec aux n = function
     | [] -> []
     | (minx, maxx, miny, maxy) :: l ->
