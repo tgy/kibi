@@ -14,12 +14,12 @@ let main () =
 					| [] -> ()
 					| (xm,xM,ym,yM)::chars ->
 					for x = xm to xM do
-						img#set_pixel x ym OcsfmlGraphics.Color.Black;
-						img#set_pixel x yM OcsfmlGraphics.Color.Black;
+						img#set_pixel x ym OcsfmlGraphics.Color.Red;
+						img#set_pixel x yM OcsfmlGraphics.Color.Red;
 					done;
 					for y = ym to yM do
-						img#set_pixel xm y OcsfmlGraphics.Color.Black;
-						img#set_pixel xM y OcsfmlGraphics.Color.Black;
+						img#set_pixel xm y OcsfmlGraphics.Color.Red;
+						img#set_pixel xM y OcsfmlGraphics.Color.Red;
 					done;
 					aux3 chars
 				in aux3 word; aux2 words
