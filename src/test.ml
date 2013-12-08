@@ -1,6 +1,31 @@
 let main () =
   let img = new OcsfmlGraphics.image (`File "lenna/test/out/4rotated.png") in
   let boxes = Freddy.getlists img in
+	let displays_boxes = function
+		| [] -> img#save_to_file "boxes.png"
+		| par::pars ->
+		let rec aux = function
+			| [] -> ()
+			| line::lines ->
+			let rec aux2 = function
+				| [] -> ()
+				| word::words ->
+				let rec aux3 = function
+					| [] -> ()
+					| (xm,xM,ym,yM)::chars ->
+					for x = xm to xM do
+						img#set_pixel x ym OcsfmlGraphics.Color.Black;
+						img#set_pixel x yM OcsfmlGraphics.Color.Black;
+					done;
+					for y = ym to yM do
+						img#set_pixel xm y OcsfmlGraphics.Color.Black;
+						img#set_pixel xM y OcsfmlGraphics.Color.Black;
+					done;
+					aux3 chars
+				in aux3 word; aux2 words
+			in aux2 line; aux lines
+		in aux par; displays_boxes pars
+	in displays_boxes boxes;
   let rec aux0 n0 = function
     | [] -> ()
     | paragraph :: paragraphs ->
