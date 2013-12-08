@@ -90,8 +90,7 @@ let cut_text txt =
         reverse !l
 
 let cut_word txt =
-	let s = String.concat "" (cut_text txt)	in
-	Printf.printf "<{[%s]}>" s; s
+	String.concat "" (cut_text txt)
 
 let detect_language l =
 		let n = ref Lang.numb_words_language_identification in
