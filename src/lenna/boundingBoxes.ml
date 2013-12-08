@@ -56,8 +56,8 @@ let get_boxes img ?(offsetx = 0) ?(offsety = 0) () =
     let (w,h) = img#get_size in
     let tmp_img = new OcsfmlGraphics.image(`Copy(img)) in
     let boxes = ref [] in
-    for y = 0 to h - 1 do
-        for x = 0 to w - 1 do
+    for x = w - 1 downto 0 do
+        for y = h - 1 downto 0  do
             if tmp_img#get_pixel x y = OcsfmlGraphics.Color.black then
             begin
                 let l = ref [(x,y)]
