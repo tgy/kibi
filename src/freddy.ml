@@ -36,6 +36,7 @@ let getlists img =
       BoundingBoxes.get_boxes lines ~offsetx:x0 ~offsety:y0 ()
     )
     boxlist in
+  (BoundingBoxes.display_boxes img boxlist)#save_to_file "paragraphs.png";
   (* words *)
   let boxlistlistlist = List.map
     (fun boxlist ->
