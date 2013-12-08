@@ -19,7 +19,7 @@
   ignore (paragimg#save_to_file ("parags.bmp"));
   (charboxes, wordboxes, lineboxes, paragboxes)*)
 
-let sort =
+let sort l =
 	let sortchars l = 
 		let nl = List.sort (fun (xm,_,_,_) (xm1,_,_,_) -> compare xm xm1) l in
 		match nl with
@@ -52,7 +52,7 @@ let sort =
 			n := min newn !n;
 			newe::aux l
 		in (!n,aux text)
-	in sortparags
+	in let (_,l) = sortparags l in l
 
 
 let getlists img =
@@ -86,7 +86,7 @@ let getlists img =
     )
     boxlistlist in
   (* chars *)
-  List.map
+  sort (List.map
     (fun boxlistlist ->
       List.map
         (fun boxlist ->
@@ -101,4 +101,4 @@ let getlists img =
         )
         boxlistlist
     )
-    boxlistlistlist
+    boxlistlistlist)
