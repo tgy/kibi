@@ -6,3 +6,4 @@ run: all
 
 clean:
 	rm -rf *.{aux,nav,toc,log,out,snm,vrb,pyg}
+	rm -rf chapters/*.{aux,nav,toc,log,out,snm,vrb,pyg}
