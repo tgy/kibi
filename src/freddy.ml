@@ -92,22 +92,23 @@ let sort l =
 
 
 let getlists img =
-  let w, h = img#get_size in
-  let boxes = BoundingBoxes.get_boxes img () in
-  let (avgw,avgh) = BoundingBoxes.average_box boxes in
-  (* paragraphs *)
-  let paragraphs = Segmentation.startRLSA img (||) (5 * avgw) (5 * avgh) 0 0 w h in
-  let boxlist = BoundingBoxes.get_boxes paragraphs () in
-  (* lines *)
-  let boxlistlist = List.map
-    (fun (x0, xmax, y0, ymax) ->
-      let w, h = xmax - x0 + 1, ymax - y0 + 1 in
-      let lines = Segmentation.startRLSA
-        img (||) (4 * avgw) (avgh / 2) x0 y0 w h in
-      BoundingBoxes.get_boxes lines ~offsetx:x0 ~offsety:y0 ()
-    )
-    boxlist in
-  (BoundingBoxes.display_boxes img boxlist)#save_to_file "paragraphs.png";
+
+	let w, h = img#get_size in
+	let boxes = BoundingBoxes.get_boxes img () in
+	let (avgw,avgh) = BoundingBoxes.average_box boxes in
+	(* paragraphs *)
+	let paragraphs = Segmentation.startRLSA img (||) (5 * avgw) (5 * avgh) 0 0 w h in
+	let boxlist = BoundingBoxes.get_boxes paragraphs () in
+		(* lines *)
+		let boxlistlist = List.map
+			(fun (x0, xmax, y0, ymax) ->
+				let w, h = xmax - x0 + 1, ymax - y0 + 1 in
+				let lines = Segmentation.startRLSA
+					img (||) (4 * avgw) (avgh / 2) x0 y0 w h in
+				BoundingBoxes.get_boxes lines ~offsetx:x0 ~offsety:y0 ()
+			)
+			boxlist in
+		(BoundingBoxes.display_boxes img boxlist)#save_to_file "paragraphs.png";
   (* words *)
   let boxlistlistlist = List.map
     (fun boxlist ->
@@ -137,4 +138,4 @@ let getlists img =
         )
         boxlistlist
     )
-    boxlistlistlist)
+ boxlistlistlist)

@@ -65,7 +65,11 @@ let (detect, correct, currentlang, tojson) =
 			| _				-> "fr"
 		in
 		let fusion_word (w,c) =
-			Printf.sprintf "{\"%s\":[\"%s\"]}" w (String.concat "\",\"" c)	
+			let s = String.concat "\",\"" c in
+			if c = "" then
+				Printf.sprintf "{\"%s\":[]}" w
+			else
+				Printf.sprintf "{\"%s\":[\"%s\"]}" w s	
 		in let fusion_line l =
 			Printf.sprintf "[%s]" (String.concat "," (List.map fusion_word l))
 	  in let fusion_paragraphes l	=
