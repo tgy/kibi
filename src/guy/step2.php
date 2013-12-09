@@ -9,7 +9,8 @@ if (isset($_FILES["image"])) {
     if (!move_uploaded_file($_FILES['image']['tmp_name'], 'data/input_image.png'))
       $error = "Error while moving the file.";
     else {
-      exec('/usr/bin/python cgi-bin/run.py');
+      exec('/usr/bin/python cgi-bin/run.py', $return);
+      var_dump($return);
     }
   }
 }
