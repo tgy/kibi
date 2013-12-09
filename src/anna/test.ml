@@ -17,7 +17,7 @@ let image_to_input file =
     done; a
 
 let num_to_char = function
-    | n when n >= 0 && n < 123 -> String.make 1 (char_of_int (n + 33))
+    | n when n >= 0 && n < 91 -> String.make 1 (char_of_int (n + 48))
     | n -> failwith ("unknown char: " ^ string_of_int n)
 
 let array_to_char a =
@@ -31,7 +31,7 @@ let main () =
 begin
     let charcodelist =
       let rec aux = function
-        | 33 -> [33]
+        | 47 -> []
         | n -> n :: aux (n - 1) in
       aux 122 in
     let nb_chars = List.length charcodelist in
@@ -48,20 +48,12 @@ begin
       begin
         CharIdentification.train_network
           net
-          "../setgen/out/"
+          "../setgen/out"
           40000
           40000
-          (*~weights:"weights/weights3.txt"*)
+          (*~weights:"weights/weights0.txt"*)
           charcodelist
-          33;
-        while true do
-            print_string "image: ";
-            let file = read_line () in
-            Printf.printf "reading file %S\n" file;
-            let a = net#propagate (image_to_input file) in
-            print_array a; print_newline ();
-            Printf.printf "char: %S\n" (array_to_char a)
-        done
+          1422;
       end
 end;;
 

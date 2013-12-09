@@ -139,7 +139,7 @@ class network
                   Printf.printf "%f\n%!" (self#error (examples));
                 end
             done;
-            Printf.printf "Error: %f\n%!" (self#error (examples));
+            Printf.printf "%f\n%!" (self#error (examples));
 
         method save_weights file =
             let oc = open_out file in

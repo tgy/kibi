@@ -1,1 +1,0 @@
-/home/thibaud/kibiocr-assets/weights/weights1024x90x90.txt

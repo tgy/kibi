@@ -16,7 +16,7 @@ let image_to_input file =
     done; a
 
 let num_to_char = function
-    | n when n >= 0 && n < 123 -> String.make 1 (char_of_int (n + 33))
+    | n when n >= 0 && n < 123 -> String.make 1 (char_of_int (n + 48))
     | n -> failwith ("unknown char: " ^ string_of_int n)
 
 let interpret_network_output a =
