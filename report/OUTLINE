@@ -1,6 +1,6 @@
-Introduction
+Introduction (toogy)
 
-Lenna: Pretraitement
+Lenna: Pretraitement (zehir & bilinear rotation)
     Binarisation
     Reduction du bruit
     Rotation
@@ -8,13 +8,13 @@ Lenna: Pretraitement
             Transformee de Hough
             Plus de preprocessing
 
-Freddy: Segmentation
+Freddy: Segmentation (rusty)
     Detection des lignes et des caracteres
         Histogrammes (obsolete)
             La delimitation des lignes et des caracteres
         RLSA
 
-Anna: Reconnaissance des caracteres
+Anna: Reconnaissance des caracteres (zehir)
     Machine learning
     Regression lineaire multivariante
     Regression lineaire univariante
@@ -23,13 +23,13 @@ Anna: Reconnaissance des caracteres
     Reseau de neuronnes a plusieurs couches feed-forward
     Optimisations
 
-Robert: Corrections orthographiques
+Robert: Corrections orthographiques (grimpow)
   Generation des dictionnaires
   Detection de la langue du texte
   Detection des erreurs d'orthographe
   Selection des corrections possibles pour un mot donne
 
-Guy: L'interface graphique
+Guy: L'interface graphique (toogy)
   Un appercu rapide de Guy
   Une interface 'User-friendly'
     Une aide a l'utilisateur pour choisir son image
@@ -37,10 +37,10 @@ Guy: L'interface graphique
     Affichage du resultst final a l'utilisateur
   Guy est le leader
 
-Le site web
+Le site web (toogy)
   Python
   Django
   Nginx
   Github
 
-Conclusion
+Conclusion (toogy)
