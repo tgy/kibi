@@ -3,7 +3,15 @@
 <?php 
 
 if (isset($_FILES["image"])) {
-
+  if ($_FILES['image']['error'] > 0)
+    $error = "Error while transfering the file";
+  else {
+    if (!move_uploaded_file($_FILES['image']['tmp_name'], 'data/input_image.png'))
+      $error = "Error while moving the file.";
+    else {
+      exec('/usr/bin/python cgi-bin/run.py');
+    }
+  }
 }
 else {
     $error = 'No image sent. <a href="step1.php">Come back</a>';
