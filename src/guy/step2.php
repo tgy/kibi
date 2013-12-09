@@ -9,7 +9,7 @@ if (isset($_FILES["image"])) {
     if (!move_uploaded_file($_FILES['image']['tmp_name'], 'data/input_image.png'))
       $error = "Error while moving the file.";
     else {
-      exec('/usr/bin/python cgi-bin/run.py', $return);
+      $return = exec('./kibi.native -i data/input_image.png -o data/ 2>&1');
       var_dump($return);
     }
   }
