@@ -23,15 +23,17 @@ let update_status_total_time url =
 
 let loopanna img l =
   let (i, h, o) = Network.read_size "anna/weights/weights0.txt" in
-  let net0 = new Network.network (0., 0., 0., 0.) (i, h, o)
-  and net1 = new Network.network (0., 0., 0., 0.) (i, h, o)
-  and net2 = new Network.network (0., 0., 0., 0.) (i, h, o)
-  and net3 = new Network.network (0., 0., 0., 0.) (i, h, o) in
-  net0#load_weights "anna/weights/weights0.txt";
-  net1#load_weights "anna/weights/weights1.txt";
-  net2#load_weights "anna/weights/weights2.txt";
-  net3#load_weights "anna/weights/weights3.txt";
-  let nets = [net0; net1; net2; net3] in
+  let net_nbr = 20 in
+  let nets =
+    let rec aux = function
+      | 0 -> []
+      | n -> new Network.network (0., 0., 0., 0.) (i, h, o) :: aux (n - 1)
+    in aux net_nbr in
+  let rec load n = function
+        | [] -> ()
+        | net :: l ->
+          net#load_weights ("anna/weights/weights" ^ string_of_int n ^ ".txt"); load (n + 1) l
+  in load 0 nets;
 	let rec loopparags = function
 		| [] -> []
 		| paragraph :: paragraphs ->
@@ -44,14 +46,17 @@ let loopanna img l =
 				let rec loopchars = function 
           | [] -> print_string " "; []
 					| (x0,xmax,y0,ymax) :: chars -> 
-            let input = Resizer.get_pixvector img (x0,y0) (xmax, ymax) 32 in
-            let s = Anna.identify_char nets input in	
-            print_string s;
-            s::loopchars chars
+              try
+                let input = Resizer.get_pixvector img (x0,y0) (xmax, ymax) 32 in
+                let s = Anna.identify_char nets input in	
+                print_string s;
+                s::loopchars chars
+              with
+                Division_by_zero -> loopchars chars
         in loopchars word::loopwords words
-			in loopwords line::looplines lines
-		in looplines paragraph::loopparags paragraphs
-	in loopparags l
+			in loopwords (List.rev line)::looplines lines
+		in looplines (List.rev paragraph)::loopparags paragraphs
+	in loopparags (List.rev l)
 
 let main () =
 begin
