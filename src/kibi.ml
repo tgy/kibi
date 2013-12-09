@@ -1,24 +1,24 @@
-let clean_status url msg =
+let clean_status url s msg =
 	let oo = open_out url in
 	if String.length msg > 0 then
-		Printf.fprintf oo "%s\n" msg;
+		Printf.fprintf oo "%s%s" s msg;
 	close_out oo
 
-let update_status url msg =
+let update_status url s msg =
 	let oo = open_out_gen [Open_creat;Open_append] 0o777 url in
-	Printf.fprintf oo "%s\n" msg;
+	Printf.fprintf oo "%s%s" s msg;
 	close_out oo
 
 let update_status_time =
-	let f = ref 0. in function url ->
+	let f = ref 0. in function url -> function s -> 
 	let oo = open_out_gen [Open_creat;Open_append] 0o777 url in
-	Printf.fprintf oo "%f\n" (Sys.time() -. !f);
+	Printf.fprintf oo "%s%f" s (Sys.time() -. !f);
 	f := Sys.time();
 	close_out oo
 
-let update_status_total_time url =
+let update_status_total_time s url =
 	let oo = open_out_gen [Open_creat;Open_append] 0o777 url in
-	Printf.fprintf oo "%f\n" (Sys.time());
+	Printf.fprintf oo "%s%f" s (Sys.time());
 	close_out oo
 
 let loopanna img l =
@@ -87,34 +87,34 @@ begin
 	] (fun _ -> ()) "kibi.native [-i input_file] [-o output_dir] [-c status file] [-j json output]";
   statusfile := !output_dir ^ !statusfile;
   jsonfile := !output_dir ^ !jsonfile;
-	let clean_status = clean_status !statusfile
-	and update_status = update_status !statusfile
-	and update_status_time () = update_status_time !statusfile
-	and update_status_total_time () = update_status_total_time !statusfile
+	let clean_status = clean_status !statusfile ""
+	and update_status = update_status !statusfile 
+	and update_status_time s () = update_status_time !statusfile s
+	and update_status_total_time s () = update_status_total_time !statusfile s
 	in
 	clean_status "";
 	let img = new OcsfmlGraphics.image(`File !input_file) in
-	update_status "Preprocessing";
+	update_status "" "Preprocessing";
 	let (binarized,preproc,rotated) = Lenna.preprocess img in 
-	update_status_time ();
-	update_status "Segmentation";
+	update_status_time "\n" ();
+	update_status "\n" "Segmentation";
 	let boxes = Freddy.getlists rotated in
-	update_status_time ();
-	update_status "Identification (ANN)";
+	update_status_time "\n" ();
+	update_status "\n" "Identification (ANN)";
 	let resultAnna = loopanna rotated boxes in
-	update_status_time ();
-	update_status "Spell Checking";
+	update_status_time "\n" ();
+	update_status "\n" "Spell Checking";
 	let convertRobert = Robert.transformAnnaOutput resultAnna in
 	Robert.detect convertRobert;
 	let correctRobert = Robert.correct convertRobert in
-	update_status_time ();
+	update_status_time "\n" ();
 	(*printtext convertRobert;*)
 	(*printlang ();*)
 	(*Robert.savejson !jsonfile correctRobert;*)
   Robert.savehtml !jsonfile correctRobert;
-	update_status "...End of Process";
-	update_status_total_time ();
-	update_status "END";
+	update_status "\n" "...End of Process";
+	update_status_total_time "\n" ();
+	update_status "\n" "END";
 end
 
 let _ = main ()
