@@ -1,7 +1,7 @@
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 OCAMLBUILD_DIR=$(shell ocamlbuild -where)
 
-all: test
+all: kibi
 
 kibi:
 	$(OCAMLBUILD) kibi.native
