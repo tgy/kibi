@@ -86,12 +86,17 @@ let get_boxes img ?(offsetx = 0) ?(offsety = 0) () =
     done; !boxes
 
 let average_box boxes =
-    let rec aux = function
-        | [] -> (0, 0, 0)
-        | (minx, maxx, miny, maxy) :: l -> let (n, avgw, avgh) = aux l in
-            (n + 1), (maxx - minx) + avgw, (maxy - miny) + avgh
-    in let (n, avgw, avgh) = aux boxes
-    in (avgw / n, avgh / n)
+		if List.length boxes = 0 then
+			0,0
+		else begin
+			let rec aux = function
+					| [] -> (0, 0, 0)
+					| (minx, maxx, miny, maxy) :: l -> let (n, avgw, avgh) = aux l in
+							(n + 1), (maxx - minx) + avgw, (maxy - miny) + avgh
+			in
+			let (n, avgw, avgh) = aux boxes in
+			(avgw / n, avgh / n)
+		end
 
 let remove_small_and_large boxes (avgw, avgh) =
     let espwinf, espwsup, esphinf, esphsup, nwinf, nwsup, nhinf, nhsup =
