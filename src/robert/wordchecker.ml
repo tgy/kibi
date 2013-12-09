@@ -122,7 +122,7 @@ let detect_language l =
 
     and max2 e d = function
         | [] -> d
-        | (e2,d)::l when !e2 > e ->
+        | (e2,d)::l when !e2 < e ->
                 max2 !e2 d l
         | _::l ->
                 max2 e d l
