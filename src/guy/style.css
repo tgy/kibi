@@ -224,42 +224,42 @@ header {
     padding: 30px;
 }
 
-#result > span > input {
+#result span > input {
     display: inline-block;
     font-family: monospace;
     font-size: 12px;
     border: none;
     /*border: 1px solid gray;*/
-    margin: 1px -2px;
+    margin: 1px -1px;
     /*margin: 0 -2px;*/
 }
 
-#result > span >input:focus {
+#result span >input:focus {
     border: 1px solid gray;
-    margin: 0 -3px;
+    margin: 0 -2px;
     -webkit-box-shadow: 0px 0px 130px 23px rgba(0,0,0,0.08);
     -moz-box-shadow: 0px 0px 130px 23px rgba(0,0,0,0.08);
     box-shadow: 0px 0px 130px 23px rgba(0,0,0,0.08);
 }
 
-#result > span {
+#result span {
     position: relative;
 }
 
-#result > span.error > input {
+#result span.error > input {
     background: #ffe1db;
 }
 
-#result > span.error > input:focus {
+#result span.error > input:focus {
     border-color: #3679d2;
-    margin: 0 -3px;
+    margin: 0 -2px;
 }
 
-#result > span.corrected > input {
+#result span.corrected > input {
     background: #b2ddaa;
 }
 
-#result > span > .correctionlist {
+#result span > .correctionlist {
     position: absolute;
     left: -10px;
     top: 25px;
@@ -267,7 +267,7 @@ header {
     z-index: 1000;
 }
 
-#result > span > .correctionlist > ul {
+#result span > .correctionlist > ul {
     margin: 0;
     padding: 4px 0;
     list-style-type: none;
@@ -281,19 +281,19 @@ header {
     box-shadow:         0px 1px 7px rgba(50, 50, 50, 0.20);
 }
 
-#result > span > .correctionlist > ul > li {
+#result span > .correctionlist > ul > li {
     color: #3679d2;
     padding: 4px 10px;
-    font-size: 12px;
+    font-size: 12pt;
     border-bottom: 1px solid #e8eeff;
 }
 
-#result > span > .correctionlist > ul > li:hover {
+#result span > .correctionlist > ul > li:hover {
     cursor: pointer;
     background: #eef2ff;
 }
 
-#result > span > .correctionlist > ul > li:last-child {
+#result span > .correctionlist > ul > li:last-child {
     border-bottom: none;
 }
 

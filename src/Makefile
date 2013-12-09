@@ -22,7 +22,7 @@ run-test:
 	./test.native
 
 debug:
-	$(OCAMLBUILD) test.d.byte
+	$(OCAMLBUILD) setgen.d.byte
 
 debug-test:
 	$(OCAMLBUILD) test.d.byte
