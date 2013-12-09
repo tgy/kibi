@@ -27,7 +27,7 @@ let transformAnnaOutput char_list_list_list_list =
   iterparags char_list_list_list_list
 
 
-let (detect, correct, currentlang, tojson) = 
+let (detect, correct, currentlang, tojson, tohtml) =
 	let dico = ref None and
 			dicophon = ref None in
 	let rec get = function
@@ -69,10 +69,33 @@ let (detect, correct, currentlang, tojson) =
 			Printf.sprintf "[%s]" (String.concat "," (List.map fusion_paragraphes l))
 		in function l -> 
 			Printf.sprintf "{\"lang\":%S,\"content\":%s}" (lang2str()) (fusion_whole l)
-	)
+	), (
+		let lang2str () = match (get !dico).Wordchecker.lang with
+			| Lang.En	-> "en"
+			| _				-> "fr"
+		in
+		let fusion_word (w,c) =
+			let s = "<div class=\"correctionlist\"><ul>"^(String.concat "" (List.map (fun s -> Printf.sprintf "<li>%s</li>" s) c))^"</ul></div>" in
+		if List.length c = 0 then
+        Printf.sprintf "<span><input type='text' value=%S /></span> " w
+			else
+        Printf.sprintf "<span class='error'><input type='text' value=%S>%s</span> " w s	
+		in let fusion_line l =
+			 String.concat " " (List.map fusion_word l)
+	  in let fusion_paragraphes l	=
+		   String.concat "<br />" (List.map fusion_line l)
+		in let fusion_whole l =
+		   String.concat "<br />" (List.map fusion_paragraphes l)
+		in function l -> 
+		   fusion_whole l
+  )
 
 let savejson url l =
 	let s = tojson l in
 	let oo = open_out url in
 	output_string oo s
-	
+
+let savehtml url l =
+  let s = tohtml l in
+  let oo = open_out url in
+  output_string oo s
