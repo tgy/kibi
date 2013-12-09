@@ -22,7 +22,7 @@ let update_status_total_time url =
 	close_out oo
 
 let loopanna img l =
-  let (i, h, o) = Network.read_size "anna/weights/weights0.txt" in
+  let (i, h, o) = Network.read_size "assets/weights/weights0.txt" in
   let net_nbr = 20 in
   let nets =
     let rec aux = function
@@ -32,7 +32,7 @@ let loopanna img l =
   let rec load n = function
         | [] -> ()
         | net :: l ->
-          net#load_weights ("anna/weights/weights" ^ string_of_int n ^ ".txt"); load (n + 1) l
+          net#load_weights ("assets/weights/weights" ^ string_of_int n ^ ".txt"); load (n + 1) l
   in load 0 nets;
 	let rec loopparags = function
 		| [] -> []
@@ -77,16 +77,16 @@ let printtext parags =
 let main () =
 begin
 	let input_file = ref "images/default.jpg"
-	and output_dir = ref "out/"
-	and statusfile = ref ".status"
-	and jsonfile = ref ".result.json"
+	and output_dir = ref ""
+	and statusfile = ref "processing.tmp"
+	and jsonfile = ref "robert.json"
 	in
 	Arg.parse [
 		("-i", Arg.String(fun s -> input_file := s), "input image");
 		("-o", Arg.String(fun s -> output_dir := s), "output dir");
-		("-c", Arg.String(fun s -> statusfile := s), "status file");
-		("-j", Arg.String(fun s -> jsonfile   := s), "json output")
 	] (fun _ -> ()) "kibi.native [-i input_file] [-o output_dir] [-c status file] [-j json output]";
+  statusfile := !output_dir ^ !statusfile;
+  jsonfile := !output_dir ^ !jsonfile;
 	let clean_status = clean_status !statusfile
 	and update_status = update_status !statusfile
 	and update_status_time () = update_status_time !statusfile
