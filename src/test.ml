@@ -1,5 +1,5 @@
 let main () =
-  let img = new OcsfmlGraphics.image (`File "lenna/test/out/4rotated.png") in
+  let img = new OcsfmlGraphics.image (`File "../../test/UneColMultiFont_300/5rot.png") in
   let boxes = Freddy.getlists img in
 	let rec displays_boxes = function
 		| [] -> img#save_to_file "boxes.png"
@@ -26,8 +26,8 @@ let main () =
 			in aux2 line; aux lines
 		in aux par; displays_boxes pars
 	in displays_boxes boxes;
-  let (i, h, o) = Network.read_size "anna/weights/weights0.txt" in
-  let net_nbr = 15 in
+  let (i, h, o) = Network.read_size "assets/weights/weights0.txt" in
+  let net_nbr = 20 in
   let nets =
     let rec aux = function
       | 0 -> []
@@ -36,7 +36,7 @@ let main () =
   let rec load n = function
     | [] -> ()
     | net :: l ->
-      net#load_weights ("anna/weights/weights" ^ string_of_int n ^ ".txt"); load (n + 1) l
+      net#load_weights ("assets/weights/weights" ^ string_of_int n ^ ".txt"); load (n + 1) l
   in load 0 nets;
   let rec aux0 n0 = function
     | [] -> ()

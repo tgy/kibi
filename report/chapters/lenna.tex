@@ -1,131 +1,41 @@
 \chapter{Lenna -- \emph{Preprocessing}}
+Avant d'essayer de détecter les paragraphes, les lignes ainsi que les caractères dans l'image, et de reconnaître les caractères, il faut "nettoyer" l'image. Dans ce chapitre nous allons décrire différents algorithmes que nous avons implémentés dans ce but.\\
 
-Before trying to detect paragraphs, lines and characters in the image, and then recognizing the characters, we have to "clean" the image. In this chapter we will describe the different algorithm we implemented in this purpose.
+\section{Binarisation}
+C'est le premier algorithme que nous avons écrit parce qu'il est simple, essentiel et c'est un bon point de départ pour se familiariser avec la bibliothèque et ses fonctions de base. Nous avons d'abord implémenté la méthode la plus naïve : calculer la moyenne des composantes RGB de chaque pixel pour avoir sa luminosité, et appliquer un seuil. Tout pixel dont la luminosité est en dessous de 127 est considéré comme blanc et les autres comme noir. Evidemment, ce ne fut pas notre algorithme définitif.\\
 
-\section{Binarization}
-This is the first algorithm we wrote, because it was easy, essential and a good
-start to learn the library's basic functions. We first implemented the most
-naive algorithm you could think of: computing each pixel's luminosity by
-averaging its RGB components, and applying a thresholding. Every pixel below 127
-was considered white and every pixel above 128 was considered black.
-Of course this was not the definitive algorithm.\\
+Nous aurions pu l'améliorer en prenant comme seuil la luminosité moyenne des pixels, cependant cela n'aurais pas été beaucoup mieux. Nous avons plutot décidé de rechercher un meilleur algorithme, et avons décidé que la méthode d'Otsu était la plus adaptée à notre cas. De plus cet algorithme est relativement simple à impémenter. La principe de la méthode d'Otsu est de trouver le seuil idéal pour l'algorithme décrit précedemment. Le seui idéal est défini comme étant celui qui minimise la variance entre les deux classes formées par ce seuil. Il faut donc essayer chaque seuil possible et calculer à chaque fois la variance de chaque classe. Heureusement une petite astuce mathématique nous permet de réduire de façon significative la complexité de cet algorithme en maximisant la variance inter-classe au lieu de minimiser la variance intra-classe.\\
 
-We could have enhanced it by setting the threshold to the average luminosity,
-but it wouldn't have been much better. We instead looked for a better algorithm
-and found the Otsu's method to be fitting exactly our purposes. Moreover it is
-pretty straightforward to implement. Basically Otsu's method is just a way of
-finding the ideal threshold. The ideal threshold is defined as being the one
-which minimize the variance between the two classes formed by that threshold.
-Therefore it has to try every possible threshold and compute every time the
-variance of each class. Thanksfully a little mathematical trick allows us to
-significantly reduce the time complexity by maximizing the between-class
-variance instead of minimizing the within-class variance.\\
+\section{Réduction du bruit}
 
-\section{Noise reduction}
-
-We tried two method to reduce the noise in the image: gaussian blur and median
-filter. We were unsatisfied with both because letters were less readable after
-the filter, and they hardly reduced the noise. We will have to search better
-method for noise reduction, but for now we will simply use an algorithm that
-removes every black pixel surounded by four white pixels. Even if this is a much
-simpler algorithm, letter shapes are saved and some noise is removed.
+Nous avons éssayé deux méthodes pour réduire le bruit dans l'image : le flou gaussien et le filtre médian. Nous avons été insatisfait des deux car les lettres étaient moins lisible après le filtre. Pour corriger ça, nous avons réduit le nombre de pixel voisins pris en compte dans le filtre median : pour chaque pixel, nous prenons le pixel median parmi le pixel lui même et ses quatre voisins immédiats.\\
 
 \section{Rotation}
+\section{Algorithme de base}
 
-It is very difficult to detect text zones in the image if they are not straight.
-Therefore we will try to detect the angle of the image, and then
-rotate it.\\
+Il est très difficile de détecter les zones de texte dans l'image si elle n'est pas droite. Nous avons donc des algorithme pour détecter l'angle du texte dans l'image, puis pour tourner l'image selon cet angle.\\
 
-The first step before rotating the image is to compute the size of the new
-image. As for the rest of the algorithm we use rotation matrix, but only on the
-corners. From the minimum and maximum horizontally and vertically, we can deduce
-the width and height of the rotated image.\\
+Une implémentation naïve commencerait par parcourir l'image d'origine et de transposer chaque pixel dans la nouvelle image grâce à une matrice de rotation. Cependant, cet algorithme donnera de très mauvais résultats puisque tous les pixels dans l'image crée n'aurons pas d'antécédants dans l'image d'origine, créant ainsi un effet d'aliasing.
 
-A naive implementation starts by going through the original image, and
-transposing every pixel $(x, y)$ into the corresponding one in the rotated
-image. We do that by computing the dot product between the pixel's coordinates
-and the rotation matrix of the given angle. We want to turn the image with the
-center of the image as the origin, so we have to add half of the width
-(respectively height) of the image to $x$ (respectively $y$) before actually
-computing the rotated point. It turns out to be a pretty bad algorithm, because
-not every pixel of the rotated image will have an antecedent in the original
-image. This is due to the fact that some pixels in the original image have the
-same corresponding rotated pixel, because of the rounding made to get integer
-coordinates. This creates an aliasing effect.\\
+A la place, nous effectuons l'opération inverse : pour chaque pixel de la nouvelle image (encore vide), il faut trouver le pixel correspondant dans l'image d'origine. Il suffit pour cela d'appliquer la matrice de rotation d'angle opposé.
 
-Instead, we need to make the reverse operation: take every pixel from the new
-empty image, and find its corresponding pixel in the original image. Therefore,
-the only thing to do is to apply a rotation matrix with the opposite angle.\\
+A cause de l'imprecision des coordonnées entières, l'image de sortie n'est pas parfaite. C'est pourquoi nous avons utilisé un algorithme d'interpolation bilinéaire pour conserver la forme des caractères dans l'image avant de commencer la segmentation et l'identification des caractères.
 
-Because of the imprecision of the integer coordinates, the rotated image is
-still not perfect. A potential improvement will be to use an algorithm that
-takes this imprecision into account, like the bilinear interpolation.
+\subsection{Interpolation Bilinéaire}
+\subsection{Detection de l'angle}
+\subsubsection{Transformée de Hough}
 
-\subsection{Angle detection}
-\subsubsection{Hough transform}
+La transformée de Hough est une méthode générale pour trouver des lignes et des ellipses dans une image. Elle est souvent utilisée car une fois le principe mathématique compris, elle est simple à implémenter, donne de bons résultats et à une complexité assez faible par rapport, par exemple, à la transformée de Fourier. Nous n'avons besoin que du cas le plus simple de l'algorithme qui consiste à trouver les lignes dans une image binarisée.
 
-The Hough transform is a general method for finding lines and ellipses in an
-image. It is often used because once the mathematical principle is understood,
-it is not that hard to implement, and it has a much lower time complexity and
-better results than some other methods like Fourier transform. For our purposes,
-we only need to handle the most simple case: line detection in a binary image.\\
+La transformée de Hough se base sur une représentation très particulière des droites du plan : plutot que deux les représenter avec les deux paramètres usuels $a$ et $b$ dans l'équation $y = ax + b$, une droite est décrite comme un couple $(r, \theta)$ où $r$ est la distance de la ligne à l'origine et $\theta$ est l'angle de cette distance par rapport à l'abscisse.
 
-The Hough transform relies on a very particular representation of lines of the
-plane: instead of being as the two parameters $a$ and $b$ in the classical
-equation $y = ax + b$, it is described as the couple $(r, \theta)$ where $r$ is
-the distance of the line from the origin and $\theta$ is the angle of this
-distance from the absciss.\\
-
-\begin{center}
-\end{center}
-
-How is this representation useful ? It comes from the fact that, given a point
-of coordinates $(x, y)$ and the angle $\theta$ of a line going through this
-point, we can express very simply the distance $r$ of the line from the origin.
-The equation is as follows:\\
-
+En quoi cette représentation est-elle utile? Cela vient du fait que, étant donné un point de coordonnées $(x, y)$ et l'angle $\theta$ de la droite passant par ce point, il est facile d'exprimer la distance $r$ entre la ligne et l'origine. L'équation est la suivante :\\
 $r = x\cos\theta + y\sin\theta$\\
-
-So for a point of coordinates $(x, y)$ we can plot the graph of $r$ in function
-of $\theta$. It is easy to guess from the equation that it will be a sinusoid.
-This sinusoid represents the set of lines going through this particular point.
-Now if we store this graph on an accumulator, and add to this accumulator the
-sinusoid of every other points, here is what happens:\\
-
-\begin{center}
-\end{center}
-
-Clearly there is a point where all sinusoids cross. The coordinates of this
-point represents the values $r$ and $\theta$ of the line going through every
-point at once.
+Donc pour un point de coordonnées $(x, y)$ on peut tracer le graphe de $r$ en fonction de $\theta$. Il est facile de deviner d'après l'équation que ce graphe sera une sinusoïde. Cette sinusoïde représente l'ensemble des droites passant par ce point. Si nous stockons ce graphe dans un accumulateur, et ajoutons dans cet accumulateur la sinusoïde correspondant à tous les autres points, on obtient un graphe tableau dans lequel la valeur la plus grande représentera les coordonnées de la droite (dans l'espace de Hough) passant par le plus de points possible.
 
 \subsubsection{More preprocessing}
 
-There is still one thing to fix before applying the Hough transform to our
-scanned image: A text doesn't appears as a straight line. We tried to apply the
-Hough transform directly to a binarized document, but most of the time it would
-find either the diagonal of the document (since the diagonal goes through more
-black points than an horizontal or a vertical line), or the angle of a prominent
-bookbinding or document border. After a few researches, we came with our own
-solution: we first find "blocks" of pixels, defined as being a set of conjoint
-pixels. We remove every pixel of this block and replace them by a single pixel
-at the center of the block. There are two purposes to this algorithm: replacing
-every character by its center to make text lines apparent, and reducing the
-importance of large blocks of pixels as bookbindings and images in the Hough
-transform. Here is a sample output:\\
-
-\begin{figure}[h!]\
-    \centering
-    \caption{input image}
-\end{figure}
-\begin{figure}[h!]\
-    \centering
-    \caption{center of each block}
-\end{figure}
-\begin{figure}[h!]\
-    \centering
-    \caption{line found by the Hough transform}
-\end{figure}
+Il y'a encore un problème à régler avant de pouvoir appliquer la transformée de Hough à notre image scannée : Une ligne de texte n'apparait pas comme une ligne droite. Nous avons essayé d'appliquer directement à une image binarisée, mais la plupart du temps il trouvait ou bien la diagonale de l'image, ou bien une reliure particulièrement visible. Après quelques recherches, nous avons trouvé une solution : on détecte tout d'abord les blocs de pixels noirs connexes, qui ne sont pas toujours mais très souvent des caractères, et on les remplaces par leur point centrale. L'utilité est triple : rendre plus apparentes (du point de vue de la transformée de Hough) les lignes de texte, réduire considérablement la complexité de l'algorithme et reduire l'importance des gros blocs de pixels comme les tâches ou les reliures.
 
 This method has a major flaw that we wish to correct before the end of the
 project: when the noise isn't reduced enough, every separate pixel in the
@@ -133,30 +43,3 @@ project: when the noise isn't reduced enough, every separate pixel in the
 potentially leading the angle detection to fail completely. Every further step
 of the OCR relies on a perfectly straight image, and it is therefore very
 important that we correct this. \\
-
-\section{TODO}
-
-If Lenna is almost finished, some improvements still remain:
-
-\begin{itemize}
-
-    \item{Rotation}: it is divided in two parts: angle detection, which is done
-        and the real rotation. The current algorithm gives very poor results. We
-        are going to implement bicubic interpolation which is a standard in many
-        image editing programs (including Adobe Photoshop).
-    
-    \item{Noise reduction improvement}: our noise reduction algorithm is not
-        strong enough on some images. Sometimes it fails and Freddy cannot work
-        with Lenna's output.
-
-    \item{Hough transform preprocess} The method we use has a major flaw that we wish to correct before the end of
-        the project: when the noise isn't reduced enough, every separate pixel
-        in the "noisy zone" is considered a block and gets a huge role in the
-        Hough transform, potentially leading the angle detection to fail
-        completely. Every further step of the OCR relies on a perfectly straight
-        image, and it is therefore very important that we correct this.
-
-    \item{Image scaling}: Guy may need an image scaling algorithm to display
-        thumbnails of user's image.
-
-\end{itemize}

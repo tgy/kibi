@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Arch Linux) (format=xelatex 2013.11.1)  9 DEC 2013 23:14
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Arch Linux) (format=xelatex 2013.11.1)  10 DEC 2013 00:50
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -759,9 +759,7 @@ Package: xspace 2009/10/20 v1.13 Space after command names (DPC,MH)
 \c@blind@randommax=\count168
 \c@blind@pangramcount=\count169
 \c@blind@pangrammax=\count170
-) (./report.aux
-(./chapters/lenna.aux) (./chapters/freddy.aux) (./chapters/anna.aux)
-(./chapters/robert.aux) (./chapters/guy.aux) (./chapters/website.aux))
+) (./report.aux)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
@@ -916,9 +914,13 @@ LaTeX Info: Redefining \nameref on input line 63.
 \@outlinefile=\write5
 \openout5 = `report.out'.
 
+
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
 runsystem(pygmentize -S default -f latex > report.pyg)...executed.
 
- (./report.pyg)
+(./report.pyg)
 File: chapters/Pictures/kibi.png Graphic file (type QTm)
  <use  "chapters/Pictures/kibi.png" >
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -932,32 +934,20 @@ File: se-ascii-print.def 2011/12/02 v1.10 stringenc: Printable ASCII characters
 ) [1
 
 ]
-(./report.toc
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 3.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 3.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 3.
- [1
 
-])
+Package hyperref Warning: old toc file detected, not used; run LaTeX again.
+
 \tf@toc=\write6
 \openout6 = `report.toc'.
 
+[1
 
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 15.52386pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[2]
+]
 Underfull \hbox (badness 10000) in paragraph at lines 71--75
 
  []
 
-[3
+[2
 
 ]
 \openout2 = `chapters/lenna.aux'.
@@ -965,30 +955,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 71--75
  (./chapters/lenna.tex
 Chapitre 1.
 
-Underfull \hbox (badness 10000) in paragraph at lines 6--12
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 13--23
+Underfull \hbox (badness 10000) in paragraph at lines 5--6
 
  []
 
-[4
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--8
+
+ []
+
+[3
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 35--38
+Underfull \hbox (badness 10000) in paragraph at lines 11--12
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 39--43
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 44--55
+Underfull \hbox (badness 10000) in paragraph at lines 16--17
 
  []
 
@@ -998,24 +988,28 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 56--59
+[4]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 30.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 30.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 30.
 
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[5])
+Overfull \hbox (2.45854pt too wide) in paragraph at lines 40--107
+\EU1/DroidSerif(0)/m/n/12 transform, potentially leading the angle detection to
+ fail completely. Every
  []
 
 
-Overfull \hbox (5.94273pt too wide) in paragraph at lines 60--63
-[]\EU1/DroidSerif(0)/m/n/12 Because of the imprecision of the integer coordinat
-es, the rotated image
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 67--72
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 73--78
+Underfull \hbox (badness 10000) in paragraph at lines 40--107
 
  []
 
@@ -1026,85 +1020,30 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 82--86
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 87--88
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 89--94
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 104--116
-
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[7]
-
-LaTeX Font Warning: Font shape `EU1/DroidSerif(0)/m/sc' undefined
-(Font)              using `EU1/DroidSerif(0)/m/n' instead on input line 119.
-
-
-Overfull \hbox (2.45854pt too wide) in paragraph at lines 130--136
-\EU1/DroidSerif(0)/m/sc/12 transform, potentially leading the angle detection t
-o fail completely. Every
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 130--136
-
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[8])
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[9]
 \openout2 = `chapters/freddy.aux'.
 
  (./chapters/freddy.tex
 Chapitre 2.
-[10
+[7
 
 
 
 ]
 Overfull \hbox (5.13237pt too wide) in paragraph at lines 16--19
-\EU1/DroidSerif(0)/m/sc/12 lisons donc maintenant l'algorithme Run Lenght Smoot
-h Algorithm (RLSA)
+\EU1/DroidSerif(0)/m/n/12 lisons donc maintenant l'algorithme Run Lenght Smooth
+ Algorithm (RLSA)
  []
 
 
 Overfull \hbox (14.28862pt too wide) in paragraph at lines 16--19
-\EU1/DroidSerif(0)/m/sc/12 trice. Cette nouvelle matrice, toujours aux dimensio
-ns de l´image d´origine,
+\EU1/DroidSerif(0)/m/n/12 trice. Cette nouvelle matrice, toujours aux dimension
+s de l´image d´origine,
  []
 
 
 Overfull \hbox (1.60112pt too wide) in paragraph at lines 16--19
-\EU1/DroidSerif(0)/m/sc/12 représente l´image résultat, qui sera utilisée pour 
-la suite des traitements.
+\EU1/DroidSerif(0)/m/n/12 représente l´image résultat, qui sera utilisée pour l
+a suite des traitements.
  []
 
 
@@ -1113,10 +1052,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[11]
+[8]
 Overfull \hbox (0.41948pt too wide) in paragraph at lines 36--37
-\EU1/DroidSerif(0)/m/sc/12 black pixels in every line/column of line of pixel o
-f the provided image.We
+\EU1/DroidSerif(0)/m/n/12 black pixels in every line/column of line of pixel of
+ the provided image.We
  []
 
 )
@@ -1126,7 +1065,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[12]
+[9]
 \openout2 = `chapters/anna.aux'.
 
  (./chapters/anna.tex
@@ -1136,7 +1075,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 12--13
 
  []
 
-[13
+[10
 
 
 
@@ -1161,7 +1100,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[14]
+[11]
 Underfull \hbox (badness 10000) in paragraph at lines 28--29
 
  []
@@ -1177,7 +1116,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[15]
+[12]
 Underfull \hbox (badness 10000) in paragraph at lines 43--44
 
  []
@@ -1188,21 +1127,21 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[16])
+[13])
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[17]
+[14]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[18]
+[15]
 \openout2 = `chapters/robert.aux'.
 
  (./chapters/robert.tex
@@ -1212,7 +1151,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--24
 
  []
 
-[19
+[16
 
 
 
@@ -1229,19 +1168,19 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[20]
+[17]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[21]
+[18]
 \openout2 = `chapters/guy.aux'.
 
  (./chapters/guy.tex
 Chapitre 5.
-[22
+[19
 
 
 
@@ -1252,7 +1191,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[23]
+[20]
 \openout2 = `chapters/website.aux'.
 
  (./chapters/website.tex
@@ -1262,7 +1201,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 8--11
 
  []
 
-[24
+[21
 
 
 
@@ -1273,13 +1212,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[25]
+[22]
 Underfull \hbox (badness 10000) in paragraph at lines 121--125
 
  []
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 129.
-[26
+[23
 
 
 ]
@@ -1289,19 +1228,15 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 129.
 (./chapters/website.aux))
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 129.
 Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 129.
-
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 129.
  ) 
 Here is how much of TeX's memory you used:
- 22843 strings out of 493934
- 401362 string characters out of 6153883
- 494675 words of memory out of 5000000
- 25844 multiletter control sequences out of 15000+600000
- 8637 words of font info for 56 fonts, out of 8000000 for 9000
+ 22810 strings out of 493934
+ 400787 string characters out of 6153883
+ 490313 words of memory out of 5000000
+ 25826 multiletter control sequences out of 15000+600000
+ 8629 words of font info for 55 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 37i,11n,50p,937b,542s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,11n,50p,937b,438s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (27 pages).
+Output written on report.pdf (24 pages).
