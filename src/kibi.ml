@@ -54,9 +54,9 @@ let loopanna img l =
               with
                 Division_by_zero -> loopchars chars
         in loopchars word::loopwords words
-			in loopwords (List.rev line)::looplines lines
-		in looplines (List.rev paragraph)::loopparags paragraphs
-	in loopparags (List.rev l)
+			in loopwords line::looplines lines
+		in looplines paragraph::loopparags paragraphs
+	in loopparags l
 
 let printlang () = match Robert.currentlang() with
 	| Lang.Fr -> Printf.printf "[Fr]\n%!"
