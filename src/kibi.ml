@@ -38,13 +38,13 @@ let loopanna img l =
 		| [] -> []
 		| paragraph :: paragraphs ->
 		let rec looplines = function
-      | [] -> print_newline (); []
+      | [] -> []
 			| line :: lines ->
 			let rec loopwords = function
-				| [] -> print_newline (); []
+				| [] -> []
 				| word :: words ->
 				let rec loopchars = function 
-          | [] -> print_string " "; []
+          | [] -> []
 					| (x0,xmax,y0,ymax) :: chars -> 
               try
                 let input = Resizer.get_pixvector img (x0,y0) (xmax, ymax) 32 in
@@ -58,17 +58,35 @@ let loopanna img l =
 		in looplines (List.rev paragraph)::loopparags paragraphs
 	in loopparags (List.rev l)
 
+let printlang () = match Robert.currentlang() with
+	| Lang.Fr -> Printf.printf "[Fr]\n%!"
+	| _       -> Printf.printf "[Eng]\n%!"
+
+let printtext parags =
+	let rec printl = function
+		| [] -> ()
+		| w::l -> Printf.printf "%s%! " w; printl l
+	in let rec printp = function
+		| [] -> ()
+		| l::p -> printl l; Printf.printf "\n%!"; printp p
+	in let rec printt = function
+		| [] -> ()
+		| p::t -> printp p; Printf.printf "\n%!"; printt t
+	in printt parags
+
 let main () =
 begin
 	let input_file = ref "images/default.jpg"
 	and output_dir = ref "out/"
 	and statusfile = ref ".status"
+	and jsonfile = ref ".result.json"
 	in
 	Arg.parse [
 		("-i", Arg.String(fun s -> input_file := s), "input image");
 		("-o", Arg.String(fun s -> output_dir := s), "output dir");
-		("-c", Arg.String(fun s -> statusfile := s), "status file")
-	] (fun _ -> ()) "kibi.native [-i input_file] [-o output_dir] [-c status file]";
+		("-c", Arg.String(fun s -> statusfile := s), "status file");
+		("-j", Arg.String(fun s -> jsonfile   := s), "json output")
+	] (fun _ -> ()) "kibi.native [-i input_file] [-o output_dir] [-c status file] [-j json output]";
 	let clean_status = clean_status !statusfile
 	and update_status = update_status !statusfile
 	and update_status_time () = update_status_time !statusfile
@@ -83,12 +101,17 @@ begin
 	let boxes = Freddy.getlists rotated in
 	update_status_time ();
 	update_status "Identification (ANN)";
-	Printf.printf "%d\n%!" (List.length boxes);
 	let resultAnna = loopanna rotated boxes in
-	Printf.printf "finished%!";
 	update_status_time ();
 	update_status "Spell Checking";
+	let convertRobert = Robert.transformAnnaOutput resultAnna in
+	Robert.detect convertRobert;
+	let correctRobert = Robert.correct convertRobert in
 	update_status_time ();
+	(*printtext convertRobert;*)
+	(*printlang ();*)
+	(*Robert.savejson !jsonfile correctRobert;*)
+  Robert.savehtml !jsonfile correctRobert;
 	update_status "...End of Process";
 	update_status_total_time ();
 	update_status "END";

@@ -159,8 +159,12 @@ let rec send_errors dico phone =
 			Lang.numb_words_corrections
 	and aux2 = function
 		| []		-> []
-		| s::l	when (exists dico (cut_word s)) -> aux2 l 
-		| s::l	-> (s, f s)::(aux2 l)
+		| s::l	when (exists dico (cut_word s)) -> (s, [])::(aux2 l)
+		| s::l	->  let tmp = f s in
+			if (List.length tmp > 0) then
+				(s, tmp)::(aux2 l)
+			else
+				(s, [s])::(aux2 l)
 	and aux3 = function
 		| [] -> []
 		| e::l -> (aux aux2 e)::(aux3 l)
