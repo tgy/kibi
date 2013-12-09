@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Arch Linux) (format=xelatex 2013.11.1)  9 DEC 2013 22:40
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Arch Linux) (format=xelatex 2013.11.1)  9 DEC 2013 23:14
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1132,7 +1132,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  (./chapters/anna.tex
 Chapitre 3.
 
-Underfull \hbox (badness 10000) in paragraph at lines 11--12
+Underfull \hbox (badness 10000) in paragraph at lines 12--13
 
  []
 
@@ -1141,23 +1141,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 11--12
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 13--16
+Underfull \hbox (badness 10000) in paragraph at lines 14--17
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 17--18
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
 
  []
 
 
-Overfull \hbox (2.31888pt too wide) in paragraph at lines 19--19
- |[]\EU1/DroidSerif(0)/bx/n/17.28 La régression linéaire à plusieurs variables|
- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 25--26
+Underfull \hbox (badness 10000) in paragraph at lines 26--27
 
  []
 
@@ -1168,12 +1162,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 27--28
+Underfull \hbox (badness 10000) in paragraph at lines 28--29
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--31
+Underfull \hbox (badness 10000) in paragraph at lines 30--32
 
  []
 
@@ -1184,13 +1178,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [15]
-Overfull \hbox (21.0445pt too wide) in paragraph at lines 40--40
- |[]\EU1/DroidSerif(0)/bx/n/17.28 Réseau de neurones feed-forward multi-layer| 
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 42--43
+Underfull \hbox (badness 10000) in paragraph at lines 43--44
 
  []
 
@@ -1208,6 +1196,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [17]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[18]
 \openout2 = `chapters/robert.aux'.
 
  (./chapters/robert.tex
@@ -1217,7 +1212,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--24
 
  []
 
-[18
+[19
 
 
 
@@ -1234,19 +1229,19 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[19]
+[20]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[20]
+[21]
 \openout2 = `chapters/guy.aux'.
 
  (./chapters/guy.tex
 Chapitre 5.
-[21
+[22
 
 
 
@@ -1257,7 +1252,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[22]
+[23]
 \openout2 = `chapters/website.aux'.
 
  (./chapters/website.tex
@@ -1267,7 +1262,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 8--11
 
  []
 
-[23
+[24
 
 
 
@@ -1278,13 +1273,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[24]
+[25]
 Underfull \hbox (badness 10000) in paragraph at lines 121--125
 
  []
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 129.
-[25
+[26
 
 
 ]
@@ -1303,10 +1298,10 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 129.
 Here is how much of TeX's memory you used:
  22843 strings out of 493934
  401362 string characters out of 6153883
- 494137 words of memory out of 5000000
+ 494675 words of memory out of 5000000
  25844 multiletter control sequences out of 15000+600000
  8637 words of font info for 56 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  37i,11n,50p,937b,542s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (26 pages).
+Output written on report.pdf (27 pages).

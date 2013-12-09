@@ -1,5 +1,3 @@
-open OcsfmlGraphics
-
 let get_bounds = function
     | [] -> raise (Failure 
     "Lena.Hough.get_bounds: trying to get bounds of an empty pixel list.")
@@ -56,7 +54,7 @@ let get_neighbors (x,y) img =
     and l = ref [] in
     
     let add (x,y) l =
-        if is_in_range w h (x,y) && img#get_pixel x y = Color.black then
+        if is_in_range w h (x,y) && img#get_pixel x y = OcsfmlGraphics.Color.black then
             l := (x,y)::!l;
     in
 
