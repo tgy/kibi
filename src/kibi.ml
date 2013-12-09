@@ -90,7 +90,7 @@ begin
 	let clean_status = clean_status !statusfile ""
 	and update_status = update_status !statusfile 
 	and update_status_time s () = update_status_time !statusfile s
-	and update_status_total_time s () = update_status_total_time !statusfile s
+	and update_status_total_time s () = update_status_total_time s !statusfile
 	in
 	clean_status "";
 	let img = new OcsfmlGraphics.image(`File !input_file) in
