@@ -27,7 +27,7 @@ let main () =
 		in aux par; displays_boxes pars
 	in displays_boxes boxes;
   let (i, h, o) = Network.read_size "anna/weights/weights0.txt" in
-  let net_nbr = 20 in
+  let net_nbr = 15 in
   let nets =
     let rec aux = function
       | 0 -> []
