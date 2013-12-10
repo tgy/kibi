@@ -33,7 +33,7 @@ Une fois les ´blocs noirs´ formés, il faut récupérer leur coordonnées.
 
 \subsection{La mise en forme des données}
 
-Toutes les ´bounding boxes´ doivent être mises en ordre, afin d´être utilisables par anna (Nous voulons restituer le texte dans l´ordre, et non les caractères dans un ordre quelconque). En plus de l´ordre, il faut savoir à quel moment un changement de mot, ligne, ou paragraphe a lieu, afin de pouvoir le faire apparaitre sur le document final. La mise en page importe beaucoup. Il est très difficile de lire un texte sans espace entre les mots, ou un minimum de mise en page. C´est encore plus vrai si certaines erreurs apparaissent. Nous avons décidé de représenter les caractères et tous les goupes les contenant (mots, lignes, paragraphes) sous forme de listes imbriquées: nous avons accès à la liste des paragraphes. Les paragraphes sont des listes de lignes, qui sont des listes de mots, qui sont des listes de caractères.
+Toutes les ´bounding boxes´ doivent être mises en ordre, afin d´être utilisables par anna (Nous voulons restituer le texte dans l´ordre, et non les caractères dans un ordre quelconque). En plus de l´ordre, il faut savoir à quel moment un changement de mot, ligne, ou paragraphe a lieu, afin de pouvoir le faire apparaitre sur le document final. La mise en page importe beaucoup. Il est très difficile de lire un texte sans espace entre les mots, ou un minimum de mise en page. C´est encore plus vrai si certaines erreurs apparaissent. Nous avons décidé de représenter les caractères et tous les goupes les contenant (mots, lignes, paragraphes) sous forme de listes imbriquées: nous avons accès à la liste des paragraphes. Les paragraphes sont des listes de lignes, qui sont des listes de mots, qui sont des listes de caractères. Il est facile de parcourir cette structure.
 
 
 \begin{center}
@@ -41,17 +41,3 @@ Toutes les ´bounding boxes´ doivent être mises en ordre, afin d´être utilis
 
 \begin{center}
 \end{center}
-
-\section{Line and character detection}
-
-\subsection{Making horizontal/vertical histogram}
-
-To detect lines, we need to make histograms, containing the number of black pixels in every line/column of line of pixel of the provided image.We put everything in lists.
-
-\subsection{Delimit lines/characters}
-
-When the number of black pixel changes a lot, we decide to create or to end a line/to create or end a character. We put it in lists.
-
-\subsection{Delimit lines/characters}
-
-When the number of black pixel changes a lot, we decide to create or to end a line/to create or end a character. We put it in lists
