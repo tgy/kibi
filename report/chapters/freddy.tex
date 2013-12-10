@@ -1,4 +1,4 @@
-\chapter{Freddy - \emph{Segmentation}}
+\chapter{Freddy -- \emph{Segmentation}}
 
 Freddy est notre module de segmentation, il utilise OCSFML, et est basé sur l´algorithme RLSA (Run Lenght Smoothing Algorithm).
 
@@ -7,6 +7,11 @@ Freddy est notre module de segmentation, il utilise OCSFML, et est basé sur l´
 Au moment de la première soutenance, nous utilisions un algorithme très simple, et moyennement efficace: nous faisions un histogramme horizontal, un tableau de taille la hauteur en pixels de l´image. Nous le remplissions avec le nombre de pixels noirs à la ligne correspondante. Cette opération nous permettait de savoir à quel moment une nouvelle ligne ou un nouveau paragraphe apparaissent.\\
 Une fois ce découpage effectué, il nous suffisait de répéter cette opération horizontalement sur chacune des lignes repérées, afin de détecter les mots et caractères composant chacune des lignes.\\
 Cependant, nous avons été confrontés à plusieurs problèmes, qui nous ont amenés à chercher une autre méthode plus performante, que nous verrons en détail dans la prochaine section. En effet, avec cette méthode, les caractères avaient tendance à être coupés, ou bien collés à d´autres. Il en était de même pour les lignes, qui avaient tendance à fusionner. Cette technique nécessitait également d´avoir une image sortie du prétraitement parfaite, la moindre impureté ou la moindre ligne, image ruinant totalement le résultat de l´algorithme.
+
+\begin{center}
+  \includegraphics[scale=1]{Pictures/segmented.png}
+  Notre ancien système de segmentation
+\end{center}
 
 
 \section{Le RLSA}
@@ -22,7 +27,7 @@ Ainsi, les images éventuelles n´auront pas plus de valeur qu´un simple caract
 
 \subsection{Optimisations}
 
-Pour sélectionner les caractères, mots, lignes ou paragraphes, nous devons modifier la constante représentant le nombre de pixels adjacents à fusionner. Cependant, cette modification seule ne nous permet pas de sélectionner efficacement une partie précise de l´image. En effet, les caractères sont globalement carrés, tandis que les mots et lignes sont assez horizontaux. Une seule constante ne suffira donc plus. Nous utilisons deux constante: une pour la matrice horizontale, et une autre pour la matrice verticale. Nous ne récupérons qu´une seule valeur lors de l´algorithme de la partie précédente. Nous avons cependant pu définir les deux constantes en fonction du retour de la fonction précédente à l´aide de simples multiplications. Il s´est révèlé que ces valeurs fonctionnent très bien pour toutes les images testés jusqu´ici, quelle que soit leur résolution et leur densité de pixels.\\
+Pour sélectionner les caractères, mots, lignes ou paragraphes, nous devons modifier la constante représentant le nombre de pixels adjacents à fusionner. Cependant, cette modification seule ne nous permet pas de sélectionner efficacement une partie précise de l´image. En effet, les caractères sont globalement carrés, tandis que les mots et lignes sont assez horizontaux. Une seule constante ne suffira donc plus. Nous utilisons deux constante: une pour la matrice horizontale, et une autre pour la matrice verticale. Nous ne récupérons qu´une seule valeur lors de l´algorithme de la partie précédente. Nous avons cependant pu définir les deux constantes en fonction du retour de la fonction précédente à l´aide de simples multiplications et divisions entières. Il s´est révèlé que ces valeurs fonctionnent très bien pour toutes les images testés jusqu´ici, quelle que soit leur résolution et leur densité de pixels.\\
 Contrairement au RLSA classique, nous n´utilisons pas uniquement l´opérateur logique ´et´, mais également le ´ou´. Il se trouve que pour la detection des lignes et des paragraphes, avec plus d´espaces entre les pixels noirs (une proportion de pixels noirs par rapport aux pixels blancs plus faible) que pour les caractères et les mots, le ´ou´ donne de bien meilleurs résultats que le ´et´. Cette méthode également s´est révèlée être très efficace quelle que soit l´image.
 
 
@@ -33,10 +38,13 @@ Une fois les ´blocs noirs´ formés, il faut récupérer leur coordonnées.
 
 \subsection{La mise en forme des données}
 
-Toutes les ´bounding boxes´ doivent être mises en ordre, afin d´être utilisables par anna (Nous voulons restituer le texte dans l´ordre, et non les caractères dans un ordre quelconque). En plus de l´ordre, il faut savoir à quel moment un changement de mot, ligne, ou paragraphe a lieu, afin de pouvoir le faire apparaitre sur le document final. La mise en page importe beaucoup. Il est très difficile de lire un texte sans espace entre les mots, ou un minimum de mise en page. C´est encore plus vrai si certaines erreurs apparaissent. Nous avons décidé de représenter les caractères et tous les goupes les contenant (mots, lignes, paragraphes) sous forme de listes imbriquées: nous avons accès à la liste des paragraphes. Les paragraphes sont des listes de lignes, qui sont des listes de mots, qui sont des listes de caractères. Il est facile de parcourir cette structure.
+Toutes les ´bounding boxes´ doivent être mises en ordre, afin d´être utilisables par anna (Nous voulons restituer le texte dans l´ordre, et non les caractères dans un ordre quelconque). En plus de l´ordre, il faut savoir à quel moment un changement de mot, ligne, ou paragraphe a lieu, afin de pouvoir le faire apparaitre sur le document final. La mise en page importe beaucoup. Il est très difficile de lire un texte sans espace entre les mots, ou un minimum de mise en page. C´est encore plus vrai si certaines erreurs apparaissent.\\
+Nous avons décidé de représenter les caractères et tous les goupes les contenant (mots, lignes, paragraphes) sous forme de listes imbriquées: nous avons accès à la liste des paragraphes. Les paragraphes sont des listes de lignes, qui sont des listes de mots, qui sont des listes de caractères. Il est facile de parcourir cette structure. A la sortie d´anna, la liste de listes de listes de listes de listes de caractères est transformée en liste de listes de liste de chaînes de caractères. Robert pourra ainsi lire facilement mot par mot.
 
 
 \begin{center}
+  \includegraphics[scale=1]{Pictures/vrlsa.png}
+  Un exemple de RLSA vertical
 \end{center}
 
 \begin{center}
