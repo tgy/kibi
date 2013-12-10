@@ -10,13 +10,13 @@ Cependant, nous avons été confrontés à plusieurs problèmes, qui nous ont am
 
 \begin{center}
   \includegraphics[scale=1]{Pictures/segmented.png}
-  Notre ancien système de segmentation
+  \caption{Notre ancien système de segmentation: On peut voir que certains caractères sont collés}
 \end{center}
 
 
 \section{Le RLSA}
 
-Pour détecter les paragraphes, lignes, mots ou les caractères, nous utilisons donc maintenant l'algorithme Run Lenght Smoothing Algorithm (RLSA) modifié par nos soins, pour couvrir au mieux nos besoins. Le principe est simple: on regarde horizontalement et verticalement quels sont les pixels noirs adjacents, c´est à dire quels sont les pixels noirs séparés de moins de n pixels noirs. Nous allons voir comment définir cette constante, qui n´est évidemment pas ´hardcoded´ dans la partie suivante. Il en résultera donc deux matrices de bouléens aux dimensions de l´image. Dans ces matrices représentant la couleur noire ou blanche des pixels de l´image, nous aurons changé tous les pixels blancs entre deux pixels noirs adjacents. Les images représentées par ces matrices ressemblent à l´image d´entrée, mais comme si l´encre avait bavée horizontalement ou verticalement.\\
+Pour détecter le paragraphes, lignes, mots ou les caractères, nous utilisons donc maintenant l'algorithme Run Lenght Smoothing Algorithm (RLSA) modifié par nos soins, pour couvrir au mieux nos besoins. Le principe est simple: on récupère l´image sortie du prétraitement de lenna. On regarde horizontalement et verticalement quels sont les pixels noirs adjacents, c´est à dire quels sont les pixels noirs séparés de moins de n pixels noirs. Nous allons voir comment définir cette constante, qui n´est évidemment pas ´hardcoded´ dans la partie suivante. Il en résultera donc deux matrices de bouléens aux dimensions de l´image. Dans ces matrices représentant la couleur noire ou blanche des pixels de l´image, nous aurons changé tous les pixels blancs entre deux pixels noirs adjacents. Les images représentées par ces matrices ressemblent à l´image d´entrée, mais comme si l´encre avait bavée horizontalement ou verticalement.\\
 Nous appliquons ensuite un opérateur binaire logique entre les bits des deux matrices aux mêmes coordonnées, afin de former une nouvelle matrice. Cette nouvelle matrice, toujours aux dimensions de l´image d´origine, représente l´image résultat, qui sera utilisée pour la suite des traitements. Dans cette image, les lettres, mots, lignes ou paragraphes se retrouveront rassemblés en blocs noirs, suivant le nombre de pixels adjacents que l´on aura considéré.\\
 Cette transformation nous permet ensuite, via un autre algorithme que nous détaillerons plus tard, de récupérer les coordonées et dimensions des zones noircies.\\
 Ainsi, les images éventuelles n´auront pas plus de valeur qu´un simple caractère, après l´application de cet algorithme, générant très peu d´erreurs lors du passage d´anna, notre réseau de neuronnes.
@@ -33,7 +33,8 @@ Contrairement au RLSA classique, nous n´utilisons pas uniquement l´opérateur 
 
 \section{Bounding boxes}
 
-Une fois les ´blocs noirs´ formés, il faut récupérer leur coordonnées.  
+Une fois les ´blocs noirs´ formés, il faut récupérer leur coordonnées. Celles-ci sont récupérées sur l´image résultat.\\ %Principe? 
+Les bounding boxes seront bien sur utilisées plus tard sur l´image sortie du prétraitement de lenna, sans aucune autre altération. Il n´est pas question de donner à anna une liste de caractères tous complètement noirs.
 
 
 \subsection{La mise en forme des données}
@@ -44,7 +45,7 @@ Nous avons décidé de représenter les caractères et tous les goupes les conte
 
 \begin{center}
   \includegraphics[scale=1]{Pictures/vrlsa.png}
-  Un exemple de RLSA vertical
+  \caption{Un exemple de RLSA vertical}
 \end{center}
 
 \begin{center}
