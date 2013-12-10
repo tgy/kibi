@@ -1,4 +1,4 @@
-(*let getlists preprocessedimg =
+let getlists preprocessedimg =
   let boxes = BoundingBoxes.get_boxes preprocessedimg in
   let (avgw,avgh) = BoundingBoxes.average_box boxes in
   let chars = Segmentation.startRLSA preprocessedimg (&&) avgw avgh in
@@ -16,8 +16,8 @@
   ignore (charimg#save_to_file ("chars.bmp"));
   ignore (wordimg#save_to_file ("words.bmp"));
   ignore (lineimg#save_to_file ("lines.bmp"));
-  ignore (paragimg#save_to_file ("parags.bmp"));
-  (charboxes, wordboxes, lineboxes, paragboxes)*)
+  ignore (paragimg#save_to_file ("parags.bmp"))
+  (*(charboxes, wordboxes, lineboxes, paragboxes)*)
 
 
 let fusionchars l =

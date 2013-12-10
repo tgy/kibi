@@ -10,7 +10,9 @@ Le machine learning est un champ de recherche dont le but est de trouver des alg
 \subsection{La régression linéaire à une seule variable}
 
 Ramenons nous à un problème plus simple: on a des exemples de la forme $(x, y)$ où $x$ et $y$ sont des nombres, et notre but est de trouver la droite correspondant le mieux à ces exemples.\\
-
+\begin{center}
+\includegraphics[scale=0.7]{chapters/Pictures/linearregression.jpg}\\
+\end{center}
 La ligne sera de la forme $h_w(x) = w_1x + w_0$. La première chose à faire est de déterminer une fonction d'erreur pour évaluer les différentes droites possibles. Il se trouve que l'erreur quadratique possède des propriétés intéressantes (comme le fait d'être toujours positive et dérivable). Cette fonction d'erreur s'écrite comme suit :\\
 $Err(h_w) = \sum\limits_{j=1}^{N}(y_j - h_w(x_j))^{2}$\\
 où $(x_j, y_j)$ est le j-ème exemple et $h_w(x_j)$ est l'image du point $x$ par la droite $h_w : x \rightarrow w_1x + w_0$. Notre but est maintenant de minimiser cette fonction. Imaginons que cette fonction a une forme de bol, et que nous commencions à un point $(w_1, w_0)$ aléatoire de cette fonction (c'est à dire, avec une droite du plan aléatoire). Pour trouver le minimum de cette fonction, il suffit de suivre la pente vers le bas. Mathématiquement parlant, cela signifie qu'il faut prendre le point actuel, et lui soustraire le gradient de la fonction d'erreur. Ce gradient est multiplié par une constante appelée taux d'apprentissage, noté $\alpha$, pour réguler la taille du pas. Un faible taux d'apprentissage signifie une convergence lente, mais avec un taux trop haut, on risque de passer par dessus le minimum et de ne pas converger. On modifie donc le point courant avec la formule :\\
@@ -29,13 +31,16 @@ Son équation est $g(x) = \frac{1}{1 + e^{-x}}$, et sa dérivée est $g(x)(1 - g
 
 $w_i \leftarrow w_i + \alpha (y - h_w(\textbf{x}))
 h_w(\textbf{x})(1 - h_w(\textbf{x}))x_i$\\
+\begin{center}
+\includegraphics[scale=0.4]{chapters/Pictures/logisticregression.jpg}\\
+\end{center}
 
 \subsection{Perceptron}
 
 La régression logistique est la brique de base du réseau de neurones. C'est ce que nous appelons un neurone, du fait de la ressemblance avec le fonctionnement d'un neurone biologique. Maintenant complexifions un peu le problème : nous devons ranger les entrées parmi plusieurs classes possibles. Supposons par exemple que les entrées puissent appartenir à trois classes possibles.\\
-La solution est de passer l'entrée à trois neurones différents. Cela produira un vecteur de sortie plutot qu'une simple valeur, et idéalement, ce vecteur convergera vers quelque chose comme (1, 0, 0), (0, 1, 0) ou (0, 0, 1), ces trois vecteurs représentant évidemment les trois classes possibles. Cet algorithme est appelé un réseau de neurones feed-formard à une couche, ou perceptron.
-
+La solution est de passer l'entrée à trois neurones différents. Cela produira un vecteur de sortie plutot qu'une simple valeur, et idéalement, ce vecteur convergera vers quelque chose comme (1, 0, 0), (0, 1, 0) ou (0, 0, 1), ces trois vecteurs représentant évidemment les trois classes possibles. Cet algorithme est appelé un réseau de neurones feed-formard à une couche, ou perceptron.\\
 \begin{center}
+\includegraphics[scale=0.7]{chapters/Pictures/perceptron.jpg}\\
 \end{center}
 
 \subsection{Réseau de neurones feed-forward multi-layer}
@@ -43,6 +48,7 @@ La solution est de passer l'entrée à trois neurones différents. Cela produira
 Un réseau de neurone feed-forward multi-couches est un perceptron dont le vecteur de sortie sera l'entrée d'un autre percptron, et ansi de suite jusqu'à un perceptron de sortie. Chaque perceptron est appelée une ``couche'' du réseau de neurone. Les couches qui ne sont ni la couche de sortie ni la couche d'entrée sont appelées couches cachées. Le gros avantage d'un réseau de neurones multi-couches par rapport au perceptron est qu'il peu potentiellement calculer n'importe que fonction continue avec seulement une seule couche cachée et avec le bon nombre de neurones dans chaque couche. C'est le résultat énoncé par le théorème universel d'approximation.\\
 
 \begin{center}
+\includegraphics[scale=0.7]{chapters/Pictures/mlffnn.jpg}\\
 \end{center}
 
 \subsubsection{Backpropagation}
