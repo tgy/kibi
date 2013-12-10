@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-\chapter{Lenna -- \emph{Preprocessing}}
+\chapter{Lenna -- \emph{Pré-traitement}}
 Avant d'essayer de détecter les paragraphes, les lignes ainsi que les caractères dans l'image, et de reconnaître les caractères, il faut "nettoyer" l'image. Dans ce chapitre nous allons décrire différents algorithmes que nous avons implémentés dans ce but.\\
-=======
-\chapter{Lenna - \emph{Preprocessing}}
->>>>>>> a594709738a33fb3f963fe16b8b134563e30681b
 
 \section{Binarisation}
 C'est le premier algorithme que nous avons écrit parce qu'il est simple, essentiel et c'est un bon point de départ pour se familiariser avec la bibliothèque et ses fonctions de base. Nous avons d'abord implémenté la méthode la plus naïve : calculer la moyenne des composantes RGB de chaque pixel pour avoir sa luminosité, et appliquer un seuil. Tout pixel dont la luminosité est en dessous de 127 est considéré comme blanc et les autres comme noir. Evidemment, ce ne fut pas notre algorithme définitif.\\
@@ -17,9 +13,6 @@ Nous avons éssayé deux méthodes pour réduire le bruit dans l'image : le flou
 \section{Rotation}
 \section{Algorithme de base}
 
-<<<<<<< HEAD
-Il est très difficile de détecter les zones de texte dans l'image si elle n'est pas droite. Nous avons donc des algorithme pour détecter l'angle du texte dans l'image, puis pour tourner l'image selon cet angle.\\
-=======
 Il est très difficile voir impossible (ou du moins contre-productif) de
 détecter des zones de textes, caractères, mots dans une image si cette image
 n'est pas droite. C'est pourquoi il est nécessaire, au cours de l'étape de
@@ -126,38 +119,6 @@ Plusieurs algorithmes d'interpolation existent :
     pas vraiment utiles dans notre cas.
 \end{itemize}
 
-\subsection{Angle detection}
-
-\subsubsection{Hough transform}
-
-The Hough transform is a general method for finding lines and ellipses in an
-image. It is often used because once the mathematical principle is understood,
-it is not that hard to implement, and it has a much lower time complexity and
-better results than some other methods like Fourier transform. For our purposes,
-we only need to handle the most simple case: line detection in a binary image.\\
-
-The Hough transform relies on a very particular representation of lines of the
-plane: instead of being as the two parameters $a$ and $b$ in the classical
-equation $y = ax + b$, it is described as the couple $(r, \theta)$ where $r$ is
-the distance of the line from the origin and $\theta$ is the angle of this
-distance from the absciss.\\
-
-\begin{center}
-\end{center}
-
-How is this representation useful? It comes from the fact that, given a point
-of coordinates $(x, y)$ and the angle $\theta$ of a line going through this
-point, we can express very simply the distance $r$ of the line from the origin.
-The equation is as follows:\\
->>>>>>> a594709738a33fb3f963fe16b8b134563e30681b
-
-Une implémentation naïve commencerait par parcourir l'image d'origine et de transposer chaque pixel dans la nouvelle image grâce à une matrice de rotation. Cependant, cet algorithme donnera de très mauvais résultats puisque tous les pixels dans l'image crée n'aurons pas d'antécédants dans l'image d'origine, créant ainsi un effet d'aliasing.
-
-A la place, nous effectuons l'opération inverse : pour chaque pixel de la nouvelle image (encore vide), il faut trouver le pixel correspondant dans l'image d'origine. Il suffit pour cela d'appliquer la matrice de rotation d'angle opposé.
-
-A cause de l'imprecision des coordonnées entières, l'image de sortie n'est pas parfaite. C'est pourquoi nous avons utilisé un algorithme d'interpolation bilinéaire pour conserver la forme des caractères dans l'image avant de commencer la segmentation et l'identification des caractères.
-
-\subsection{Interpolation Bilinéaire}
 \subsection{Detection de l'angle}
 \subsubsection{Transformée de Hough}
 
@@ -171,21 +132,7 @@ Donc pour un point de coordonnées $(x, y)$ on peut tracer le graphe de $r$ en f
 
 \subsubsection{More preprocessing}
 
-<<<<<<< HEAD
-Il y'a encore un problème à régler avant de pouvoir appliquer la transformée de Hough à notre image scannée : Une ligne de texte n'apparait pas comme une ligne droite. Nous avons essayé d'appliquer directement à une image binarisée, mais la plupart du temps il trouvait ou bien la diagonale de l'image, ou bien une reliure particulièrement visible. Après quelques recherches, nous avons trouvé une solution : on détecte tout d'abord les blocs de pixels noirs connexes, qui ne sont pas toujours mais très souvent des caractères, et on les remplaces par leur point centrale. L'utilité est triple : rendre plus apparentes (du point de vue de la transformée de Hough) les lignes de texte, réduire considérablement la complexité de l'algorithme et reduire l'importance des gros blocs de pixels comme les tâches ou les reliures.
-=======
-There is still one thing to fix before applying the Hough transform to our
-scanned image: A text doesn't appears as a straight line. We tried to apply the
-Hough transform directly to a binarized document, but most of the time it would
-find either the diagonal of the document (since the diagonal goes through more
-black points than an horizontal or a vertical line), or the angle of a prominent
-bookbinding or document border. After a few researches, we came with our own
-solution: we first find `blocks' of pixels, defined as being a set of conjoint
-pixels. We remove every pixel of this block and replace them by a single pixel
-at the center of the block. There are two purposes to this algorithm: replacing
-every character by its center to make text lines apparent, and reducing the
-importance of large blocks of pixels as bookbindings and images in the Hough
-transform. Here is a sample output:\\
+Il y'a encore un problème à régler avant de pouvoir appliquer la transformée de Hough à notre image scannée : Une ligne de texte n'apparait pas comme une ligne droite. Nous avons essayé d'appliquer directement à une image binarisée, mais la plupart du temps il trouvait ou bien la diagonale de l'image, ou bien une reliure particulièrement visible. Après quelques recherches, nous avons trouvé une solution : on détecte tout d'abord les blocs de pixels noirs connexes, qui ne sont pas toujours mais très souvent des caractères, et on les remplaces par leur point centrale. L'utilité est triple : rendre plus apparentes (du point de vue de la transformée de Hough) les lignes de texte, réduire considérablement la complexité de l'algorithme et reduire l'importance des gros blocs de pixels comme les tâches ou les reliures. Voici un exemple de sortie :
 
 \begin{figure}[h!]\
     \centering
@@ -199,11 +146,3 @@ transform. Here is a sample output:\\
     \centering
     \caption{line found by the Hough transform}
 \end{figure}
->>>>>>> a594709738a33fb3f963fe16b8b134563e30681b
-
-This method has a major flaw that we wish to correct before the end of the
-project: when the noise isn't reduced enough, every separate pixel in the
-`noisy zone' is considered a block and gets a huge role in the Hough transform,
-potentially leading the angle detection to fail completely. Every further step
-of the OCR relies on a perfectly straight image, and it is therefore very
-important that we correct this. \\
