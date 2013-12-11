@@ -135,23 +135,28 @@ La transformée de Hough est une méthode générale pour trouver des lignes et 
 
 La transformée de Hough se base sur une représentation très particulière des droites du plan : plutot que deux les représenter avec les deux paramètres usuels $a$ et $b$ dans l'équation $y = ax + b$, une droite est décrite comme un couple $(r, \theta)$ où $r$ est la distance de la ligne à l'origine et $\theta$ est l'angle de cette distance par rapport à l'abscisse.
 
+  \includegraphics[scale=0.5]{chapters/Pictures/hough1.jpg}\\
 En quoi cette représentation est-elle utile? Cela vient du fait que, étant donné un point de coordonnées $(x, y)$ et l'angle $\theta$ de la droite passant par ce point, il est facile d'exprimer la distance $r$ entre la ligne et l'origine. L'équation est la suivante :\\
 $r = x\cos\theta + y\sin\theta$\\
 Donc pour un point de coordonnées $(x, y)$ on peut tracer le graphe de $r$ en fonction de $\theta$. Il est facile de deviner d'après l'équation que ce graphe sera une sinusoïde. Cette sinusoïde représente l'ensemble des droites passant par ce point. Si nous stockons ce graphe dans un accumulateur, et ajoutons dans cet accumulateur la sinusoïde correspondant à tous les autres points, on obtient un graphe tableau dans lequel la valeur la plus grande représentera les coordonnées de la droite (dans l'espace de Hough) passant par le plus de points possible.
 
-\subsubsection{More preprocessing}
+\includegraphics[scale=0.7]{chapters/Pictures/hough2.jpg}\\
+\subsubsection{Plus de pré-traitement}
 
 Il y'a encore un problème à régler avant de pouvoir appliquer la transformée de Hough à notre image scannée : Une ligne de texte n'apparait pas comme une ligne droite. Nous avons essayé d'appliquer directement à une image binarisée, mais la plupart du temps il trouvait ou bien la diagonale de l'image, ou bien une reliure particulièrement visible. Après quelques recherches, nous avons trouvé une solution : on détecte tout d'abord les blocs de pixels noirs connexes, qui ne sont pas toujours mais très souvent des caractères, et on les remplaces par leur point centrale. L'utilité est triple : rendre plus apparentes (du point de vue de la transformée de Hough) les lignes de texte, réduire considérablement la complexité de l'algorithme et reduire l'importance des gros blocs de pixels comme les tâches ou les reliures. Voici un exemple de sortie :
 
 \begin{figure}[h!]\
     \centering
+    \includegraphics[scale=1]{chapters/Pictures/hough3.jpg}
     \caption{input image}
 \end{figure}
 \begin{figure}[h!]\
     \centering
+    \includegraphics[scale=1]{chapters/Pictures/hough4.jpg}
     \caption{center of each block}
 \end{figure}
 \begin{figure}[h!]\
     \centering
+    \includegraphics[scale=1]{chapters/Pictures/hough5.png}
     \caption{line found by the Hough transform}
 \end{figure}
