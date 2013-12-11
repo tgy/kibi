@@ -1,11 +1,10 @@
 \documentclass[12pt]{report}
 
-\usepackage[margin=1.4in]{geometry}
+\usepackage[top=1.2in, bottom=1.2in, left=1.4in, right=1.2in]{geometry}
 \usepackage{graphicx}
 
 \usepackage[T1]{fontenc}
 
-\usepackage[francais]{babel}
 
 \usepackage{fontspec}
 \setmainfont{Droid Serif}
@@ -15,6 +14,16 @@
 \usepackage{hyperref}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{amsmath}
+
+\usepackage{microtype} 
+
+\usepackage{polyglossia}
+\setmainlanguage{french}
 
 \usepackage{minted}
 
@@ -68,29 +77,36 @@
 
 \chapter*{Introduction}
 
-This document will present the current state of our project, KiBiOCR, as part of
-EPITA's syllabus. KiBiOCR's name speaks for itself. It is an OCR (Optical
-Character Recognition) program. Its goal is then to recognize characters in a
-given image.\\
+Ce document présente le compte-rendu de notre projet, KiBiOCR, dans le cadre du
+curses de l'EPITA. Le nom du projet, "KiBiOCR" parle de lui-même puisque c'est
+un logiciel d'OCR (Optical Character Recognition). Le but est donc de
+reconnaître des caractères sur une image. \\
 
-You will see that our project is breaked up in 5 very distinct parts:
+Notre projet est séparé en 5 parties bien distinctes, auxquelles nous avons
+donné des noms pour pouvoir les designer plus facilement.
 
 \begin{itemize}
-    \item{Lenna}: preprocessing part of the program. Lenna modifies user's input
-        image to help other parts of the program to do their job.
-    \item{Freddy}: `he' is in charge of the segmentation part, which is
-        identifying images, paragraphs, words and characters positions.
-    \item{Anna}: this is our artificial neural network (ANN). `She' identifies
-        characters segmented by Freddy.
-    \item{\emph{(Le petit)} Robert}: this is our dictionary. `He' detects the
-        document language and errors made by Anna/Freddy in the identification
-        process and then try to find the nearest words.
-    \item{Guy}: our user interface. This is the way our program and the user
-        will be able to interact.
+    \item{Lenna}: c'est la partie de notre programme qui s'occupe du
+      pre-processing. C'est-à dire que son but est de modifier l'image donnée
+      par l'utilisateur pour la rendre utilisable par les autres parties du
+      programme ; d'où son nom, "pre"-processing. Lenna intervient au début du
+      process. 
+    \item{Freddy}: il intervient après Lenna pour découper (d'où son nom) notre
+      image en petit-morceaux (paragraphes, lignes, mots, caractères).
+    \item{Anna}: c'est la partie du programme qui s'occupe d'identifier les
+      caractères. Anna prend une image en input et retourne un caratères
+      correspondant à l'image.
+    \item{\emph{(Le petit)} Robert}: c'est la partie du programme qui s'occupe
+      de la correction syntaxique de la langue du document. 
+    \item{Guy}: c'est l'interface entre l'homme et la machine. Nous avons décidé
+      de la faire en HTML/CSS pour avoir un rendu plus clair et pour pouvoir
+      faire tourner notre programme sur un serveur pour que n'importe qui puisse
+      tester notre OCR n'importe quand.
 \end{itemize}
 
-We gave surnames to the parts of our program because we like private jokes but
-mainly because shortnames are really convenient when we talk about our project.
+Nous allons expliquer comment chaque brique de notre programme a été réalisée,
+les contraintes techniques que nous avons rencontrées pour chacune, et comment
+nous y avons remédier/comment nous avons essayé d'y remédier. \\
 
 % \chapter{The team}
 % 
@@ -116,15 +132,20 @@ mainly because shortnames are really convenient when we talk about our project.
  
 \include{chapters/website}
 
+\include{installmanual}
+
+\include{usermanual}
+
 \chapter*{Conclusion}
 
-Our project is moving forward very well. Our team is organized, we are all
-working with passion and seriousness. We often schedule meetings and establish
-task lists so that everyone is aware of what has to be done and can pick up
-something he is interested in. \\
+Ce projet était vraiment très intéressant. Il nous a fait mettre en pratique de
+nombreux algorithmes très bien pensés et a stimulé notre intellect. \\
 
-Some very tough tasks are waiting for us and we hope we will be able to show up
-at the final with a fresh and working piece of art.
+Nous avons constaté que faire apprendre à lire à un ordinateur n'était vraiment
+pas facile. Nous avons cependant en partie réussi. \\
+
+Nous regrettons de ne pas avoir un peu plus de temps pour développer ce projet
+et le repousser dans ses limites.
 
 \end{document}
 

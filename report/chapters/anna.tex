@@ -1,114 +1,79 @@
-\chapter{Anna -- \emph{Identification}}
+\chapter{Anna - \emph{Identification}}
 
-After we have preprocessed the image and found the paragraphs, lines and characters in the document, we need to recognize these characters. To do this, we use a machine learning technique called a feed-forward neural network. In this chapter, we will describe in detail the result of our researches on the subject.
+\section{Proof of concept}
+Après avoir pré-traité l'image et trouvé les paragraphes, les lignes et les caractères dans le document, il faut reconnaître ces caractères. Pour ça, nous utilisons un des algorithmes de machine learning les plus répandu: le réseau de neurone feed-forward. Nous allons ici détailler ce que nous avons appris sur cet algorithme, et comment nous l'avons implémenté.
 
-\section{Machine learning}
+\subsection{Machine learning}
 
-Machine learning is a field of research in which we try to design "agents" able
-to improve their performance on a given task with experience. In the case of an
-OCR software, the agent's task will be to classify images of characters, and the
-experience will consist of feeding the agent with many examples. The examples
-will be pairs of the form (image of the character, corresponding character).
+Le machine learning est un champ de recherche dont le but est de trouver des algorithmes capables de s'améliorer sur une tâche particulière avec l'expérience. Souvent, ce que l'on appelle l'expérience consiste en un ensemble d'exemples entrée-sortie correspondant à ce que l'on veut apprendre. Dans notre cas, la tâche du réseau de neurones artificiel sera d'associer à une image de caractère un numéro (par exemple son code ascii), et les exemples sont des paires (image de caractère, numero du caractère).
 
-\section{Univariate linear regression}
+\subsection{La régression linéaire à une seule variable}
 
-Lets look at a simpler problem: we have examples of the form $(x, y)$ where $x$
-and $y$ are numbers, and our goal is to find a straight line to fit the
-examples.\\
-
+Ramenons nous à un problème plus simple: on a des exemples de la forme $(x, y)$ où $x$ et $y$ sont des nombres, et notre but est de trouver la droite correspondant le mieux à ces exemples.\\
 \begin{center}
+\includegraphics[scale=0.7]{chapters/Pictures/linearregression.jpg}\\
 \end{center}
+La ligne sera de la forme $h_w(x) = w_1x + w_0$. La première chose à faire est de déterminer une fonction d'erreur pour évaluer les différentes droites possibles. Il se trouve que l'erreur quadratique possède des propriétés intéressantes (comme le fait d'être toujours positive et dérivable). Cette fonction d'erreur s'écrite comme suit :\\
+$Err(h_w) = \sum\limits_{j=1}^{N}(y_j - h_w(x_j))^{2}$\\
+où $(x_j, y_j)$ est le j-ème exemple et $h_w(x_j)$ est l'image du point $x$ par la droite $h_w : x \rightarrow w_1x + w_0$. Notre but est maintenant de minimiser cette fonction. Imaginons que cette fonction a une forme de bol, et que nous commencions à un point $(w_1, w_0)$ aléatoire de cette fonction (c'est à dire, avec une droite du plan aléatoire). Pour trouver le minimum de cette fonction, il suffit de suivre la pente vers le bas. Mathématiquement parlant, cela signifie qu'il faut prendre le point actuel, et lui soustraire le gradient de la fonction d'erreur. Ce gradient est multiplié par une constante appelée taux d'apprentissage, noté $\alpha$, pour réguler la taille du pas. Un faible taux d'apprentissage signifie une convergence lente, mais avec un taux trop haut, on risque de passer par dessus le minimum et de ne pas converger. On modifie donc le point courant avec la formule :\\
 
-The line will be of the form $h_w(x) = w_1x + w_0$. In order to determine the
-most fitting line, we first need to define an error function. The sum of the
-squared error appears to have nice properties (as being positive and
-differentiable). This error function is expressed as follows:
-$Loss(h_w) = \sum\limits_{j=1}^{N}(y_j - h_w(x_j))^{2}$. Now we need to minimize
-this. To understand how we do this, it helps to visualize the graph ofthe Loss
-in function of $w$.\\
+$w_i \leftarrow w_i - \alpha \frac{\partial}{\partial w_i} Err(w)$\\
 
-Now imagine we start at a random point on this graph (i.e., we start with a
-random line). To get to the minimum of the function, we only need to follow the
-slope downward. Mathematically, this translates as substracting the gradient of
-the Loss function from the current point, since the gradient points toward the
-steepest slope upward. We usually multiply the gradient by a constant called the
-learning rate, noted $\alpha$, to regulate the size of the steps. A slow
-learning rate means converging slowly but a large learning rate might lead to
-stepping over the minimum. The update rule is then:\\
+\subsection{La régression linéaire à plusieurs variables}
 
-$w_i \leftarrow w_i - \alpha \frac{\partial}{\partial w_i} Loss(w)$\\
+L'exstension de cet algorithme à plusieurs variables se fait assez naturellement. Notons $\textbf{x} = (x_0, x_1, \ldots, x_n)$ r. La fonction d'estimation devient alors $h_w(\textbf{x}) = w_nx_n + \cdots + w_1x_1 + w_0x_0$.
 
-We won't compute the derivative right now as we don't need it.
+\subsection{La regression logistique}
 
-\section{Multivariate linear regression}
+Ce dont nous avons besoin pour reconnaître les caractères est un algorithme de classification. Nous n'avons besoin que de quelques modifications pour faire de l'algorithme précédent un classificateur binaire : nous gardons la fonction d'estimation $h_w(x)$, mais nous passons ensuite le résultat de cette fonction dans une autre fonction dont la sortie se trouve dans $[0;1]$.  La fonction de pas en est une : sa sortie vaut 0 si son entrée est négative, et 1 sinon. Mais cette fonction n'est pas dérivable, et nous verrons plus tard que cela pose problème. On lui préfère donc souvent la fonction logistique (aussi appelée sigmoïde)\\
 
-The extension to a multivariate problem is pretty straight forward. Lets denote
-by $\textbf{x} = (x_0, x_1, ..., x_n)$ the input vector. The estimation function
-then becomes $h_w(\textbf{x}) = w_nx_n + ... + w_1x_1 + w_0x_0$.
-
-\section{Logistic regression}
-
-What we want is a classification algorithm. We only need to slightly modify the
-previous algorithm to make it a binary classifier: we keep the estimation
-function $h_w(x)$, but we then feed the result to another function whose output
-is in $[0;1]$. One such function is the step function, which worth 0 if $h_w(x)$
-is negative and 1 otherwise. But this function is not differentiable, and we
-will see later that it is a problem. So we usually prefer the logistic function,
-or sigmoid function:\\
-
-\begin{center}
-\end{center}
-
-Its equation is $g(x) = \frac{1}{1 + e^{-x}}$, and its derivative is
-$g(x)(1 - g(x))$. Applying the same algorithm as for the multivariate linear
-regression, the update rule becomes:\\
+Son équation est $g(x) = \frac{1}{1 + e^{-x}}$, et sa dérivée est $g(x)(1 - g(x))$. En applicant le même algorithme que pour la régression linéaire, la formule pour mettre à jour le point actuel devient :\\
 
 $w_i \leftarrow w_i + \alpha (y - h_w(\textbf{x}))
 h_w(\textbf{x})(1 - h_w(\textbf{x}))x_i$\\
-
-There is no need here to explain the derivation of the Loss function.
-
-\section{Perceptron}
-
-The logistic regression function will be the elementary brick for our neural
-network. It is what we will call a neuron, since it is very close to the real
-principle of biological neuron. Now lets complexify the problem a little bit: we
-need to classify the input data between more than two possible outcomes. Let's
-say for example that we need three possible outcomes. We only need to connect
-the input to three different logistic regression units. This will produce an
-output vector instead of a single value, and ideally this vector will converge
-toward something like (1, 0, 0), (0, 1, 0) or (0, 0, 1), each time representing
-one of the three possible cassifications. This is called a single-layer
-feed-forward neural network, or perceptron.\\
-
 \begin{center}
+\includegraphics[scale=0.4]{chapters/Pictures/logisticregression.jpg}\\
 \end{center}
 
-\section{multi-layer feed-forward neural network}
+\subsection{Perceptron}
 
-A feed-forward neural network is a perceptron, whose output will be the input of
-another perceptron, etc. until it reaches the output layer. Every layer that is
-not the input layer or the output layer is called a hidden layer. The big
-advantage of a multi-layer feed-forward neural network over a perceptron is that
-it can potentially compute any continuous function with only one hidden layer
-and with the right number of neurons in each layer, according to the universal
-approximation theorem.\\
-
+La régression logistique est la brique de base du réseau de neurones. C'est ce que nous appelons un neurone, du fait de la ressemblance avec le fonctionnement d'un neurone biologique. Maintenant complexifions un peu le problème : nous devons ranger les entrées parmi plusieurs classes possibles. Supposons par exemple que les entrées puissent appartenir à trois classes possibles.\\
+La solution est de passer l'entrée à trois neurones différents. Cela produira un vecteur de sortie plutot qu'une simple valeur, et idéalement, ce vecteur convergera vers quelque chose comme (1, 0, 0), (0, 1, 0) ou (0, 0, 1), ces trois vecteurs représentant évidemment les trois classes possibles. Cet algorithme est appelé un réseau de neurones feed-formard à une couche, ou perceptron.\\
 \begin{center}
+\includegraphics[scale=0.7]{chapters/Pictures/perceptron.jpg}\\
 \end{center}
 
-What changes between the perceptron and the multi-layer feed-forward neural
-network is the derivative of the loss function. Once again, there is no need to
-enter into the details of the maths behind the derivation, but the only thing we
-need to know when implementing the neural network is that the derivative of the
-parameters in one layer depends on the derivative of the parameters of the next
-layer. Therefore we need to compute the derivative in the output layer, then the
-hidden layer, hence the term "backpropagation".
+\subsection{Réseau de neurones feed-forward multi-layer}
+\subsubsection{Propagation}
+Un réseau de neurone feed-forward multi-couches est un perceptron dont le vecteur de sortie sera l'entrée d'un autre percptron, et ansi de suite jusqu'à un perceptron de sortie. Chaque perceptron est appelée une ``couche'' du réseau de neurone. Les couches qui ne sont ni la couche de sortie ni la couche d'entrée sont appelées couches cachées. Le gros avantage d'un réseau de neurones multi-couches par rapport au perceptron est qu'il peu potentiellement calculer n'importe que fonction continue avec seulement une seule couche cachée et avec le bon nombre de neurones dans chaque couche. C'est le résultat énoncé par le théorème universel d'approximation.\\
 
-\section{Optimizations}
+\begin{center}
+\includegraphics[scale=0.7]{chapters/Pictures/mlffnn.jpg}\\
+\end{center}
+
+\subsubsection{Backpropagation}
+Pour l'algorithme d'apprentissage, la différence majeure est la fonction dérivée de la fonction d'erreur. Il n'est pas nécessaire ici d'expliciter cette dérivée, mais il est à noter que le calcul de la dérivé des poids d'une couche l dépendra de calculs fait à la couche l+1. Ainsi la mise à jour des poids doit se faire de la dernière couche à la première, d'où le nom de ``backpropagation''.
+
+\subsection{Optimisations}
 
 The only optimization we implemented at this point is the momentum. In the
 gradient descent process, we can consider that the current point has some
 inertia by adding a certain percentage of the gradient of the last iteration in
 the update rule. There are two purposes to this: converging faster, and avoiding
 local minimum.
+
+Deux optimisations ont étés implémentées pour augmenter la vitesse de convergence du réseau de neurones et éviter les minimums locaux :
+\begin{itemize}
+  \item Le moment : appelons $\Delta_n$ le nombre que l'on ajoute à un poids $w_i,j$ à une étape n de l'apprentissage. A l'étape n+1, on ajoutera en plus du gradient de la fonction d'erreur un certain pourcentage de $\Delta_n$. Cela permet à la fois d'éviter les minimums locaux, car le point possède une sorte d'``inertie'', et à la fois de converger plus vite.
+  \item Taux d'apprentissage non constant : une technique courante pour augmenter la précision de la convergence est de modifier le taux d'apprentissage au cours du temps. Il est grand au départ pour chercher un minimum global avec peu de précision, puis il diminue pour cherger plus précisément ce minimum.
+\end{itemize}
+
+\section{Apprentissage}
+L'algorithme décrit dans la section précedente nous a permis de montrer un réseau de neurone apprenant une porte logique quelconque lors de la première soutenance. Pour la deuxième soutenance, la tâche était nettement plus difficile : nous devions être capable de reconnaître une grande quantité de caractères différents et potentiellement de mauvaise qualité.\\
+Un problème courant en machine learning, et auquel nous avons étés confrontés, est l'overfitting. On parle d'overfitting quand la fonction que l'on essaye d'apprendre devient trop spécifique aux exemples qu'on lui donne, et qu'elle est incapable de généraliser à d'autres entrées. Etant limités par le temps, nous avons optés pour la solution qui semblait la plus simple à implémenter : entrainer plusieurs réseaux de neurones et classifier en fonction de la moyenne de leur sorties. Nous avons donc essayé avec de plus en plus de réseaux de neurones, jusqu'à ce que les différences deviennent imperceptibles. Nous utilisons donc 20 réseaux de neurones au total.\\
+Lors des premiers essais, nous avons aussi eu des problèmes pour trouver la part de responsabilité entre la segmentation et le réseau de neurones. De petites imperfections dans l'un et dans l'autre amène vite à des résultats illisibles.\\
+Au jour du rendu, le résultat final est encore loin d'être parfait, de nombreux
+caractères sont confondus (9 pour g, c pour e,\ldots ) ou n'ont rien à faire là,
+mais nous avons au moins réussi à produire quelque chose malgré les limitations
+de temps. \\
+
