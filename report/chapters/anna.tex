@@ -66,4 +66,8 @@ Deux optimisations ont étés implémentées pour augmenter la vitesse de conver
 L'algorithme décrit dans la section précedente nous a permis de montrer un réseau de neurone apprenant une porte logique quelconque lors de la première soutenance. Pour la deuxième soutenance, la tâche était nettement plus difficile : nous devions être capable de reconnaître une grande quantité de caractères différents et potentiellement de mauvaise qualité.\\
 Un problème courant en machine learning, et auquel nous avons étés confrontés, est l'overfitting. On parle d'overfitting quand la fonction que l'on essaye d'apprendre devient trop spécifique aux exemples qu'on lui donne, et qu'elle est incapable de généraliser à d'autres entrées. Etant limités par le temps, nous avons optés pour la solution qui semblait la plus simple à implémenter : entrainer plusieurs réseaux de neurones et classifier en fonction de la moyenne de leur sorties. Nous avons donc essayé avec de plus en plus de réseaux de neurones, jusqu'à ce que les différences deviennent imperceptibles. Nous utilisons donc 20 réseaux de neurones au total.\\
 Lors des premiers essais, nous avons aussi eu des problèmes pour trouver la part de responsabilité entre la segmentation et le réseau de neurones. De petites imperfections dans l'un et dans l'autre amène vite à des résultats illisibles.\\
-Au jour du rendu, le résultat final est encore loin d'être parfait, de nombreux caractères sont confondus (9 pour g, c pour e,\ldots ) ou n'ont rien à faire là, mais nous avons au moins réussi à produire quelque chose malgré les limitations de temps.
+Au jour du rendu, le résultat final est encore loin d'être parfait, de nombreux
+caractères sont confondus (9 pour g, c pour e,\ldots ) ou n'ont rien à faire là,
+mais nous avons au moins réussi à produire quelque chose malgré les limitations
+de temps. \\
+

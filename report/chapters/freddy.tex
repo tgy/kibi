@@ -1,4 +1,4 @@
-\chapter{Freddy -- \emph{Segmentation}}
+\chapter{Freddy - \emph{Segmentation}}
 
 Freddy est notre module de segmentation, il utilise OCSFML, et est basé sur l´algorithme RLSA (Run Lenght Smoothing Algorithm).
 
@@ -8,10 +8,11 @@ Au moment de la première soutenance, nous utilisions un algorithme très simple
 Une fois ce découpage effectué, il nous suffisait de répéter cette opération horizontalement sur chacune des lignes repérées, afin de détecter les mots et caractères composant chacune des lignes.\\
 Cependant, nous avons été confrontés à plusieurs problèmes, qui nous ont amenés à chercher une autre méthode plus performante, que nous verrons en détail dans la prochaine section. En effet, avec cette méthode, les caractères avaient tendance à être coupés, ou bien collés à d´autres. Il en était de même pour les lignes, qui avaient tendance à fusionner. Cette technique nécessitait également d´avoir une image sortie du prétraitement parfaite, la moindre impureté ou la moindre ligne, image ruinant totalement le résultat de l´algorithme.
 
-\begin{center}
-  \includegraphics[scale=1]{Pictures/segmented.png}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.8]{chapters/Pictures/segmented.png}
   \caption{Notre ancien système de segmentation: On peut voir que certains caractères sont collés}
-\end{center}
+\end{figure}
 
 
 \section{Le RLSA}
@@ -42,11 +43,11 @@ Les bounding boxes seront bien sur utilisées plus tard sur l´image sortie du p
 Toutes les ´bounding boxes´ doivent être mises en ordre, afin d´être utilisables par anna (Nous voulons restituer le texte dans l´ordre, et non les caractères dans un ordre quelconque). En plus de l´ordre, il faut savoir à quel moment un changement de mot, ligne, ou paragraphe a lieu, afin de pouvoir le faire apparaitre sur le document final. La mise en page importe beaucoup. Il est très difficile de lire un texte sans espace entre les mots, ou un minimum de mise en page. C´est encore plus vrai si certaines erreurs apparaissent.\\
 Nous avons décidé de représenter les caractères et tous les goupes les contenant (mots, lignes, paragraphes) sous forme de listes imbriquées: nous avons accès à la liste des paragraphes. Les paragraphes sont des listes de lignes, qui sont des listes de mots, qui sont des listes de caractères. Il est facile de parcourir cette structure. A la sortie d´anna, la liste de listes de listes de listes de listes de caractères est transformée en liste de listes de liste de chaînes de caractères. Robert pourra ainsi lire facilement mot par mot.
 
-
-\begin{center}
-  \includegraphics[scale=1]{Pictures/vrlsa.png}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=1]{chapters/Pictures/vrlsa.png}
   \caption{Un exemple de RLSA vertical}
-\end{center}
+\end{figure}
 
 \begin{center}
 \end{center}

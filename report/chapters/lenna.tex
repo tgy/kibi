@@ -1,4 +1,4 @@
-\chapter{Lenna -- \emph{Pré-traitement}}
+\chapter{Lenna - \emph{Pré-traitement}}
 Avant d'essayer de détecter les paragraphes, les lignes ainsi que les caractères dans l'image, et de reconnaître les caractères, il faut "nettoyer" l'image. Dans ce chapitre nous allons décrire différents algorithmes que nous avons implémentés dans ce but.\\
 
 \section{Binarisation}
@@ -11,7 +11,8 @@ Nous aurions pu l'améliorer en prenant comme seuil la luminosité moyenne des p
 Nous avons éssayé deux méthodes pour réduire le bruit dans l'image : le flou gaussien et le filtre médian. Nous avons été insatisfait des deux car les lettres étaient moins lisible après le filtre. Pour corriger ça, nous avons réduit le nombre de pixel voisins pris en compte dans le filtre median : pour chaque pixel, nous prenons le pixel median parmi le pixel lui même et ses quatre voisins immédiats.\\
 
 \section{Rotation}
-\section{Algorithme de base}
+
+\subsection{Algorithme de base}
 
 Il est très difficile voir impossible (ou du moins contre-productif) de
 détecter des zones de textes, caractères, mots dans une image si cette image
@@ -20,14 +21,14 @@ pré-traitement \emph{pre-processing}, de roter l'image fournie par l'utilisateu
 afin qu'elle soit bien adaptée aux étapes de segmentation et d'identification
 des caractères. \\
 
-\subsection{Implémentation naive}
+\subsubsection{Implémentation naive}
 
 Une implémentation naive de la rotation serait l'algorithme suivant. C'est
 celui que nous utilisions à la première soutenance mais qui posait quelques
 soucis. \\
 
 \begin{itemize}
-  \item{Input} \\
+  \item{Input}
     \begin{itemize}
       \item Image de base
       \item Angle de rotation $\theta$
@@ -73,9 +74,9 @@ Cependant, cet algorithme déforme légèrement l'image. Ici, il s'agit de texte
 cette petite déformation réduit énormément sa lisibilité; pour l'homme comme
 pour la machine. Il s'agit donc d'être plus intelligent.
 
-\subsection{Interpolation Bilinéaire}
+\subsubsection{Interpolation Bilinéaire}
 
-\subsubsection{Interpolation mathématique}
+\paragraph{Interpolation mathématique\\}
 
 En mathématiques, une interpolation consiste à se servir de données déjà
 existante pour approximer des données qui nous manquent. \\
@@ -83,7 +84,7 @@ existante pour approximer des données qui nous manquent. \\
 Une interpolation peut se faire de plusieurs façons; plus ou moins précises.
 Bien sûr, qui dit plus de précision dit plus de temps de calcul.
 
-\subsubsection{Interpolation bilinéaire appliquée à la rotation}
+\paragraph{Interpolation bilinéaire appliquée à la rotation\\}
 
 Ici, il s'agit de se servir des pixels de notre image de base (nos données) pour
 déterminer les pixels de notre nouvelle image (les données que nous allons
@@ -119,7 +120,15 @@ Plusieurs algorithmes d'interpolation existent :
     pas vraiment utiles dans notre cas.
 \end{itemize}
 
-\subsection{Detection de l'angle}
+\paragraph{Résultat}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{chapters/Pictures/toogy/rotation.eps}
+\end{figure}
+
+\subsection{Détection de l'angle}
+
 \subsubsection{Transformée de Hough}
 
 La transformée de Hough est une méthode générale pour trouver des lignes et des ellipses dans une image. Elle est souvent utilisée car une fois le principe mathématique compris, elle est simple à implémenter, donne de bons résultats et à une complexité assez faible par rapport, par exemple, à la transformée de Fourier. Nous n'avons besoin que du cas le plus simple de l'algorithme qui consiste à trouver les lignes dans une image binarisée.

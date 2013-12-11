@@ -17,3 +17,4 @@ _build/
 *.byte
 build/
 output/
+*.pdf
