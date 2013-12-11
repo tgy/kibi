@@ -1,26 +1,56 @@
-\chapter{Guy - \emph{Graphical User Interface}}
+\chapter{Guy - \emph{Interface Graphique}}
 
-\section{A quick overview of Guy}
+Nous avons fait l'interface graphique en HTML/CSS et Javascript. Le fait d'avoir
+l'interface graphique sur le web nous permet de le deployer sur internet et de
+permettre à quiconque de lancer notre programme depuis n'importe où.
 
-Guy is our GUI. It uses LablGTK and OCSFML, and will probably be using html to render the text output. It has several roles that we will describe right now. It is today composed of one window, to choose the file. It will be, for the second soutenance, composed of two or three more windows, to show the flow of the processing and the time taken by every main algorithm that we are using. 
+\section{Scénario}
 
-\begin{center}
-\end{center}
+Le scénario est très simple. En quelques clics, l'utilisateur peut utiliser
+notre programme.
 
-\section{A user-friendly interface}
+\begin{enumerate}
+  \item L'utilisateur se rend sur le site dans la partie "Run Online" dédiée à
+    l'utilisation de notre programme d'OCR à distance.
+  \item L'utilisateur choisi son image (sur son ordinateur, en local) et
+    l'upload sur le serveur. (Des tests sont bien évidemment effectués sur le
+    fichier envoyé par l'utilisateur, parmi lesquels un test sur la taille du
+    fichier (pour limiter le risque d'un espace disque plein), des tests sur le
+    MIME type du fichier - pour s'assurer que c'est bien une image)
 
-\subsection{Helping the user to choose the image to process}
+    \begin{center}
+      \includegraphics[scale=0.35]{chapters/Pictures/toogy/guy.png}
+    \end{center}
 
-Guy has a built-in file browser, which is very intuitive, and easy to use, to select the file you want to use. Once the file has been selected, it's path will be displayed in an editable text box. However, the user can directly type in the provided text box the path of his desired file. Of course, it is still possible to use our program via the command-lines.
+  \item Le démon qui attend qu'une nouvelle image soit uploadée reçoit
+    l'information de l'upload. Il s'occupe de simplement faire appel au
+    programme kibiocr installé sur le système. Le démon communique en temps réel
+    des informations sur les étapes en cours du programme et le temps qu'elle
+    prennent à l'utilisateur afin que celui-ci ne s'impatiente pas. Ces données
+    sont reçues par le navigateur, via javascript, et affichée dans le HTML.
+    
+    \begin{center}
+      \includegraphics[scale=0.42]{chapters/Pictures/toogy/guy-process.png}
+    \end{center}
+  \item Une fois le process fini, le résultat de l'identification des caractères
+    ainsi que l'analyse syntaxique de la langue (propositions de corrections)
+    sont envoyés au programme javascript qui va alors l'afficher à l'utilisateur
+    une fois que celui-ci aura cliqué sur le bouton qui lui permet d'afficher le
+    résultat du programme appliqué à l'image de son choix.
+    
+    \begin{center}
+      \includegraphics[scale=0.55]{chapters/Pictures/toogy/guy-robert.png}
+    \end{center}
+\end{enumerate}
 
-\subsection{Displaying the usefull informations}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.4]{chapters/Pictures/toogy/guy-scenario.eps}
+  \caption{Schéma récapitulant le scénario d'utilisation du programme}
+\end{figure}
 
-We will display a miniature image of the image (assuming that it really is an image) that the user choosed.
+\section{Serveur web}
 
-\subsection{Showing the final result to the user}
+Qui dit interface web dit serveur web. Le serveur web que nous utilisons est
+nginx. Il est facile à installer et à configurer.
 
-Guy will be charged to show to the user the final work of our OCR. Indeed, we will present the image the user gave us, and the text we could detect, with the eventual orthograph corrections using Robert. It needs to be well organised, so that in case of a long document, the user could find where everything in the output text is located in his image, and vice-versa.
-
-\section{Guy is the foreman}
-
-One of the role of our GUI is to make every module work one after the other, calling them one after the other, with the right parameters. It will be possible to include one or several progress bars to inform the user of the flow of the processing.
