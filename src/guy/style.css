@@ -80,6 +80,18 @@ header {
     min-height: 100px;
 }
 
+#content #posts {
+  padding: 20px;
+}
+
+#content #posts img {
+  max-width: 80%;
+}
+
+#content p {
+    font-family: "Open Sans", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+}
+
 #step-number {
     background: #ebebeb;
     padding: 20px 25px;
@@ -163,7 +175,7 @@ header {
     color: #ff6a2f;
 }
 
-#start-process:hover, #export-button:hover, #render:hover {
+#start-process:hover, #export-button:hover, #render:hover, #download-link:hover {
     -webkit-box-shadow: inset 0px -2px 18px -3px rgba(255,106,47,0.6);
     -moz-box-shadow:    inset 0px -2px 18px -3px rgba(255,106,47,0.6);
     box-shadow:         inset 0px -2px 18px -3px rgba(255,106,47,0.6);
@@ -196,7 +208,7 @@ header {
     border-color: #d2d9dd;
 }
 
-#render {
+#render, #download-link {
     display: block;
     width: 130px;
     padding: 5px 10px;
@@ -322,4 +334,10 @@ header {
 footer {
     text-align: right;
     padding: 20px 30px;
+}
+
+
+#download-link {
+  width: 200px;
+  margin: 10px 0;
 }

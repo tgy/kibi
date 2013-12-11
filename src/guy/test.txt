@@ -1,0 +1,35 @@
+CHAPITRE 2@ LA =CHERCHE EXTERNE 2 4 me^moim 8ecUndaim e8t de l 7 OMm de 2 et ce
+guel que 80it [e n0m5re d 7 ewle^ment8w En egetf 8i l 5ndez e8t tmp grand7 il
+e8t lui_me^me paginee@ ff Remamue 2 : Le tauz d ; 0ccnpatI=0n de8 page8 [ appOH
+entm le nOmbm mt=nt^mal de8 page8 m nek_ _ a ce88aim8 pOur _ mn9er [eS
+e^le^mentS et [e nom[w de page8 reMellemenf utili8eM8 ; e8t de l ; 0rdre de 70T0
+CO nCluSiOn Sur leS m0thOdeS de reCherChe 2 m3 NOuS aNOnS Vu danS leS pr6C6dentS
+ChapitreS f ChapitreS 5; 6 et 7 de Sup _ 1 et 2 de Spe j dimerenteS mhthOdeS de
+geStiOn de dOnn6eS Sur leSquelleS On Veut eeCtuer une reCherChe` un a jOut Ou
+une SuppreSSiOne LeS COmp[eXithS _ _ en tempS f mOyenne et pire ] de CeS
+m0thOdeS SOnt rhSumheS danS le tableau 2ml= m
+ArbreS M0thOdeS M0thOdeS binMreS ArbreS ShquentielleS de DiChOtOmie de
+0quilibr0S reCherChe eftog eflOg OflOg Of n 1 j n n n j j j eflOg eflOg O[ ef n
+n n j j n n j j OflOg ef[Og e[ ef n n 1 j j n n j j eflOg ef ef ef n n n n j j j
+n j ef[Og eflOg Of ef n n 1 ] j n n j j e[lOg ef ef ef k n n n n j j j n j k
+TAHm 2@ 1 _ COmplexit6S en mwenne et = pire= Rappel : I = efg j se dit ff I et g
+Ont mdme Omm u8gmpf0tique Il = NOuS pOuVOnS alOrS fMre quelqueS rem=queS
+COnCernant CeS dimerenteS m6thOdeS et mettre en hvidenCe leurS atOutS et
+[MbleSSeS: SOit : M6thodes S4quenfielleS paS grand ChOSe h en dire: le pire en
+terme de tempS : mMS auSSi le p[uS Simple et le pluS intuitif d impl6menter =
+Une 6fructure line^at=m 8tatt=gue ou dgnamique e8t utili8ah[e 8an6 pmblmem
+DichofOmie l` Ordre de COmp=aiSOn eSt tOujOurS d; Ordre s lOg n@ Oette me^th0de
+ne^ce88ife une 8tructum 8fatique [ tab[eau J [t=mife^e d la tail[e de8
+e^leement8 d 8tocker : Ce qui fait qu : elle eSt tr0S mai adapt0e d l: ajOut et
+[a SuppreSSiOn qui peuvent exiger de l: Ordre de n franSfertSm m ArbreS binaireS
+de recherche eSt une StruCture Simple permettant d;impl0menter [eS trOiS Op6_
+ratiOnS faCilementm CelleS_Ci SOnt en mOyenne de lJ Ordre de lOg n=
+MalheureuSement: un ABR n 7 6tant paS nhCeSSairement qui[ibr6: On peut tendre
+VerS une liSte S@quentielie qui: danS Ce C=7 nOuS renVOie Un nOmbre de
+COmparaiSOnS = pire d` Ordre n= = L 5mp[8ementatt=on dgnumique e8t de riguehr v
+La p[ace me^moire e8t pluS imp0rtante que ne=_ Ce88uim d cau8e deS pOtvnteur6f
+maiS el[e re8fe pmpOdiOnne[le au n0mbm d 7 ewleemenf8 Y Arbres 6quilibr6S cOmme
+pOur [e8 AB R8: [ 7imple^menfGfiOn dgnamt=que s 5mpO8ev DanS Ce CaS; la hauteUr
+de l` arbre eSt COnnue: Ce qui implique que la COmplexit6 deS trOiS OpratiOnS
+eSt tOujOurS s lOg n@ MaiS leS algOrithmeS d: a jOut et de SuppreSSiOn SOnt pluS
+COmplexeS d cauSe deS prOb[meS pOSdS p= le r6hqui[ibragee

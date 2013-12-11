@@ -1,5 +1,8 @@
 <?php include 'head.php'; ?>
 
-<p>helle</p>
+<div id="posts">
+   
+<?php include 'posts.html'; ?>
 
+</div>
 <?php include 'foot.php'; ?>

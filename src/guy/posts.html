@@ -1,0 +1,208 @@
+<p>The final step before truly recognize the characters is to find them. This is
+the third sort of detection so far in the process (the first one being skew
+detection, and the second one the noise)</p>
+
+<p>What are we working on in this part ? The picture has been loaded, rotated so
+the text is straight, it then ran through various filters so it is now composed
+only of pure black and white pixels, and we can expect it to be free of unwanted
+noises.</p>
+
+<h2 id="lines">Lines</h2>
+
+<p>First, let's find text lines. To do this we need a vertical histogram of the
+image, it is a simple list representing the number of black pixels in each pixel
+line and it is computed linear time.</p>
+
+<p>With this histogram, we make blocks of continuous non-empty lines. As
+each text line is separated by a few rows of white pixels, they usually split
+extremely well.</p>
+
+<p>For exemple in the following text picture:
+<img src="http://dettorer.net/ocr/lorem.png" alt="Detection exemple -- original"
+title="" /></p>
+
+<p>Our program recognize all the lines like this:
+<img src="http://dettorer.net/ocr/lorem_line1.bmp" alt="Line detection exemple
+-- line 1" title="" />
+<img src="http://dettorer.net/ocr/lorem_line2.bmp" alt="Line detection exemple
+-- line 2" title="" />
+<img src="http://dettorer.net/ocr/lorem_line3.bmp" alt="Line detection exemple
+-- line 3" title="" /></p>
+
+<h2 id="characters">Characters</h2>
+
+<p>Detecting characters rely essentially on the same principle. This time we
+compute the horizontal histogram of each line, then recreate blocks of
+continuous non-empty columns.</p>
+
+<p>For exemple the following line:
+<img src="http://dettorer.net/ocr/lorem_line1.bmp" alt="Characters detection
+exemple -- line 1" title="" /></p>
+
+<p>Gives the following characters:</p>
+
+<p><img src="http://dettorer.net/ocr/lorem_char1.bmp" alt="Characters detection
+exemple -- line 1" title="" />
+<img src="http://dettorer.net/ocr/lorem_char2.bmp" alt="Characters detection
+exemple -- line 2" title="" />
+<img src="http://dettorer.net/ocr/lorem_char3.bmp" alt="Characters detection
+exemple -- line 3" title="" />
+<img src="http://dettorer.net/ocr/lorem_char4.bmp" alt="Characters detection
+exemple -- line 4" title="" />
+<img src="http://dettorer.net/ocr/lorem_char5.bmp" alt="Characters detection
+exemple -- line 5" title="" />
+<img src="http://dettorer.net/ocr/lorem_char6.bmp" alt="Characters detection
+exemple -- line 6" title="" />
+<img src="http://dettorer.net/ocr/lorem_char7.bmp" alt="Characters detection
+exemple -- line 7" title="" />
+<img src="http://dettorer.net/ocr/lorem_char8.bmp" alt="Characters detection
+exemple -- line 8" title="" />
+<img src="http://dettorer.net/ocr/lorem_char9.bmp" alt="Characters detection
+exemple -- line 9" title="" />
+<img src="http://dettorer.net/ocr/lorem_char10.bmp" alt="Characters detection
+exemple -- line 10" title="" />
+<img src="http://dettorer.net/ocr/lorem_char11.bmp" alt="Characters detection
+exemple -- line 11" title="" />
+<img src="http://dettorer.net/ocr/lorem_char12.bmp" alt="Characters detection
+exemple -- line 12" title="" />
+<img src="http://dettorer.net/ocr/lorem_char13.bmp" alt="Characters detection
+exemple -- line 13" title="" />
+<img src="http://dettorer.net/ocr/lorem_char14.bmp" alt="Characters detection
+exemple -- line 14" title="" />
+and so on…</p>
+
+<h2 id="thresholding">Thresholding</h2>
+
+<p>Sometimes, characters are so close to each others that there is no empty
+columns
+between them.</p>
+
+<p>A naive solution is to define what is an "empty line", our first choice was
+to
+let a column with a few black pixel be empty anyway, this number being relative
+to the size of the picture.</p>
+
+<p>In the previous exemple, this threshold is set to 3, let's see what happen if
+we
+increase or decrease this threshold.</p>
+
+<p>With a threshold of 4 in this line, we sometimes get "two in one" characters
+like this:</p>
+
+<p><img src="http://dettorer.net/ocr/lorem_char_merge.bmp" alt="Characters
+detection exemple -- char merge" title="" /></p>
+
+<p>And with a threshold of 2, some characters are truncated like this n:</p>
+
+<p><img src="http://dettorer.net/ocr/lorem_char_strip1.bmp" alt="Characters
+detection exemple -- char strip 1" title="" />
+<img src="http://dettorer.net/ocr/lorem_char_strip2.bmp" alt="Characters
+detection exemple -- char strip 2" title="" /></p>
+
+<h2 id="futureimprovements">Future improvements</h2>
+
+<p>At this point, we can think of two improvement axes for this module:</p>
+
+<h3 id="improvethethresholding">Improve the thresholding</h3>
+
+<p>Though it works well, the current thresholding is very naive. An idea would
+be
+to take count of distance between black pixels. This way we could increase the
+number of autorized black pixel in an "empty line" and detect correctly this
+kind of pattern as two different letters:</p>
+
+<p><img src="http://dettorer.net/ocr/lorem_char_merge.bmp" alt="Characters
+detection exemple -- char merge 2" title="" /></p>
+
+<p>but still see this one as one single character:</p>
+
+<p><img src="http://dettorer.net/ocr/lorem_char24.bmp" alt="Characters detection
+exemple -- line 14" title="" /></p>
+
+<p>The next (and a bit more complicated improvement) will be to detect
+continuous
+lines in a smarter way, keep track of the usual character width, or even use the
+neural network to sort out those particular cases.</p>
+
+<h3 id="detecttextzones">Detect text zones</h3>
+
+<p>The only important issue of our detection block module is that it easily get
+fooled by picture like this one:</p>
+
+<p><img src="http://www.schmanck.de/text.jpg" alt="Text zone improvement --
+typical exemple" title="" /></p>
+
+<p>Our algorithm cannot see the lines next to the decorated 'H' as it make all
+the
+lines non-empty.</p>
+
+<p>The obvious solution is to detect <em>where</em> the text is, isolate it in
+boxes and
+apply the other algorithms in these boxes only.</p>
+
+</hr>
+
+<p>The main part of this project was to create a neural network which had to be
+able to recognize the characters of a piece of text.</p>
+
+<p>An artificial neural network, often just called a neural network, is a
+mathematical model inspired by biological neural networks. A neural network
+consists of an interconnected group of artificial neurons, and it processes
+inform ation using a connectionist approach to computation. In most cases a
+neural network is an adaptive system that changes its structure during a
+learning phase. Neural networks are used to model complex relationships between
+inputs and outputs or to find patterns in data.</p>
+
+<p>The word network in the term 'artificial neural network' refers to the
+inter–connections between the neurons in the different layers of each system.
+An example system has three layers. The first layer has input neurons, which
+send data via synapses to the second layer of neurons, and then via more
+synapses to the third layer of output neurons. More complex systems will have
+more layers of neurons with some having increased layers of input neurons and
+output neurons. The synapses store parameters called "weights" that manipulate
+the data in the calculations.</p>
+
+<h2 id="learningbackpropagation">Learning : backpropagation</h2>
+
+<p>Backpropagation is a common method of training artificial neural networks so
+as
+to minimize the objective function.
+It requires a dataset of the desired output for many inputs, making up the
+training set. It is most useful for feed-forward networks (networks that have
+no feedback, or simply, that have no connections that loop).</p>
+
+<p>For better understanding, the backpropagation learning algorithm can be
+divided
+into two phases: propagation and weight update.</p>
+
+<h3 id="phase1propagation">Phase 1: Propagation</h3>
+
+<p>Each propagation involves the following steps:</p>
+
+<ul>
+  <li>Forward propagation of a training pattern's input through the neural
+  network
+  in order to generate the propagation's output activations.</li>
+  <li>Backward propagation of the propagation's output activations through the
+  neural network using the training pattern's target in order to generate the
+  deltas of all output and hidden neurons.</li>
+</ul>
+
+<h3 id="phase2weightupdate">Phase 2: Weight update</h3>
+
+<p>For each weight-synapse follow the following steps:</p>
+
+<ul>
+  <li>Multiply its output delta and input activation to get the gradient of the
+  weight.</li>
+  <li>Bring the weight in the opposite direction of the gradient by subtracting
+  a
+  ratio of it from the weight.</li>
+</ul>
+
+<p>This ratio influences the speed and quality of learning; it is called the
+learning rate. The sign of the gradient of a weight indicates where the error
+is increasing, this is why the weight must be updated in the opposite
+direction.</p>
+
+<p>We then repeat the function until the result is satisfying.</p>
